@@ -1,6 +1,6 @@
 "use client";
 
-import { ContactShadows, Html, PerspectiveCamera } from "@react-three/drei";
+import { Html, PerspectiveCamera, useTexture } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
@@ -385,6 +385,128 @@ function LoadingFallback() {
   );
 }
 
+function AvatarPlane({ reducedMotion }: HeadSceneProps) {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const pointerTarget = useRef<TargetPointer>({ x: 0, y: 0, active: false });
+  const hoverTarget = useRef(0);
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const texture = useTexture("/images/huang-qiang-3d-avatar.png");
+
+  useEffect(() => {
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.anisotropy = 4;
+    texture.needsUpdate = true;
+  }, [texture]);
+
+  useEffect(() => {
+    const reset = () => {
+      pointerTarget.current.active = false;
+      pointerTarget.current.x = 0;
+      pointerTarget.current.y = 0;
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (reducedMotion || window.innerWidth < 768) return;
+      pointerTarget.current.active = true;
+      pointerTarget.current.x = THREE.MathUtils.clamp(
+        (event.clientX / window.innerWidth) * 2 - 1,
+        -1,
+        1,
+      );
+      pointerTarget.current.y = THREE.MathUtils.clamp(
+        (event.clientY / window.innerHeight) * 2 - 1,
+        -1,
+        1,
+      );
+    };
+
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("blur", reset);
+    document.documentElement.addEventListener("mouseleave", reset);
+    return () => {
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("blur", reset);
+      document.documentElement.removeEventListener("mouseleave", reset);
+      if (hoverTimer.current) clearTimeout(hoverTimer.current);
+    };
+  }, [reducedMotion]);
+
+  useFrame((state, delta) => {
+    if (!meshRef.current) return;
+
+    const target = reducedMotion ? { x: 0, y: 0 } : pointerTarget.current;
+    const targetRotationY = target.x * 10 * DEG;
+    const targetRotationX = -target.y * 6 * DEG;
+    const floatY = reducedMotion
+      ? 0
+      : Math.sin(state.clock.elapsedTime * Math.PI * 0.5) * 0.028;
+
+    meshRef.current.rotation.y = THREE.MathUtils.damp(
+      meshRef.current.rotation.y,
+      targetRotationY,
+      4.8,
+      delta,
+    );
+    meshRef.current.rotation.x = THREE.MathUtils.damp(
+      meshRef.current.rotation.x,
+      targetRotationX,
+      4.8,
+      delta,
+    );
+    meshRef.current.position.x = THREE.MathUtils.damp(
+      meshRef.current.position.x,
+      target.x * 0.055,
+      5,
+      delta,
+    );
+    meshRef.current.position.y = THREE.MathUtils.damp(
+      meshRef.current.position.y,
+      floatY - target.y * 0.032,
+      5,
+      delta,
+    );
+    meshRef.current.position.z = THREE.MathUtils.damp(
+      meshRef.current.position.z,
+      hoverTarget.current * 0.08,
+      6,
+      delta,
+    );
+    const scale = THREE.MathUtils.damp(
+      meshRef.current.scale.x,
+      1 + hoverTarget.current * 0.03,
+      6,
+      delta,
+    );
+    meshRef.current.scale.setScalar(scale);
+  });
+
+  const handlePointerEnter = (event: { stopPropagation: () => void }) => {
+    event.stopPropagation();
+    if (reducedMotion) return;
+    if (hoverTimer.current) clearTimeout(hoverTimer.current);
+    hoverTimer.current = setTimeout(() => {
+      hoverTarget.current = 1;
+    }, 500);
+  };
+
+  const handlePointerLeave = () => {
+    if (hoverTimer.current) clearTimeout(hoverTimer.current);
+    hoverTarget.current = 0;
+  };
+
+  return (
+    <mesh
+      ref={meshRef}
+      position={[0, 0, 0]}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
+    >
+      <planeGeometry args={[3.05, 4.575, 1, 1]} />
+      <meshBasicMaterial map={texture} toneMapped={false} />
+    </mesh>
+  );
+}
+
 function SceneReady({ onReady }: { onReady?: () => void }) {
   const notified = useRef(false);
 
@@ -414,14 +536,9 @@ export default function HeadScene({ reducedMotion, onReady }: HeadSceneProps) {
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       shadows={false}
     >
-      <PerspectiveCamera makeDefault fov={30} position={[0, 0.12, 7.1]} />
-      <ambientLight intensity={1.35} color="#a8bfe4" />
-      <directionalLight position={[-4, 5, 6]} intensity={3.5} color="#9bd5ff" />
-      <pointLight position={[4, 1, 4]} intensity={3.1} color="#8b5dff" distance={10} />
-      <spotLight position={[0, -2, 5]} intensity={1.8} color="#ff8fbf" angle={0.52} penumbra={1} />
+      <PerspectiveCamera makeDefault fov={30} position={[0, 0, 9]} />
       <Suspense fallback={<LoadingFallback />}>
-        <ProceduralHead reducedMotion={reducedMotion} />
-        <ContactShadows position={[0, -1.75, 0]} opacity={0.18} scale={5} blur={2.8} far={3} />
+        <AvatarPlane reducedMotion={reducedMotion} />
         <SceneReady onReady={onReady} />
       </Suspense>
     </Canvas>
