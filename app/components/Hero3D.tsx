@@ -1,13 +1,36 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { ArrowUpRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import {
+  Component,
+  lazy,
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
-const HeadScene = dynamic(() => import("./HeadScene"), {
-  ssr: false,
-  loading: () => <div className="head-scene-loading">INITIALIZING DIGITAL HUMAN</div>,
-});
+const HeadScene = lazy(() => import("./HeadScene"));
+
+class SceneErrorBoundary extends Component<
+  { children: ReactNode; onError: () => void },
+  { failed: boolean }
+> {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  componentDidCatch() {
+    this.props.onError();
+  }
+
+  render() {
+    return this.state.failed ? null : this.props.children;
+  }
+}
 
 function useReducedMotionPreference() {
   const [reduced, setReduced] = useState(false);
@@ -27,6 +50,11 @@ export default function Hero3D() {
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const reducedMotion = useReducedMotionPreference();
+  const [mounted, setMounted] = useState(false);
+  const [sceneReady, setSceneReady] = useState(false);
+  const [sceneFailed, setSceneFailed] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     if (reducedMotion || !titleRef.current) return;
@@ -91,7 +119,36 @@ export default function Hero3D() {
       </h1>
 
       <div className="head-canvas-shell" aria-label="可交互的黄强 3D 动漫数字人头部">
-        <HeadScene reducedMotion={reducedMotion} />
+        <div
+          className={`head-avatar-fallback ${sceneReady && !sceneFailed ? "is-hidden" : ""}`}
+          aria-hidden="true"
+        >
+          <img
+            src="/images/huang-qiang-3d-avatar.png"
+            alt=""
+            width="1024"
+            height="1536"
+            decoding="async"
+            fetchPriority="high"
+          />
+        </div>
+
+        <div className={`head-three-layer ${sceneReady && !sceneFailed ? "is-visible" : ""}`}>
+          {mounted && !sceneFailed ? (
+            <SceneErrorBoundary onError={() => setSceneFailed(true)}>
+              <Suspense
+                fallback={
+                  <div className="head-scene-loading">INITIALIZING DIGITAL HUMAN</div>
+                }
+              >
+                <HeadScene
+                  reducedMotion={reducedMotion}
+                  onReady={() => setSceneReady(true)}
+                />
+              </Suspense>
+            </SceneErrorBoundary>
+          ) : null}
+        </div>
       </div>
 
       <div className="interactive-hero-bottom">

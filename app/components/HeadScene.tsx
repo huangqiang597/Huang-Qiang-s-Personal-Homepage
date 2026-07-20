@@ -7,6 +7,7 @@ import * as THREE from "three";
 
 type HeadSceneProps = {
   reducedMotion: boolean;
+  onReady?: () => void;
 };
 
 type TargetPointer = {
@@ -384,7 +385,19 @@ function LoadingFallback() {
   );
 }
 
-export default function HeadScene({ reducedMotion }: HeadSceneProps) {
+function SceneReady({ onReady }: { onReady?: () => void }) {
+  const notified = useRef(false);
+
+  useFrame(() => {
+    if (notified.current) return;
+    notified.current = true;
+    onReady?.();
+  });
+
+  return null;
+}
+
+export default function HeadScene({ reducedMotion, onReady }: HeadSceneProps) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -409,6 +422,7 @@ export default function HeadScene({ reducedMotion }: HeadSceneProps) {
       <Suspense fallback={<LoadingFallback />}>
         <ProceduralHead reducedMotion={reducedMotion} />
         <ContactShadows position={[0, -1.75, 0]} opacity={0.18} scale={5} blur={2.8} far={3} />
+        <SceneReady onReady={onReady} />
       </Suspense>
     </Canvas>
   );

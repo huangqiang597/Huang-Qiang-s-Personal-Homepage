@@ -27,13 +27,13 @@ test("server-renders the interactive AI product manager portfolio", async () => 
   assert.match(html, /魔镜 on run/);
 });
 
-test("loads the Three.js scene only on the client", async () => {
+test("server-renders the avatar fallback and mounts Three.js only on the client", async () => {
   const response = await render();
   const html = await response.text();
   const heroHtml = html.slice(
     html.indexOf('class="interactive-hero"'),
     html.indexOf('class="marquee-section"'),
   );
-  assert.match(html, /INITIALIZING DIGITAL HUMAN/i);
-  assert.doesNotMatch(heroHtml, /<img|\.jpg|\.png/i);
+  assert.match(heroHtml, /huang-qiang-3d-avatar\.png/i);
+  assert.doesNotMatch(heroHtml, /<canvas/i);
 });
