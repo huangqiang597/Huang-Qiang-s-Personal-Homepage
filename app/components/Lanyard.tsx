@@ -48,6 +48,11 @@ type LanyardProps = {
   href: string;
   initialRotation?: number;
   ariaLabel: string;
+  cardNumber?: string;
+  cardCategory?: string;
+  cardTitle?: string;
+  cardSubtitle?: string;
+  cardAccent?: string;
 };
 
 export default function Lanyard({
@@ -63,6 +68,11 @@ export default function Lanyard({
   href,
   initialRotation = 0,
   ariaLabel,
+  cardNumber,
+  cardCategory,
+  cardTitle,
+  cardSubtitle,
+  cardAccent = "#78a8ff",
 }: LanyardProps) {
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== "undefined" && window.innerWidth < 768,
@@ -90,7 +100,18 @@ export default function Lanyard({
   }, []);
 
   return (
-    <div className="lanyard-wrapper" role="img" aria-label={ariaLabel}>
+    <div
+      className="lanyard-wrapper"
+      role="link"
+      tabIndex={0}
+      aria-label={ariaLabel}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          window.location.assign(href);
+        }
+      }}
+    >
       <Canvas
         camera={{ position, fov }}
         dpr={[1, isMobile ? 1.15 : 1.4]}
@@ -116,6 +137,11 @@ export default function Lanyard({
               lanyardWidth={lanyardWidth}
               href={href}
               initialRotation={initialRotation}
+              cardNumber={cardNumber}
+              cardCategory={cardCategory}
+              cardTitle={cardTitle}
+              cardSubtitle={cardSubtitle}
+              cardAccent={cardAccent}
             />
           </Physics>
           <Environment blur={0.72}>
@@ -165,6 +191,11 @@ type BandProps = {
   lanyardWidth?: number;
   href: string;
   initialRotation: number;
+  cardNumber?: string;
+  cardCategory?: string;
+  cardTitle?: string;
+  cardSubtitle?: string;
+  cardAccent: string;
 };
 
 type LanyardRigidBody = RapierRigidBody & { lerped?: THREE.Vector3 };
@@ -180,6 +211,11 @@ function Band({
   lanyardWidth = 1,
   href,
   initialRotation,
+  cardNumber,
+  cardCategory,
+  cardTitle,
+  cardSubtitle,
+  cardAccent,
 }: BandProps) {
   const band = useRef<
     THREE.Mesh<InstanceType<typeof MeshLineGeometry>, InstanceType<typeof MeshLineMaterial>>
@@ -245,10 +281,11 @@ function Band({
       context.restore();
     };
 
+    const hasCardCopy = Boolean(cardNumber || cardCategory || cardTitle || cardSubtitle);
     if (frontImage && frontTexture.image) {
       drawFitted(
         frontTexture.image as CanvasImageSource & { width: number; height: number },
-        FRONT_UV_RECT,
+        hasCardCopy ? { x: 0, y: 0, w: 0.5, h: 0.49 } : FRONT_UV_RECT,
       );
     }
     if (backImage && backTexture.image) {
@@ -256,6 +293,83 @@ function Band({
         backTexture.image as CanvasImageSource & { width: number; height: number },
         BACK_UV_RECT,
       );
+    }
+
+    if (hasCardCopy) {
+      const x = FRONT_UV_RECT.x * canvas.width;
+      const y = 0.49 * canvas.height;
+      const width = FRONT_UV_RECT.w * canvas.width;
+      const height = (FRONT_UV_RECT.h - 0.49) * canvas.height;
+      const padding = width * 0.065;
+      const accent = cardAccent;
+
+      context.fillStyle = "#090d14";
+      context.fillRect(x, y, width, height);
+      const sheen = context.createLinearGradient(x, y, x + width, y + height);
+      sheen.addColorStop(0, "rgba(70, 101, 158, .18)");
+      sheen.addColorStop(0.5, "rgba(13, 17, 25, 0)");
+      sheen.addColorStop(1, "rgba(4, 6, 10, .68)");
+      context.fillStyle = sheen;
+      context.fillRect(x, y, width, height);
+      context.strokeStyle = "rgba(194, 215, 235, .2)";
+      context.lineWidth = Math.max(2, width * 0.0025);
+      context.beginPath();
+      context.moveTo(x + padding, y + height * 0.35);
+      context.lineTo(x + width - padding, y + height * 0.35);
+      context.stroke();
+
+      context.textBaseline = "top";
+      context.fillStyle = accent;
+      context.font = `700 ${Math.round(width * 0.064)}px "Kanit", "Arial Black", sans-serif`;
+      context.fillText(cardNumber || "", x + padding, y + height * 0.09);
+
+      context.textAlign = "right";
+      context.fillStyle = "rgba(181, 201, 220, .72)";
+      context.font = `500 ${Math.round(width * 0.026)}px "Kanit", sans-serif`;
+      context.fillText(cardCategory || "", x + width - padding, y + height * 0.14);
+
+      context.textAlign = "left";
+      context.fillStyle = "#e1e8ee";
+      const titleSize = cardTitle && cardTitle.length > 9 ? width * 0.047 : width * 0.057;
+      context.font = `600 ${Math.round(titleSize)}px "Kanit", "Microsoft YaHei", sans-serif`;
+      const titleMaxWidth = width * 0.76;
+      const titleChars = Array.from(cardTitle || "");
+      const titleLines: string[] = [];
+      let line = "";
+      for (const character of titleChars) {
+        const candidate = line + character;
+        if (context.measureText(candidate).width > titleMaxWidth && line) {
+          titleLines.push(line);
+          line = character;
+        } else {
+          line = candidate;
+        }
+      }
+      if (line) titleLines.push(line);
+      titleLines.slice(0, 2).forEach((titleLine, index) => {
+        context.fillText(titleLine, x + padding, y + height * 0.42 + index * titleSize * 1.05);
+      });
+
+      context.fillStyle = "rgba(202, 215, 226, .76)";
+      context.font = `400 ${Math.round(width * 0.032)}px "Kanit", "Microsoft YaHei", sans-serif`;
+      context.fillText(cardSubtitle || "", x + padding, y + height * 0.79);
+
+      const arrowX = x + width - padding - width * 0.045;
+      const arrowY = y + height * 0.84;
+      const radius = width * 0.043;
+      context.strokeStyle = accent;
+      context.lineWidth = Math.max(2, width * 0.003);
+      context.beginPath();
+      context.arc(arrowX, arrowY, radius, 0, Math.PI * 2);
+      context.stroke();
+      context.beginPath();
+      context.moveTo(arrowX - radius * 0.32, arrowY);
+      context.lineTo(arrowX + radius * 0.28, arrowY);
+      context.lineTo(arrowX + radius * 0.02, arrowY - radius * 0.26);
+      context.moveTo(arrowX + radius * 0.28, arrowY);
+      context.lineTo(arrowX + radius * 0.02, arrowY + radius * 0.26);
+      context.stroke();
+      context.textAlign = "left";
     }
 
     const composite = new THREE.CanvasTexture(canvas);
@@ -267,6 +381,11 @@ function Band({
   }, [
     backImage,
     backTexture,
+    cardAccent,
+    cardCategory,
+    cardNumber,
+    cardSubtitle,
+    cardTitle,
     frontImage,
     frontTexture,
     imageFit,
@@ -420,4 +539,3 @@ function Band({
 }
 
 useGLTF.preload(CARD_MODEL);
-

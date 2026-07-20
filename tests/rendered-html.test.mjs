@@ -34,7 +34,7 @@ test("server-renders project placeholder routes", async () => {
   const routes = [
     ["/projects/magic-mirror", "魔镜 on run"],
     ["/projects/star-travel", "星旅"],
-    ["/projects/huimu-yinghai", "卉木盈海"],
+    ["/projects/huimu-yinghai", "卉木盈海，草色宛墙"],
   ];
 
   for (const [pathname, title] of routes) {
@@ -51,7 +51,11 @@ test("server-renders the transparent interactive avatar foreground", async () =>
     html.indexOf('class="interactive-hero"'),
     html.indexOf('class="marquee-section"'),
   );
+  assert.match(heroHtml, /hero-projects-layer/i);
+  assert.match(heroHtml, /厦门光辰智能/);
+  assert.match(heroHtml, /广州省心购科技/);
+  assert.match(heroHtml, /卉木盈海，草色宛墙/);
   assert.match(heroHtml, /hero-light-pillar/i);
   assert.match(heroHtml, /huang-qiang-avatar-cutout\.png/i);
-  assert.doesNotMatch(heroHtml, /<canvas/i);
+  assert.equal((heroHtml.match(/<canvas/gi) ?? []).length, 3);
 });

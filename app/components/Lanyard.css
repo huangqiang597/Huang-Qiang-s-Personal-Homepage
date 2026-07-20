@@ -5,6 +5,13 @@
   height: 100%;
   overflow: visible;
   touch-action: none;
+  outline: none;
+}
+
+.lanyard-wrapper:focus-visible {
+  border-radius: 22px;
+  outline: 1px solid rgba(128, 190, 255, .86);
+  outline-offset: -4px;
 }
 
 .lanyard-wrapper canvas {
@@ -13,4 +20,3 @@
   height: 100% !important;
   outline: none;
 }
-

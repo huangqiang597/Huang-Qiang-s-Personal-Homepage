@@ -2,6 +2,7 @@
 
 import { ArrowUpRight } from "lucide-react";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import HeroProjectCards from "./HeroProjectCards";
 
 const LightPillar = lazy(() => import("./LightPillar"));
 
@@ -34,7 +35,7 @@ export default function Hero3D() {
       titleFitRef.current = naturalWidth > 0 ? availableWidth / naturalWidth : 1;
 
       if (reducedMotion) {
-        titleRef.current.style.transform = `translateX(-50%) scaleX(${titleFitRef.current})`;
+        titleRef.current.style.transform = `translateX(-50%) scaleX(${titleFitRef.current}) scaleY(var(--hero-title-stretch))`;
       }
     };
 
@@ -80,7 +81,7 @@ export default function Hero3D() {
       avatarScale += (avatarTargetScale - avatarScale) * 0.1;
 
       if (titleRef.current) {
-        titleRef.current.style.transform = `translateX(-50%) translate3d(${titleX}px, ${titleY}px, 0) scaleX(${titleFitRef.current})`;
+        titleRef.current.style.transform = `translateX(-50%) translate3d(${titleX}px, ${titleY}px, 0) scaleX(${titleFitRef.current}) scaleY(var(--hero-title-stretch))`;
       }
       if (avatarRef.current) {
         avatarRef.current.style.transform = `translate3d(${avatarX}px, ${avatarY}px, 0) rotateX(${avatarRotateX}deg) rotateY(${avatarRotateY}deg) scale(${avatarScale})`;
@@ -187,6 +188,8 @@ export default function Hero3D() {
           />
         </div>
       </div>
+
+      <HeroProjectCards />
 
       <div className="interactive-hero-bottom">
         <p>
