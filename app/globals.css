@@ -142,8 +142,10 @@ img { display: block; }
   transform: translateZ(0) scale(1.025);
 }
 .head-avatar-fallback img {
-  width: 100%;
-  height: 100%;
+  position: relative;
+  top: -72px;
+  width: 86%;
+  height: 86%;
   object-fit: contain;
   object-position: 50% 50%;
   filter: drop-shadow(0 0 34px rgba(77, 158, 255, .19));

@@ -487,7 +487,7 @@ function AvatarPlane({ reducedMotion }: HeadSceneProps) {
     );
     meshRef.current.position.y = THREE.MathUtils.damp(
       meshRef.current.position.y,
-      0.55 + floatY + target.y * 0.055,
+      1.25 + floatY + target.y * 0.055,
       response,
       delta,
     );
@@ -523,11 +523,11 @@ function AvatarPlane({ reducedMotion }: HeadSceneProps) {
   return (
     <mesh
       ref={meshRef}
-      position={[0, 0.55, 0]}
+      position={[0, 1.25, 0]}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
     >
-      <planeGeometry args={[3.05, 4.575, 1, 1]} />
+      <planeGeometry args={[2.62, 3.93, 1, 1]} />
       <meshBasicMaterial
         map={texture}
         toneMapped={false}
