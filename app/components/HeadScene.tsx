@@ -487,7 +487,7 @@ function AvatarPlane({ reducedMotion }: HeadSceneProps) {
     );
     meshRef.current.position.y = THREE.MathUtils.damp(
       meshRef.current.position.y,
-      floatY + target.y * 0.055,
+      0.55 + floatY + target.y * 0.055,
       response,
       delta,
     );
@@ -523,7 +523,7 @@ function AvatarPlane({ reducedMotion }: HeadSceneProps) {
   return (
     <mesh
       ref={meshRef}
-      position={[0, 0, 0]}
+      position={[0, 0.55, 0]}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
     >
@@ -566,6 +566,8 @@ export default function HeadScene({ reducedMotion, onReady }: HeadSceneProps) {
       dpr={[1, 1.5]}
       frameloop={visible ? "always" : "never"}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+      onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
+      style={{ background: "transparent" }}
       shadows={false}
     >
       <PerspectiveCamera makeDefault fov={30} position={[0, 0, 9]} />
