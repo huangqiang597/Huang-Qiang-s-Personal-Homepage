@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
+import { lazy, Suspense, useRef, type CSSProperties, type ReactNode } from "react";
 import { ArrowDownRight, ArrowUpRight, Mail } from "lucide-react";
 import {
   motion,
@@ -9,6 +9,8 @@ import {
   type MotionValue,
 } from "framer-motion";
 import Hero3D from "./components/Hero3D";
+
+const Lanyard = lazy(() => import("./components/Lanyard"));
 
 const marqueeImages = [
   "/media/magic-mirror.jpg",
@@ -57,6 +59,8 @@ const projects = [
     category: "AGENT / INTERNSHIP",
     name: "魔镜 on run",
     image: "/media/magic-mirror.jpg",
+    href: "/projects/magic-mirror",
+    accent: "#6ea8ff",
     result: "Recall@3 73% → 90%",
     description:
       "面向日常护肤场景的软硬件一体化多模态 AI 产品，以智能镜端语音与视觉交互编排检测、报告和护肤建议。",
@@ -66,6 +70,8 @@ const projects = [
     category: "AGENT / ENTERPRISE",
     name: "星旅",
     image: "/media/star-travel.png",
+    href: "/projects/star-travel",
+    accent: "#9a6bff",
     result: "工具调用准确率 96%",
     description:
       "供应商中立的企业差旅编排与治理层，覆盖政策问答、机酒查询、预订、报销与审批完整闭环。",
@@ -75,6 +81,8 @@ const projects = [
     category: "PRODUCT / BUSINESS",
     name: "卉木盈海",
     image: "/media/concrete-ui.jpg",
+    href: "/projects/huimu-yinghai",
+    accent: "#73d7bd",
     result: "互联网+省银奖",
     description:
       "把实验室植生混凝土推向墙体绿化与河岸护坡，从竞品定价、MVP 定义走到工程项目落地。",
@@ -231,63 +239,65 @@ function CapabilitiesSection() {
   );
 }
 
-function ProjectCard({
-  project,
-  index,
-}: {
-  project: (typeof projects)[number];
-  index: number;
-}) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ["start end", "start start"],
-  });
-  const targetScale = 1 - (projects.length - 1 - index) * 0.03;
-  const scale = useTransform(scrollYProgress, [0, 1], [1, targetScale]);
-
-  return (
-    <div className="project-stage" ref={cardRef}>
-      <motion.article
-        className="stacked-project"
-        style={{ scale, top: `calc(92px + ${index * 28}px)` }}
-      >
-        <div className="project-card-head">
-          <div className="project-card-number">{project.number}</div>
-          <div className="project-card-meta">
-            <span>{project.category}</span>
-            <h3>{project.name}</h3>
-            <p>{project.result}</p>
-          </div>
-          <a className="live-project" href={`#project-${project.number}`}>
-            View case <ArrowDownRight size={17} />
-          </a>
-        </div>
-
-        <div className="project-card-copy" id={`project-${project.number}`}>
-          {project.description}
-        </div>
-        <div className="project-image-grid">
-          <div className="project-image-column">
-            <img src={project.image} alt="" className="crop-detail crop-detail--one" />
-            <img src={project.image} alt="" className="crop-detail crop-detail--two" />
-          </div>
-          <img src={project.image} alt={`${project.name} 项目视觉`} className="project-image-main" />
-        </div>
-      </motion.article>
-    </div>
-  );
-}
-
 function ProjectsSection() {
   return (
     <section className="creator-projects" id="projects">
-      <h2 className="hero-heading section-display">Projects</h2>
-      <div className="project-stack">
+      <div className="project-section-heading">
+        <h2 className="hero-heading section-display">Projects</h2>
+        <p>拖动卡片感受重力反馈，轻点卡面进入项目。</p>
+      </div>
+      <div className="lanyard-project-grid">
         {projects.map((project, index) => (
-          <ProjectCard key={project.number} project={project} index={index} />
+          <FadeIn
+            key={project.number}
+            delay={index * 0.1}
+            y={index === 1 ? 62 : 34}
+            className={`lanyard-project-entry lanyard-project-entry--${index + 1}`}
+          >
+            <article
+              className="lanyard-project-card"
+              style={{ "--project-accent": project.accent } as CSSProperties}
+            >
+              <div className="lanyard-project-visual">
+                <Suspense
+                  fallback={
+                    <div className="lanyard-project-loading">
+                      <img src={project.image} alt="" />
+                    </div>
+                  }
+                >
+                  <Lanyard
+                    position={[0, 0, 25]}
+                    gravity={[0, -35, 0]}
+                    fov={22}
+                    frontImage={project.image}
+                    backImage={project.image}
+                    imageFit="cover"
+                    lanyardImage="/models/lanyard/lanyard.png"
+                    lanyardWidth={0.72}
+                    href={project.href}
+                    initialRotation={(index - 1) * 0.08}
+                    ariaLabel={`打开 ${project.name} 项目`}
+                  />
+                </Suspense>
+              </div>
+
+              <a className="lanyard-project-info" href={project.href}>
+                <span className="lanyard-project-number">{project.number}</span>
+                <span className="lanyard-project-copy">
+                  <small>{project.category}</small>
+                  <strong>{project.name}</strong>
+                  <em>{project.result}</em>
+                </span>
+                <span className="lanyard-project-arrow" aria-hidden="true">
+                  <ArrowDownRight size={18} />
+                </span>
+              </a>
+            </article>
+          </FadeIn>
         ))}
       </div>
+      <p className="lanyard-project-note">DRAG · SWING · CLICK TO ENTER</p>
     </section>
   );
 }

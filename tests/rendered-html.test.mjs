@@ -1,13 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-async function render() {
+async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request("http://localhost/", { headers: { accept: "text/html" } }),
+    new Request(`http://localhost${pathname}`, { headers: { accept: "text/html" } }),
     { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
     { waitUntil() {}, passThroughOnException() {} },
   );
@@ -25,6 +25,23 @@ test("server-renders the interactive AI product manager portfolio", async () => 
   assert.match(html, /Interactive Digital Human/i);
   assert.match(html, /Capabilities/i);
   assert.match(html, /魔镜 on run/);
+  assert.match(html, /\/projects\/magic-mirror/);
+  assert.match(html, /\/projects\/star-travel/);
+  assert.match(html, /\/projects\/huimu-yinghai/);
+});
+
+test("server-renders project placeholder routes", async () => {
+  const routes = [
+    ["/projects/magic-mirror", "魔镜 on run"],
+    ["/projects/star-travel", "星旅"],
+    ["/projects/huimu-yinghai", "卉木盈海"],
+  ];
+
+  for (const [pathname, title] of routes) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200);
+    assert.match(await response.text(), new RegExp(title));
+  }
 });
 
 test("server-renders the transparent interactive avatar foreground", async () => {
