@@ -34,6 +34,6 @@ test("server-renders the avatar fallback and mounts Three.js only on the client"
     html.indexOf('class="interactive-hero"'),
     html.indexOf('class="marquee-section"'),
   );
-  assert.match(heroHtml, /huang-qiang-3d-avatar\.png/i);
+  assert.match(heroHtml, /huang-qiang-avatar-cutout\.png/i);
   assert.doesNotMatch(heroHtml, /<canvas/i);
 });

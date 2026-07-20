@@ -14,6 +14,7 @@ type TargetPointer = {
   x: number;
   y: number;
   active: boolean;
+  strength?: number;
 };
 
 const DEG = Math.PI / 180;
@@ -390,7 +391,8 @@ function AvatarPlane({ reducedMotion }: HeadSceneProps) {
   const pointerTarget = useRef<TargetPointer>({ x: 0, y: 0, active: false });
   const hoverTarget = useRef(0);
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const texture = useTexture("/images/huang-qiang-3d-avatar.png");
+  const texture = useTexture("/images/huang-qiang-avatar-cutout.png");
+  const lastAvoidance = useRef({ x: 0, y: -1 });
 
   useEffect(() => {
     texture.colorSpace = THREE.SRGBColorSpace;
@@ -403,21 +405,44 @@ function AvatarPlane({ reducedMotion }: HeadSceneProps) {
       pointerTarget.current.active = false;
       pointerTarget.current.x = 0;
       pointerTarget.current.y = 0;
+      pointerTarget.current.strength = 0;
+      if (hoverTimer.current) clearTimeout(hoverTimer.current);
+      hoverTarget.current = 0;
     };
 
     const onPointerMove = (event: PointerEvent) => {
       if (reducedMotion || window.innerWidth < 768) return;
+      const centerX = window.innerWidth * 0.5;
+      const centerY = window.innerHeight * 0.5;
+      const deltaX = event.clientX - centerX;
+      const deltaY = event.clientY - centerY;
+      const distance = Math.hypot(deltaX, deltaY);
+      const radius = THREE.MathUtils.clamp(window.innerWidth * 0.25, 280, 440);
+      const rawStrength = 1 - THREE.MathUtils.clamp(distance / radius, 0, 1);
+      const strength = rawStrength * rawStrength * (3 - 2 * rawStrength);
+
+      if (distance > 1) {
+        lastAvoidance.current.x = -deltaX / distance;
+        lastAvoidance.current.y = -deltaY / distance;
+      }
+
       pointerTarget.current.active = true;
-      pointerTarget.current.x = THREE.MathUtils.clamp(
-        (event.clientX / window.innerWidth) * 2 - 1,
-        -1,
-        1,
-      );
-      pointerTarget.current.y = THREE.MathUtils.clamp(
-        (event.clientY / window.innerHeight) * 2 - 1,
-        -1,
-        1,
-      );
+      pointerTarget.current.x = lastAvoidance.current.x * strength;
+      pointerTarget.current.y = lastAvoidance.current.y * strength;
+      pointerTarget.current.strength = strength;
+
+      if (strength > 0.56) {
+        if (!hoverTimer.current && hoverTarget.current === 0) {
+          hoverTimer.current = setTimeout(() => {
+            hoverTarget.current = 1;
+            hoverTimer.current = null;
+          }, 500);
+        }
+      } else {
+        if (hoverTimer.current) clearTimeout(hoverTimer.current);
+        hoverTimer.current = null;
+        hoverTarget.current = 0;
+      }
     };
 
     window.addEventListener("pointermove", onPointerMove, { passive: true });
@@ -436,33 +461,34 @@ function AvatarPlane({ reducedMotion }: HeadSceneProps) {
 
     const target = reducedMotion ? { x: 0, y: 0 } : pointerTarget.current;
     const targetRotationY = target.x * 10 * DEG;
-    const targetRotationX = -target.y * 6 * DEG;
+    const targetRotationX = target.y * 6 * DEG;
     const floatY = reducedMotion
       ? 0
       : Math.sin(state.clock.elapsedTime * Math.PI * 0.5) * 0.028;
+    const response = (pointerTarget.current.strength ?? 0) > 0.02 ? 7.2 : 3.4;
 
     meshRef.current.rotation.y = THREE.MathUtils.damp(
       meshRef.current.rotation.y,
       targetRotationY,
-      4.8,
+      response,
       delta,
     );
     meshRef.current.rotation.x = THREE.MathUtils.damp(
       meshRef.current.rotation.x,
       targetRotationX,
-      4.8,
+      response,
       delta,
     );
     meshRef.current.position.x = THREE.MathUtils.damp(
       meshRef.current.position.x,
-      target.x * 0.055,
-      5,
+      target.x * 0.09,
+      response,
       delta,
     );
     meshRef.current.position.y = THREE.MathUtils.damp(
       meshRef.current.position.y,
-      floatY - target.y * 0.032,
-      5,
+      floatY + target.y * 0.055,
+      response,
       delta,
     );
     meshRef.current.position.z = THREE.MathUtils.damp(
@@ -502,7 +528,13 @@ function AvatarPlane({ reducedMotion }: HeadSceneProps) {
       onPointerLeave={handlePointerLeave}
     >
       <planeGeometry args={[3.05, 4.575, 1, 1]} />
-      <meshBasicMaterial map={texture} toneMapped={false} />
+      <meshBasicMaterial
+        map={texture}
+        toneMapped={false}
+        transparent
+        alphaTest={0.02}
+        depthWrite={false}
+      />
     </mesh>
   );
 }

@@ -78,8 +78,8 @@ export default function Hero3D() {
       if (window.innerWidth < 768) return;
       const normalizedX = (event.clientX / window.innerWidth) * 2 - 1;
       const normalizedY = (event.clientY / window.innerHeight) * 2 - 1;
-      targetX = -normalizedX * 15;
-      targetY = -normalizedY * 9;
+      targetX = normalizedX * 15;
+      targetY = normalizedY * 9;
     };
 
     const reset = () => {
@@ -124,10 +124,10 @@ export default function Hero3D() {
           aria-hidden="true"
         >
           <img
-            src="/images/huang-qiang-3d-avatar.png"
+            src="/images/huang-qiang-avatar-cutout.png"
             alt=""
-            width="1024"
-            height="1536"
+            width="1023"
+            height="1537"
             decoding="async"
             fetchPriority="high"
           />
