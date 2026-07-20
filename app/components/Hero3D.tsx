@@ -1,7 +1,9 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
+
+const LightPillar = lazy(() => import("./LightPillar"));
 
 function useReducedMotionPreference() {
   const [reduced, setReduced] = useState(false);
@@ -147,6 +149,25 @@ export default function Hero3D() {
       <div className="hero-tech-label">
         <span>R3F / THREE.JS</span>
         <span>INTERACTIVE DIGITAL HUMAN</span>
+      </div>
+
+      <div className="hero-light-pillar" aria-hidden="true">
+        <Suspense fallback={<div className="light-pillar-fallback" />}>
+          <LightPillar
+            topColor="#4f8dff"
+            bottomColor="#8d4dff"
+            intensity={0.72}
+            rotationSpeed={0.18}
+            glowAmount={0.0035}
+            pillarWidth={2.65}
+            pillarHeight={0.55}
+            noiseIntensity={0.18}
+            pillarRotation={0}
+            interactive={false}
+            mixBlendMode="screen"
+            quality="medium"
+          />
+        </Suspense>
       </div>
 
       <h1 className="interactive-title hero-heading" ref={titleRef}>

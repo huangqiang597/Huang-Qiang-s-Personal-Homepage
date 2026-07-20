@@ -34,6 +34,7 @@ test("server-renders the transparent interactive avatar foreground", async () =>
     html.indexOf('class="interactive-hero"'),
     html.indexOf('class="marquee-section"'),
   );
+  assert.match(heroHtml, /hero-light-pillar/i);
   assert.match(heroHtml, /huang-qiang-avatar-cutout\.png/i);
   assert.doesNotMatch(heroHtml, /<canvas/i);
 });

@@ -91,7 +91,7 @@ img { display: block; }
   position: absolute;
   top: 8vh;
   left: 50%;
-  z-index: 0;
+  z-index: 2;
   width: max-content;
   white-space: nowrap;
   text-align: center;
@@ -106,6 +106,15 @@ img { display: block; }
   transform-origin: 50% 0;
 }
 .interactive-title span { white-space: nowrap; }
+.hero-light-pillar {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: .52;
+  pointer-events: none;
+  overflow: hidden;
+  mask-image: radial-gradient(ellipse 58% 84% at 50% 52%, #000 5%, rgba(0,0,0,.78) 46%, transparent 82%);
+}
 .hero-avatar-layer {
   position: absolute;
   z-index: 50;
