@@ -20,8 +20,32 @@ function useReducedMotionPreference() {
 export default function Hero3D() {
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const titleFitRef = useRef(1);
   const avatarRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotionPreference();
+
+  useEffect(() => {
+    const fitTitle = () => {
+      if (!titleRef.current) return;
+      const naturalWidth = titleRef.current.scrollWidth;
+      const availableWidth = Math.max(320, window.innerWidth - 32);
+      titleFitRef.current = naturalWidth > 0 ? availableWidth / naturalWidth : 1;
+
+      if (reducedMotion) {
+        titleRef.current.style.transform = `translateX(-50%) scaleX(${titleFitRef.current})`;
+      }
+    };
+
+    fitTitle();
+    const observer = new ResizeObserver(fitTitle);
+    if (titleRef.current) observer.observe(titleRef.current);
+    void document.fonts?.ready.then(fitTitle);
+    window.addEventListener("resize", fitTitle, { passive: true });
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", fitTitle);
+    };
+  }, [reducedMotion]);
 
   useEffect(() => {
     if (reducedMotion || !titleRef.current || !avatarRef.current) return;
@@ -54,7 +78,7 @@ export default function Hero3D() {
       avatarScale += (avatarTargetScale - avatarScale) * 0.1;
 
       if (titleRef.current) {
-        titleRef.current.style.transform = `translate3d(${titleX}px, ${titleY}px, 0)`;
+        titleRef.current.style.transform = `translateX(-50%) translate3d(${titleX}px, ${titleY}px, 0) scaleX(${titleFitRef.current})`;
       }
       if (avatarRef.current) {
         avatarRef.current.style.transform = `translate3d(${avatarX}px, ${avatarY}px, 0) rotateX(${avatarRotateX}deg) rotateY(${avatarRotateY}deg) scale(${avatarScale})`;
