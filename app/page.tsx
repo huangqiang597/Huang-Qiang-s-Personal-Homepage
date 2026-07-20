@@ -1,14 +1,14 @@
 "use client";
 
-import { useRef, useState, type MouseEvent, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { ArrowDownRight, ArrowUpRight, Mail } from "lucide-react";
 import {
   motion,
   useScroll,
-  useSpring,
   useTransform,
   type MotionValue,
 } from "framer-motion";
+import Hero3D from "./components/Hero3D";
 
 const marqueeImages = [
   "/media/magic-mirror.jpg",
@@ -112,73 +112,6 @@ function ContactButton() {
     <a className="contact-button" href="mailto:amcdihq@163.com">
       Contact me <ArrowUpRight size={18} strokeWidth={1.8} />
     </a>
-  );
-}
-
-function Magnet({ children }: { children: ReactNode }) {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const x = useSpring(position.x, { stiffness: 180, damping: 18, mass: 0.3 });
-  const y = useSpring(position.y, { stiffness: 180, damping: 18, mass: 0.3 });
-
-  const handleMove = (event: MouseEvent<HTMLDivElement>) => {
-    const bounds = event.currentTarget.getBoundingClientRect();
-    setPosition({
-      x: (event.clientX - bounds.left - bounds.width / 2) / 8,
-      y: (event.clientY - bounds.top - bounds.height / 2) / 8,
-    });
-  };
-
-  return (
-    <motion.div
-      className="magnet"
-      style={{ x, y }}
-      onMouseMove={handleMove}
-      onMouseLeave={() => setPosition({ x: 0, y: 0 })}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function HeroSection() {
-  return (
-    <section className="creator-hero" id="home">
-      <FadeIn y={-20}>
-        <nav className="creator-nav" aria-label="主导航">
-          <a href="#about">About</a>
-          <a href="#capabilities">Strength</a>
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
-        </nav>
-      </FadeIn>
-
-      <FadeIn delay={0.15} y={40} className="hero-heading-wrap">
-        <h1 className="hero-heading">Hi, i&apos;m Huang</h1>
-      </FadeIn>
-
-      <FadeIn delay={0.6} y={30} className="hero-portrait">
-        <Magnet>
-          <div className="portrait-frame">
-            <img src="/media/huangqiang-cafe.jpg" alt="黄强的真实生活照" />
-            <div className="portrait-tag">AI PM · 2026</div>
-          </div>
-        </Magnet>
-      </FadeIn>
-
-      <div className="creator-hero-bottom">
-        <FadeIn delay={0.35} y={20}>
-          <p>
-            an ai product manager focused on building useful, measurable and
-            reliable agent experiences
-          </p>
-        </FadeIn>
-        <FadeIn delay={0.5} y={20}>
-          <ContactButton />
-        </FadeIn>
-      </div>
-
-      <div className="hero-role">AI PRODUCT MANAGER</div>
-    </section>
   );
 }
 
@@ -379,7 +312,7 @@ function ContactSection() {
 export default function Home() {
   return (
     <main className="creator-page">
-      <HeroSection />
+      <Hero3D />
       <MarqueeSection />
       <AboutSection />
       <CapabilitiesSection />
