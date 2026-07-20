@@ -1,228 +1,390 @@
-const projects = [
-  {
-    index: "01",
-    title: "魔镜 on run",
-    english: "Multimodal Skincare Agent",
-    role: "Agent 产品经理 · 厦门光辰智能",
-    period: "2026.04 — 2026.07",
-    summary:
-      "以智能镜为入口，将肤况检测、肌肤日记、深度报告与护肤建议编排成持续可执行的个性化服务。",
-    image: "/media/magic-mirror.jpg",
-    imageClass: "project-image--portrait",
-    metrics: ["Recall@3 73% → 90%", "有据回答率 68% → 88%", "Token -37%"],
-    tags: ["RAG", "模型评测", "多模态", "数据闭环"],
-  },
-  {
-    index: "02",
-    title: "星旅",
-    english: "Enterprise Travel Agent",
-    role: "Agent 产品经理 · 广州省心购科技",
-    period: "2026.07 — 至今",
-    summary:
-      "供应商中立的企业差旅编排与治理层，覆盖政策问答、方案查询、预订、报销与审批完整闭环。",
-    image: "/media/star-travel.png",
-    imageClass: "project-image--diagram",
-    metrics: ["12 → 5 项 MVP", "10+ Tools", "工具准确率 96%"],
-    tags: ["LangGraph", "Function Call", "RICE", "成本路由"],
-  },
-  {
-    index: "03",
-    title: "卉木盈海",
-    english: "Living Concrete Commercialization",
-    role: "产品 / 商业化负责人 · 互联网+省银奖",
-    period: "2022.03 — 2023.09",
-    summary:
-      "把实验室自研植生混凝土推向墙体绿化与河岸护坡，从竞品定价、MVP 定义走到工程落地。",
-    image: "/media/concrete-ui.jpg",
-    imageClass: "project-image--ui",
-    metrics: ["10+ 家竞品调研", "定价低于均价约 25%", "工程项目落地"],
-    tags: ["0→1", "MVP", "供应链协同", "商业化"],
-  },
+"use client";
+
+import { useRef, useState, type MouseEvent, type ReactNode } from "react";
+import { ArrowDownRight, ArrowUpRight, Mail } from "lucide-react";
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
+
+const marqueeImages = [
+  "/media/magic-mirror.jpg",
+  "/media/star-travel.png",
+  "/media/concrete-ui.jpg",
+  "/media/huangqiang-lifestyle.jpg",
+  "/media/huangqiang-cafe.jpg",
 ];
 
-const strengths = [
+const capabilities = [
   {
     number: "01",
-    title: "Agent 产品全链路",
-    text: "从竞品与需求收敛，到 PRD、原型、RAG、Function Call、模型评测、埋点和内测，能把 AI 能力落到真实任务。",
-    foot: "2 段 Agent 产品实习",
+    name: "Agent Product Design",
+    description:
+      "从竞品调研、需求收敛到 PRD 与原型，将复杂业务拆成可验证的 Agent 产品路径。",
   },
   {
     number: "02",
-    title: "数据驱动的验证",
-    text: "习惯先定义可观测目标，再用 Golden Query、离线评估、Bad Case 与线上指标持续校正体验和成本。",
-    foot: "50 名种子用户内测",
+    name: "RAG & Knowledge",
+    description:
+      "设计知识体系、查询改写与检索评估，让回答有据可依，并持续改善召回与上下文效率。",
   },
   {
     number: "03",
-    title: "技术理解与取舍",
-    text: "可以与算法、研发和硬件团队讨论模型路由、Schema、权限、时延与 Token 成本，并做出产品层 trade-off。",
-    foot: "2 项发明专利 · 1 篇 EI",
+    name: "Tools & Function Call",
+    description:
+      "围绕真实任务定义 Tools、Schema、权限与二次确认，让模型安全连接业务系统。",
   },
   {
     number: "04",
-    title: "用户与增长直觉",
-    text: "长期做内容和电商运营，对注意力、转化与真实用户反馈有一线体感，也能把复杂概念表达得更清楚。",
-    foot: "小红书 2.3w 粉丝",
+    name: "Evaluation & Data",
+    description:
+      "以 Golden Query、离线评测、Bad Case、埋点与看板构建可复用的数据闭环。",
+  },
+  {
+    number: "05",
+    name: "0→1 Commercialization",
+    description:
+      "在效果、时延、成本与商业价值之间做取舍，把产品从概念推向内测与真实落地。",
   },
 ];
 
+const projects = [
+  {
+    number: "01",
+    category: "AGENT / INTERNSHIP",
+    name: "魔镜 on run",
+    image: "/media/magic-mirror.jpg",
+    result: "Recall@3 73% → 90%",
+    description:
+      "面向日常护肤场景的软硬件一体化多模态 AI 产品，以智能镜端语音与视觉交互编排检测、报告和护肤建议。",
+  },
+  {
+    number: "02",
+    category: "AGENT / ENTERPRISE",
+    name: "星旅",
+    image: "/media/star-travel.png",
+    result: "工具调用准确率 96%",
+    description:
+      "供应商中立的企业差旅编排与治理层，覆盖政策问答、机酒查询、预订、报销与审批完整闭环。",
+  },
+  {
+    number: "03",
+    category: "PRODUCT / BUSINESS",
+    name: "卉木盈海",
+    image: "/media/concrete-ui.jpg",
+    result: "互联网+省银奖",
+    description:
+      "把实验室植生混凝土推向墙体绿化与河岸护坡，从竞品定价、MVP 定义走到工程项目落地。",
+  },
+];
+
+function FadeIn({
+  children,
+  delay = 0,
+  x = 0,
+  y = 30,
+  className = "",
+}: {
+  children: ReactNode;
+  delay?: number;
+  x?: number;
+  y?: number;
+  className?: string;
+}) {
+  return (
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, x, y }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      viewport={{ once: true, margin: "50px", amount: 0 }}
+      transition={{ delay, duration: 0.75, ease: [0.25, 0.1, 0.25, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function ContactButton() {
+  return (
+    <a className="contact-button" href="mailto:amcdihq@163.com">
+      Contact me <ArrowUpRight size={18} strokeWidth={1.8} />
+    </a>
+  );
+}
+
+function Magnet({ children }: { children: ReactNode }) {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const x = useSpring(position.x, { stiffness: 180, damping: 18, mass: 0.3 });
+  const y = useSpring(position.y, { stiffness: 180, damping: 18, mass: 0.3 });
+
+  const handleMove = (event: MouseEvent<HTMLDivElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    setPosition({
+      x: (event.clientX - bounds.left - bounds.width / 2) / 8,
+      y: (event.clientY - bounds.top - bounds.height / 2) / 8,
+    });
+  };
+
+  return (
+    <motion.div
+      className="magnet"
+      style={{ x, y }}
+      onMouseMove={handleMove}
+      onMouseLeave={() => setPosition({ x: 0, y: 0 })}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function HeroSection() {
+  return (
+    <section className="creator-hero" id="home">
+      <FadeIn y={-20}>
+        <nav className="creator-nav" aria-label="主导航">
+          <a href="#about">About</a>
+          <a href="#capabilities">Strength</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </FadeIn>
+
+      <FadeIn delay={0.15} y={40} className="hero-heading-wrap">
+        <h1 className="hero-heading">Hi, i&apos;m Huang</h1>
+      </FadeIn>
+
+      <FadeIn delay={0.6} y={30} className="hero-portrait">
+        <Magnet>
+          <div className="portrait-frame">
+            <img src="/media/huangqiang-cafe.jpg" alt="黄强的真实生活照" />
+            <div className="portrait-tag">AI PM · 2026</div>
+          </div>
+        </Magnet>
+      </FadeIn>
+
+      <div className="creator-hero-bottom">
+        <FadeIn delay={0.35} y={20}>
+          <p>
+            an ai product manager focused on building useful, measurable and
+            reliable agent experiences
+          </p>
+        </FadeIn>
+        <FadeIn delay={0.5} y={20}>
+          <ContactButton />
+        </FadeIn>
+      </div>
+
+      <div className="hero-role">AI PRODUCT MANAGER</div>
+    </section>
+  );
+}
+
+function MarqueeSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const rowOneX = useTransform(scrollYProgress, [0, 1], ["-28%", "3%"]);
+  const rowTwoX = useTransform(scrollYProgress, [0, 1], ["2%", "-31%"]);
+  const rowOne = [...marqueeImages, ...marqueeImages, ...marqueeImages];
+  const rowTwo = [
+    ...marqueeImages.slice().reverse(),
+    ...marqueeImages.slice().reverse(),
+    ...marqueeImages.slice().reverse(),
+  ];
+
+  return (
+    <section className="marquee-section" ref={sectionRef} aria-label="作品预览">
+      <motion.div className="marquee-row" style={{ x: rowOneX }}>
+        {rowOne.map((src, index) => (
+          <img key={`one-${index}`} src={src} alt="" loading="lazy" />
+        ))}
+      </motion.div>
+      <motion.div className="marquee-row" style={{ x: rowTwoX }}>
+        {rowTwo.map((src, index) => (
+          <img key={`two-${index}`} src={src} alt="" loading="lazy" />
+        ))}
+      </motion.div>
+    </section>
+  );
+}
+
+function AnimatedCharacter({
+  children,
+  progress,
+  range,
+}: {
+  children: string;
+  progress: MotionValue<number>;
+  range: [number, number];
+}) {
+  const opacity = useTransform(progress, range, [0.18, 1]);
+  return <motion.span style={{ opacity }}>{children}</motion.span>;
+}
+
+function AnimatedText({ text }: { text: string }) {
+  const paragraphRef = useRef<HTMLParagraphElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: paragraphRef,
+    offset: ["start 0.8", "end 0.2"],
+  });
+  const characters = Array.from(text);
+
+  return (
+    <p className="animated-copy" ref={paragraphRef}>
+      {characters.map((character, index) => {
+        const start = index / characters.length;
+        return (
+          <AnimatedCharacter
+            key={`${character}-${index}`}
+            progress={scrollYProgress}
+            range={[start, Math.min(start + 0.12, 1)]}
+          >
+            {character}
+          </AnimatedCharacter>
+        );
+      })}
+    </p>
+  );
+}
+
+function AboutSection() {
+  return (
+    <section className="creator-about" id="about">
+      <FadeIn delay={0.1} x={-80} y={0} className="about-float about-float--left">
+        <img src="/media/huangqiang-lifestyle.jpg" alt="黄强在湖边旅行的生活照" />
+      </FadeIn>
+      <FadeIn delay={0.15} x={80} y={0} className="about-float about-float--right">
+        <img src="/media/star-travel.png" alt="星旅 Agent 架构设计" />
+      </FadeIn>
+      <div className="about-signal signal-one">RAG<br /><strong>90%</strong></div>
+      <div className="about-signal signal-two">TOOLS<br /><strong>96%</strong></div>
+
+      <div className="about-center">
+        <FadeIn y={40}>
+          <h2 className="hero-heading section-display">About me</h2>
+        </FadeIn>
+        <AnimatedText text="华南理工大学硕士在读，专注 AI Agent、RAG 与多模态产品。我喜欢把模糊问题拆成可验证的 MVP，在模型效果、系统成本和真实用户价值之间找到平衡，并与算法、研发、硬件及业务团队一起把产品推向落地。" />
+        <ContactButton />
+      </div>
+    </section>
+  );
+}
+
+function CapabilitiesSection() {
+  return (
+    <section className="capabilities" id="capabilities">
+      <FadeIn y={40}>
+        <h2 className="section-display section-display--dark">Capabilities</h2>
+      </FadeIn>
+      <div className="capability-list">
+        {capabilities.map((item, index) => (
+          <FadeIn key={item.number} delay={index * 0.08} y={24}>
+            <article className="capability-item">
+              <div className="capability-number">{item.number}</div>
+              <div>
+                <h3>{item.name}</h3>
+                <p>{item.description}</p>
+              </div>
+            </article>
+          </FadeIn>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ProjectCard({
+  project,
+  index,
+}: {
+  project: (typeof projects)[number];
+  index: number;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "start start"],
+  });
+  const targetScale = 1 - (projects.length - 1 - index) * 0.03;
+  const scale = useTransform(scrollYProgress, [0, 1], [1, targetScale]);
+
+  return (
+    <div className="project-stage" ref={cardRef}>
+      <motion.article
+        className="stacked-project"
+        style={{ scale, top: `calc(92px + ${index * 28}px)` }}
+      >
+        <div className="project-card-head">
+          <div className="project-card-number">{project.number}</div>
+          <div className="project-card-meta">
+            <span>{project.category}</span>
+            <h3>{project.name}</h3>
+            <p>{project.result}</p>
+          </div>
+          <a className="live-project" href={`#project-${project.number}`}>
+            View case <ArrowDownRight size={17} />
+          </a>
+        </div>
+
+        <div className="project-card-copy" id={`project-${project.number}`}>
+          {project.description}
+        </div>
+        <div className="project-image-grid">
+          <div className="project-image-column">
+            <img src={project.image} alt="" className="crop-detail crop-detail--one" />
+            <img src={project.image} alt="" className="crop-detail crop-detail--two" />
+          </div>
+          <img src={project.image} alt={`${project.name} 项目视觉`} className="project-image-main" />
+        </div>
+      </motion.article>
+    </div>
+  );
+}
+
+function ProjectsSection() {
+  return (
+    <section className="creator-projects" id="projects">
+      <h2 className="hero-heading section-display">Projects</h2>
+      <div className="project-stack">
+        {projects.map((project, index) => (
+          <ProjectCard key={project.number} project={project} index={index} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ContactSection() {
+  return (
+    <footer className="creator-contact" id="contact">
+      <p>Have an AI product worth making real?</p>
+      <h2 className="hero-heading">Let&apos;s build<br />something useful.</h2>
+      <a className="contact-mail" href="mailto:amcdihq@163.com">
+        <Mail size={22} /> amcdihq@163.com <ArrowUpRight size={22} />
+      </a>
+      <div className="contact-footer-row">
+        <span>HUANG QIANG · AI PRODUCT MANAGER</span>
+        <span>WECHAT · HUANGayo-</span>
+        <span>© 2026</span>
+      </div>
+    </footer>
+  );
+}
+
 export default function Home() {
   return (
-    <main>
-      <section className="hero" id="home">
-        <img
-          className="hero-photo"
-          src="/media/huangqiang-lifestyle.jpg"
-          alt="黄强在湖边旅行的生活照"
-        />
-        <div className="hero-scrim" />
-        <nav className="nav shell" aria-label="主导航">
-          <a className="brand" href="#home" aria-label="返回首页">
-            HQ<span className="brand-dot">.</span>
-          </a>
-          <div className="nav-links">
-            <a href="#about">关于</a>
-            <a href="#work">作品</a>
-            <a href="#strengths">优势</a>
-          </div>
-          <a className="nav-contact" href="mailto:amcdihq@163.com">
-            联系我 <span>↗</span>
-          </a>
-        </nav>
-
-        <div className="hero-content shell">
-          <div className="availability"><span /> AI PRODUCT MANAGER · GUANGZHOU</div>
-          <h1>
-            把复杂的 AI，
-            <br />做成<span className="hero-em">可验证的产品</span>。
-          </h1>
-          <div className="hero-bottom">
-            <p>黄强 · AI 产品经理</p>
-            <p className="hero-intro">专注 Agent、RAG 与多模态产品，<br />在效果、成本与商业价值之间找到最优解。</p>
-          </div>
-        </div>
-        <a className="scroll-cue" href="#about" aria-label="向下查看">
-          <span>SCROLL TO EXPLORE</span><i />
-        </a>
-      </section>
-
-      <section className="about section" id="about">
-        <div className="shell">
-          <div className="section-kicker"><span>01</span> ABOUT / 个人经历</div>
-          <div className="about-grid">
-            <div className="about-photo-wrap">
-              <img className="about-photo" src="/media/huangqiang-cafe.jpg" alt="黄强在咖啡店中的生活照" />
-              <span className="photo-note">OUTSIDE THE SCREEN<br />DAILY MOMENTS</span>
-            </div>
-            <div className="about-copy">
-              <h2>既理解模型边界，<br />也在意<span>人的真实感受。</span></h2>
-              <p className="about-lead">
-                我是黄强，华南理工大学硕士在读。做过智能护肤镜和企业差旅 Agent，也把一项实验室材料项目从产品定义推到了工程落地。
-              </p>
-              <p>
-                我擅长把模糊问题拆成可验证的 MVP：先找到最关键的用户任务，再围绕数据、模型和业务系统建立可量化的闭环。对我来说，AI 产品不是模型能力的陈列，而是一个用户愿意持续使用、团队能够稳定交付的完整系统。
-              </p>
-              <div className="about-meta">
-                <div><span>当前</span><strong>华南理工大学 · 硕士</strong></div>
-                <div><span>方向</span><strong>AI Agent / RAG / 多模态</strong></div>
-                <div><span>坐标</span><strong>广州，中国</strong></div>
-              </div>
-              <div className="about-actions">
-                <a href="mailto:amcdihq@163.com">amcdihq@163.com ↗</a>
-                <a href="tel:17750290736">177 5029 0736</a>
-              </div>
-            </div>
-          </div>
-          <div className="timeline" aria-label="教育与经历时间线">
-            <div><span>2020 — 2024</span><strong>福州大学</strong><small>GPA 3.62 / 4.0 · 专业第 2</small></div>
-            <div><span>2022 — 2023</span><strong>卉木盈海</strong><small>互联网+省银奖 · 商业化落地</small></div>
-            <div><span>2024 — 2027</span><strong>华南理工大学</strong><small>硕士 · EI 论文 / 发明专利</small></div>
-            <div><span>2026 — NOW</span><strong>Agent 产品实践</strong><small>魔镜 on run / 星旅</small></div>
-          </div>
-        </div>
-      </section>
-
-      <section className="work section" id="work">
-        <div className="shell">
-          <div className="section-head">
-            <div className="section-kicker"><span>02</span> SELECTED WORK / 精选项目</div>
-            <p>从用户问题出发，穿过模型、系统与业务，<br />最终回到可观测的产品结果。</p>
-          </div>
-          <div className="projects">
-            {projects.map((project) => (
-              <article className="project-card" key={project.index}>
-                <div className="project-visual">
-                  <img className={project.imageClass} src={project.image} alt={`${project.title} 项目图`} />
-                  <div className="project-index">{project.index}</div>
-                  <div className="visual-label">CASE STUDY · {project.period}</div>
-                </div>
-                <div className="project-body">
-                  <div className="project-role">{project.role}</div>
-                  <h3>{project.title}</h3>
-                  <p className="project-en">{project.english}</p>
-                  <p className="project-summary">{project.summary}</p>
-                  <div className="metric-row">
-                    {project.metrics.map((metric) => <span key={metric}>{metric}</span>)}
-                  </div>
-                  <div className="tag-row">
-                    {project.tags.map((tag) => <span key={tag}>{tag}</span>)}
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="strengths section" id="strengths">
-        <div className="shell">
-          <div className="section-head">
-            <div className="section-kicker"><span>03</span> EDGE / 个人优势</div>
-            <h2>我带来的，<br />不只是<span>一份 PRD。</span></h2>
-          </div>
-          <div className="strength-grid">
-            {strengths.map((item) => (
-              <article className="strength-card" key={item.number}>
-                <div className="strength-number">{item.number}</div>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-                <div className="strength-foot">{item.foot}<span>↗</span></div>
-              </article>
-            ))}
-          </div>
-          <div className="recognition">
-            <div className="recognition-title">SELECTED RECOGNITION</div>
-            <div className="recognition-list">
-              <span>宏平长青奖学金 · 2025</span>
-              <span>全国海洋航行器设计与制作大赛 · 2025</span>
-              <span>CAE 软件应用大赛 · 2024</span>
-              <span>挑战杯福建省大学生创业计划 · 2022</span>
-            </div>
-          </div>
-          <div className="off-work">
-            <span>OFF WORK</span>
-            <p>足球校队 / 云顶之弈全服前 1000 / 视频剪辑 / 主持 / 自媒体运营</p>
-          </div>
-        </div>
-      </section>
-
-      <footer className="contact" id="contact">
-        <div className="contact-orb" />
-        <div className="shell contact-inner">
-          <div className="section-kicker"><span>04</span> CONTACT / 保持联系</div>
-          <p className="contact-pre">有新的 AI 产品、Agent 或 0→1 机会？</p>
-          <h2>LET&apos;S BUILD<br /><span>SOMETHING REAL.</span></h2>
-          <a className="contact-email" href="mailto:amcdihq@163.com">
-            <span>amcdihq@163.com</span><i>↗</i>
-          </a>
-          <div className="contact-bottom">
-            <span>HUANG QIANG · AI PRODUCT MANAGER</span>
-            <span>WECHAT · HUANGayo-</span>
-            <span>© 2026</span>
-          </div>
-        </div>
-      </footer>
+    <main className="creator-page">
+      <HeroSection />
+      <MarqueeSection />
+      <AboutSection />
+      <CapabilitiesSection />
+      <ProjectsSection />
+      <ContactSection />
     </main>
   );
 }
