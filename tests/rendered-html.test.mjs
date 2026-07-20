@@ -27,7 +27,7 @@ test("server-renders the interactive AI product manager portfolio", async () => 
   assert.match(html, /魔镜 on run/);
 });
 
-test("server-renders the avatar fallback and mounts Three.js only on the client", async () => {
+test("server-renders the transparent interactive avatar foreground", async () => {
   const response = await render();
   const html = await response.text();
   const heroHtml = html.slice(

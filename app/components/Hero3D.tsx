@@ -1,36 +1,7 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
-import {
-  Component,
-  lazy,
-  Suspense,
-  useEffect,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
-
-const HeadScene = lazy(() => import("./HeadScene"));
-
-class SceneErrorBoundary extends Component<
-  { children: ReactNode; onError: () => void },
-  { failed: boolean }
-> {
-  state = { failed: false };
-
-  static getDerivedStateFromError() {
-    return { failed: true };
-  }
-
-  componentDidCatch() {
-    this.props.onError();
-  }
-
-  render() {
-    return this.state.failed ? null : this.props.children;
-  }
-}
+import { useEffect, useRef, useState } from "react";
 
 function useReducedMotionPreference() {
   const [reduced, setReduced] = useState(false);
@@ -49,27 +20,44 @@ function useReducedMotionPreference() {
 export default function Hero3D() {
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const avatarRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotionPreference();
-  const [mounted, setMounted] = useState(false);
-  const [sceneReady, setSceneReady] = useState(false);
-  const [sceneFailed, setSceneFailed] = useState(false);
-
-  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
-    if (reducedMotion || !titleRef.current) return;
+    if (reducedMotion || !titleRef.current || !avatarRef.current) return;
 
     let frame = 0;
-    let targetX = 0;
-    let targetY = 0;
-    let currentX = 0;
-    let currentY = 0;
+    let titleTargetX = 0;
+    let titleTargetY = 0;
+    let titleX = 0;
+    let titleY = 0;
+    let avatarTargetX = 0;
+    let avatarTargetY = 0;
+    let avatarTargetRotateX = 0;
+    let avatarTargetRotateY = 0;
+    let avatarTargetScale = 1;
+    let avatarX = 0;
+    let avatarY = 0;
+    let avatarRotateX = 0;
+    let avatarRotateY = 0;
+    let avatarScale = 1;
+    let lastAwayX = 0;
+    let lastAwayY = -1;
 
     const render = () => {
-      currentX += (targetX - currentX) * 0.075;
-      currentY += (targetY - currentY) * 0.075;
+      titleX += (titleTargetX - titleX) * 0.075;
+      titleY += (titleTargetY - titleY) * 0.075;
+      avatarX += (avatarTargetX - avatarX) * 0.12;
+      avatarY += (avatarTargetY - avatarY) * 0.12;
+      avatarRotateX += (avatarTargetRotateX - avatarRotateX) * 0.1;
+      avatarRotateY += (avatarTargetRotateY - avatarRotateY) * 0.1;
+      avatarScale += (avatarTargetScale - avatarScale) * 0.1;
+
       if (titleRef.current) {
-        titleRef.current.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+        titleRef.current.style.transform = `translate3d(${titleX}px, ${titleY}px, 0)`;
+      }
+      if (avatarRef.current) {
+        avatarRef.current.style.transform = `translate3d(${avatarX}px, ${avatarY}px, 0) rotateX(${avatarRotateX}deg) rotateY(${avatarRotateY}deg) scale(${avatarScale})`;
       }
       frame = requestAnimationFrame(render);
     };
@@ -78,13 +66,36 @@ export default function Hero3D() {
       if (window.innerWidth < 768) return;
       const normalizedX = (event.clientX / window.innerWidth) * 2 - 1;
       const normalizedY = (event.clientY / window.innerHeight) * 2 - 1;
-      targetX = normalizedX * 15;
-      targetY = normalizedY * 9;
+      titleTargetX = normalizedX * 15;
+      titleTargetY = normalizedY * 9;
+
+      const deltaX = event.clientX - window.innerWidth * 0.5;
+      const deltaY = event.clientY - window.innerHeight * 0.5;
+      const distance = Math.hypot(deltaX, deltaY);
+      const radius = Math.min(440, Math.max(280, window.innerWidth * 0.25));
+      const rawStrength = 1 - Math.min(1, distance / radius);
+      const strength = rawStrength * rawStrength * (3 - 2 * rawStrength);
+
+      if (distance > 1) {
+        lastAwayX = -deltaX / distance;
+        lastAwayY = -deltaY / distance;
+      }
+
+      avatarTargetX = lastAwayX * strength * 28;
+      avatarTargetY = lastAwayY * strength * 18;
+      avatarTargetRotateY = lastAwayX * strength * 9;
+      avatarTargetRotateX = -lastAwayY * strength * 5;
+      avatarTargetScale = 1 + strength * 0.03;
     };
 
     const reset = () => {
-      targetX = 0;
-      targetY = 0;
+      titleTargetX = 0;
+      titleTargetY = 0;
+      avatarTargetX = 0;
+      avatarTargetY = 0;
+      avatarTargetRotateX = 0;
+      avatarTargetRotateY = 0;
+      avatarTargetScale = 1;
     };
 
     window.addEventListener("pointermove", onPointerMove, { passive: true });
@@ -118,12 +129,10 @@ export default function Hero3D() {
         Hi, i&apos;m <span>Huang Qiang</span>
       </h1>
 
-      <div className="head-canvas-shell" aria-label="可交互的黄强 3D 动漫数字人头部">
-        <div
-          className={`head-avatar-fallback ${sceneReady && !sceneFailed ? "is-hidden" : ""}`}
-          aria-hidden="true"
-        >
+      <div className="hero-avatar-layer" aria-label="可交互的黄强 3D 动漫数字人头部">
+        <div className="hero-avatar-motion" ref={avatarRef}>
           <img
+            className="hero-avatar-image"
             src="/images/huang-qiang-avatar-cutout.png"
             alt=""
             width="1023"
@@ -131,23 +140,6 @@ export default function Hero3D() {
             decoding="async"
             fetchPriority="high"
           />
-        </div>
-
-        <div className={`head-three-layer ${sceneReady && !sceneFailed ? "is-visible" : ""}`}>
-          {mounted && !sceneFailed ? (
-            <SceneErrorBoundary onError={() => setSceneFailed(true)}>
-              <Suspense
-                fallback={
-                  <div className="head-scene-loading">INITIALIZING DIGITAL HUMAN</div>
-                }
-              >
-                <HeadScene
-                  reducedMotion={reducedMotion}
-                  onReady={() => setSceneReady(true)}
-                />
-              </Suspense>
-            </SceneErrorBoundary>
-          ) : null}
         </div>
       </div>
 
