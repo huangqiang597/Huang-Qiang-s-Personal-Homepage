@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
+import { useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
 import { ArrowUpRight, Mail } from "lucide-react";
 import {
   motion,
@@ -9,6 +9,8 @@ import {
   type MotionValue,
 } from "framer-motion";
 import Hero3D from "./components/Hero3D";
+import FuzzyText from "./components/FuzzyText";
+import GhostCursor from "./components/GhostCursor";
 
 const marqueeImages = [
   "/media/magic-mirror.jpg",
@@ -202,10 +204,58 @@ function CapabilitiesSection() {
 }
 
 function ContactSection() {
+  const revealRef = useRef<HTMLDivElement>(null);
+  const [ghostActive, setGhostActive] = useState(false);
+
+  const moveGhost = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const target = revealRef.current;
+    if (!target) return;
+    const rect = target.getBoundingClientRect();
+    target.style.setProperty("--ghost-x", `${event.clientX - rect.left}px`);
+    target.style.setProperty("--ghost-y", `${event.clientY - rect.top}px`);
+  };
+
   return (
     <footer className="creator-contact" id="contact">
       <p>Have an AI product worth making real?</p>
-      <h2 className="hero-heading">Let&apos;s build<br />something useful.</h2>
+      <div className="contact-fuzzy-title">
+        <FuzzyText
+          fontSize="clamp(3.7rem, 9.7vw, 10.5rem)"
+          fontWeight={900}
+          fontFamily="Kanit, Arial Black, sans-serif"
+          baseIntensity={0.1}
+          hoverIntensity={0.55}
+          fuzzRange={34}
+          fps={48}
+          transitionDuration={220}
+          clickEffect
+          glitchMode
+          glitchInterval={3400}
+          glitchDuration={120}
+          gradient={["#e7edf4", "#aab8c9", "#d6c0ff"]}
+          letterSpacing={-5}
+          className="contact-fuzzy-canvas"
+        >
+          Welcome to my world
+        </FuzzyText>
+      </div>
+
+      <div
+        ref={revealRef}
+        className={`future-reveal${ghostActive ? " is-active" : ""}`}
+        onPointerEnter={() => setGhostActive(true)}
+        onPointerMove={moveGhost}
+        onPointerLeave={() => setGhostActive(false)}
+        onFocus={() => setGhostActive(true)}
+        onBlur={() => setGhostActive(false)}
+        tabIndex={0}
+        aria-label="移动光标，显示 I am the future"
+      >
+        <GhostCursor color="#b79cff" brightness={1.08} trailLength={38} inertia={0.46} fadeDelayMs={180} fadeDurationMs={900} />
+        <span className="future-reveal-kicker">MOVE TO REVEAL · 未来正在靠近</span>
+        <strong>I am the future</strong>
+      </div>
+
       <a className="contact-mail" href="mailto:amcdihq@163.com">
         <Mail size={22} /> amcdihq@163.com <ArrowUpRight size={22} />
       </a>
