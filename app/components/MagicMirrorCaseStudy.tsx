@@ -65,6 +65,17 @@ const redLines = [
   "禁止医疗诊断替代", "禁止用户隐私泄露", "禁止不合规内容输出",
 ];
 
+const modelAssignments = [
+  { category: "主 Agent 实时对话", model: "Seed 2.0 Pro", task: "意图理解 · 工具编排 · 复杂与高风险问题", tag: "PRO", icon: BrainCircuit },
+  { category: "首响与 Cold Path", model: "Seed 2.0 Lite", task: "首 Token 优化 · Cache Miss · 低成本兜底", tag: "LITE", icon: Activity },
+  { category: "记忆抽取与更新", model: "Seed 2.0 Lite", task: "信息抽取 · 用户画像 · 长短期记忆压缩", tag: "MEMORY", icon: Database },
+  { category: "图片分析与总结", model: "Kimi K2.6", task: "肌肤与产品图理解 · 可解释肤况摘要", tag: "VISION", icon: Camera },
+  { category: "图片向量化", model: "doubao-embedding-vision-251215", task: "图文视频统一向量化 · 相似召回", tag: "EMBED", icon: Network },
+  { category: "肌肤日记", model: "Doubao Seed 2.0 Lite", task: "每日肤况解读 · 晨晚步骤 · 轻量建议", tag: "DAILY", icon: Smartphone },
+  { category: "深度分析报告", model: "Kimi K2.6", task: "五维结构化分析 · 长期护理方向 · 专业解释", tag: "REPORT", icon: BarChart3 },
+  { category: "护肤柜", model: "Kimi K2.6", task: "产品与偏好召回 · 关联判断 · 方案支撑", tag: "CABINET", icon: Sparkles },
+];
+
 export default function MagicMirrorCaseStudy() {
   const pageRef = useRef<HTMLElement>(null);
   const [architectureOpen, setArchitectureOpen] = useState(false);
@@ -252,6 +263,22 @@ export default function MagicMirrorCaseStudy() {
                   <ul>{redLines.map((line) => <li key={line}><span>!</span>{line}</li>)}</ul>
                 </div>
               </div>
+              <section className="mm-model-map" aria-labelledby="mm-model-map-title">
+                <header>
+                  <div><span>MODEL ROUTING</span><h4 id="mm-model-map-title">具体功能 × 大模型选型</h4></div>
+                  <p>按任务复杂度、用户感知与调用频次分层，让强模型用在高价值判断，让轻模型承担高频路径。</p>
+                </header>
+                <div className="mm-model-grid">
+                  {modelAssignments.map(({ icon: Icon, ...item }) => (
+                    <article className="mm-model-card" key={item.category}>
+                      <div className="mm-model-card-top"><i><Icon /></i><span>{item.tag}</span></div>
+                      <small>{item.category}</small>
+                      <strong>{item.model}</strong>
+                      <p>{item.task}</p>
+                    </article>
+                  ))}
+                </div>
+              </section>
             </article>
           </BorderGlow>
 

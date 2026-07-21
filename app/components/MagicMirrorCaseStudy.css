@@ -657,3 +657,69 @@
   .mm-lightbox-panel { width: 100%; height: 96vh; border-radius: 15px; }
   .mm-lightbox-scroll { padding: 10px; }
 }
+
+/* Readability pass: Agent Loop and evaluation/model routing */
+.mm-loop-node { width: 218px; gap: 12px; }
+.mm-loop-node > i { flex-basis: 46px; width: 46px; height: 46px; }
+.mm-loop-node > i svg { width: 21px; }
+.mm-loop-node div { grid-template-columns: 26px minmax(0, 1fr); }
+.mm-loop-node b { font-size: 1.65rem; }
+.mm-loop-node strong { font-size: 17px; line-height: 1.25; }
+.mm-loop-node small { margin-top: 7px; font-size: 12px; line-height: 1.55; }
+.mm-loop-node-2 { right: -6px; }
+.mm-loop-node-3 { right: -8px; }
+.mm-loop-node-5 { left: -8px; }
+.mm-loop-node-6 { left: -6px; }
+
+.mm-evaluation-card { min-height: 860px; }
+.mm-eval-panel { min-height: 330px; padding: 24px; }
+.mm-eval-panel h4 { font-size: 17px; }
+.mm-radar > span { font-size: 12px; }
+.mm-radar-panel footer { font-size: 11px; }
+.mm-routing-panel b { font-size: 17px; }
+.mm-routing-panel span { font-size: 12px; line-height: 1.55; }
+.mm-routing-panel > div { padding: 18px 10px; }
+.mm-delta-panel p { padding-top: 17px; padding-bottom: 20px; }
+.mm-delta-panel p > span { font-size: 13px; }
+.mm-delta-panel p b,
+.mm-delta-panel p strong { font-size: clamp(23px, 1.45vw, 29px); }
+.mm-delta-panel p em { top: 16px; font-size: 11px; }
+.mm-score-panel b { font-size: 13px; }
+.mm-score-panel small { font-size: 12px; }
+.mm-score-panel span { min-height: 76px; }
+.mm-redline-panel h4 { font-size: 16px; }
+.mm-redline-panel li { min-height: 38px; padding: 9px 10px; font-size: 12px; }
+.mm-redline-panel li span { flex: 0 0 18px; width: 18px; height: 18px; }
+
+.mm-model-map { margin-top: 28px; padding-top: 30px; border-top: 1px solid rgba(121, 151, 203, .2); }
+.mm-model-map > header { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; }
+.mm-model-map > header span { color: #769ee5; font: 600 10px/1 var(--font-geo); letter-spacing: .16em; }
+.mm-model-map > header h4 { margin-top: 10px; color: #edf2f9; font: 600 clamp(21px, 1.35vw, 27px)/1.2 var(--font-display-cn); letter-spacing: -.015em; }
+.mm-model-map > header p { max-width: 580px; color: #8491a3; font-size: 13px; line-height: 1.65; text-align: right; }
+.mm-model-grid { margin-top: 24px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 13px; }
+.mm-model-card { height: auto !important; min-height: 176px !important; padding: 18px !important; border: 1px solid rgba(110, 153, 228, .22); border-radius: 13px; background: linear-gradient(145deg, rgba(15, 26, 43, .94), rgba(8, 13, 23, .96)); }
+.mm-model-card:nth-child(4n + 1) { border-color: rgba(220, 120, 173, .26); background: radial-gradient(circle at 100% 0, rgba(159, 52, 123, .14), transparent 40%), rgba(10, 16, 27, .96); }
+.mm-model-card-top { display: flex; align-items: center; justify-content: space-between; }
+.mm-model-card-top i { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid rgba(111, 160, 246, .3); border-radius: 50%; color: #8db9ff; }
+.mm-model-card-top i svg { width: 18px; }
+.mm-model-card-top span { padding: 6px 8px; border: 1px solid rgba(222, 125, 177, .28); border-radius: 99px; color: #df90b6; font: 600 8px/1 var(--font-geo); letter-spacing: .1em; }
+.mm-model-card > small { margin-top: 17px; display: block; color: #8996a8; font-size: 12px; line-height: 1.4; }
+.mm-model-card > strong { margin-top: 7px; display: block; color: #eef3fb; font: 600 17px/1.25 var(--font-geo), var(--font-display-cn); overflow-wrap: anywhere; }
+.mm-model-card:nth-child(5) > strong { font-size: 14px; line-height: 1.32; }
+.mm-model-card > p { margin-top: 10px; color: #718095; font-size: 11px; line-height: 1.5; }
+
+@media (max-width: 1180px) {
+  .mm-model-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mm-loop-node { width: 220px; }
+}
+
+@media (max-width: 760px) {
+  .mm-loop-node { width: 100%; }
+  .mm-loop-node strong { font-size: 16px; }
+  .mm-loop-node small { font-size: 12px; }
+  .mm-eval-panel { min-height: 290px; }
+  .mm-model-map > header { display: block; }
+  .mm-model-map > header p { margin-top: 13px; text-align: left; }
+  .mm-model-grid { grid-template-columns: 1fr; }
+  .mm-model-card { min-height: 158px !important; }
+}
