@@ -1,6 +1,7 @@
 "use client";
 
 import { PointerEvent as ReactPointerEvent, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import {
   Activity, ArrowLeft, ArrowRight, BarChart3, BrainCircuit, Camera,
   CircleGauge, Database, FlaskConical, Layers3, Network, ShieldAlert,
@@ -76,6 +77,19 @@ const modelAssignments = [
   { category: "护肤柜", model: "Kimi K2.6", task: "产品与偏好召回 · 关联判断 · 方案支撑", tag: "CABINET", icon: Sparkles },
 ];
 
+const dashboardTimes = ["06:00", "09:00", "12:00", "15:00", "18:00", "21:00", "24:00"];
+
+const dashboardTools = [
+  { key: "image", label: "图片分析", value: 68, delta: "+18.2%", color: "#35c7b8", levels: [0, 1, 1, 2, 3, 4, 1] },
+  { key: "diary", label: "肌肤日记", value: 47, delta: "+11.9%", color: "#6ea8ff", levels: [1, 2, 1, 1, 2, 3, 0] },
+  { key: "report", label: "深度分析报告", value: 36, delta: "+9.1%", color: "#e5a84b", levels: [0, 1, 1, 3, 2, 3, 1] },
+  { key: "cabinet", label: "护肤柜", value: 31, delta: "+14.8%", color: "#f07868", levels: [1, 2, 0, 2, 1, 2, 0] },
+  { key: "chat", label: "无工具对话", value: 79, delta: "+6.8%", color: "#a58bff", levels: [1, 3, 2, 1, 3, 4, 2] },
+];
+
+const dashboardTotal = dashboardTools.reduce((sum, item) => sum + item.value, 0);
+const dashboardMax = Math.max(...dashboardTools.map((item) => item.value));
+
 export default function MagicMirrorCaseStudy() {
   const pageRef = useRef<HTMLElement>(null);
   const [architectureOpen, setArchitectureOpen] = useState(false);
@@ -106,8 +120,8 @@ export default function MagicMirrorCaseStudy() {
       <div className="mm-aurora-background" aria-hidden="true" />
       <section className="mm-hero" aria-labelledby="mm-title">
         <header className="mm-topbar">
-          <a href="/#projects"><ArrowLeft /> 返回首页</a>
-          <a href="/projects/star-travel">下一个项目 <ArrowRight /></a>
+          <Link href="/#projects"><ArrowLeft /> 返回首页</Link>
+          <Link href="/projects/star-travel">下一个项目 <ArrowRight /></Link>
         </header>
         <div className="mm-rings mm-rings-css" aria-hidden="true"><i /><i /><i /></div>
         <div className="mm-hero-copy">
@@ -288,9 +302,51 @@ export default function MagicMirrorCaseStudy() {
                 <span>成果 04</span>
                 <div><h3>魔镜数据台</h3><p>从硬件、软件到 Agent 的三生命周期数据回收与内测观测</p></div>
               </header>
-              <div className="mm-dashboard-browser">
-                <div className="mm-browser-bar"><i /><i /><i /><span>MOJING INSIGHTS · AGENT ANALYTICS</span></div>
-                <img src="/media/magic-mirror-dashboard.png" alt="魔镜数据台 Agent 工具使用与用户洞察看板" loading="lazy" />
+              <div className="mm-dashboard-composition">
+                <header className="mm-dashboard-toolbar">
+                  <div><i><BarChart3 /></i><span><small>MOJING INSIGHTS</small><strong>Agent 使用洞察</strong></span></div>
+                  <nav aria-label="数据台视图"><b>Agent 工具使用</b><span>软硬件使用</span></nav>
+                  <em>本周 · 实时更新</em>
+                </header>
+
+                <div className="mm-dashboard-kpis" aria-label="各能力调用概览">
+                  {dashboardTools.map((tool) => (
+                    <article key={tool.key} style={{ borderTopColor: tool.color }}>
+                      <span>{tool.label}</span>
+                      <strong>{tool.value}<small>次</small></strong>
+                      <em>{tool.delta}</em>
+                    </article>
+                  ))}
+                </div>
+
+                <div className="mm-dashboard-modules">
+                  <section className="mm-dashboard-module mm-heatmap-module">
+                    <header><div><small>TIME PATTERN</small><h4>使用时段聚合</h4><p>按发生时间聚合，识别不同能力的高频时段。</p></div><span>近 7 天</span></header>
+                    <div className="mm-heatmap" role="img" aria-label="图片分析、肌肤日记、报告、护肤柜和对话在不同时段的使用热力分布">
+                      <div className="mm-heatmap-row mm-heatmap-head"><b>能力 / 时段</b>{dashboardTimes.map((time) => <span key={time}>{time}</span>)}</div>
+                      {dashboardTools.map((tool) => (
+                        <div className="mm-heatmap-row" key={tool.key}>
+                          <b>{tool.label}</b>
+                          {tool.levels.map((level, index) => <i className={`mm-heat-${level}`} key={`${tool.key}-${dashboardTimes[index]}`} title={`${tool.label} ${dashboardTimes[index]}`} />)}
+                        </div>
+                      ))}
+                    </div>
+                    <footer><span>低频</span><i className="mm-heat-0" /><i className="mm-heat-1" /><i className="mm-heat-2" /><i className="mm-heat-3" /><i className="mm-heat-4" /><span>高频</span></footer>
+                  </section>
+
+                  <section className="mm-dashboard-module mm-distribution-module">
+                    <header><div><small>CALL VOLUME</small><h4>调用次数分布</h4><p>比较各能力的调用规模与本周变化。</p></div><span>合计 {dashboardTotal} 次</span></header>
+                    <div className="mm-distribution-list">
+                      {dashboardTools.map((tool) => (
+                        <article key={tool.key}>
+                          <div><b>{tool.label}</b><span>{tool.value} 次</span></div>
+                          <div className="mm-distribution-track"><i style={{ width: `${(tool.value / dashboardMax) * 100}%`, background: tool.color }} /></div>
+                          <em>{tool.delta}</em>
+                        </article>
+                      ))}
+                    </div>
+                  </section>
+                </div>
               </div>
             </article>
           </BorderGlow>

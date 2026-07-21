@@ -67,6 +67,10 @@ test("server-renders the Magic Mirror case study", async () => {
   assert.equal((html.match(/class="mm-phone mm-phone-/g) ?? []).length, 6);
   assert.match(html, /mm-aurora-background/);
   assert.match(html, /border-glow-card/);
+  assert.match(html, /mm-dashboard-composition/);
+  assert.match(html, /mm-heatmap/);
+  assert.match(html, /mm-distribution-list/);
+  assert.doesNotMatch(html, /magic-mirror-dashboard\.png/);
   assert.doesNotMatch(html, /mm-next-project/);
 });
 
