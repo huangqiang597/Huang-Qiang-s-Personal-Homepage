@@ -30,7 +30,7 @@ test("server-renders the interactive AI product manager portfolio", async () => 
   assert.match(html, /\/projects\/huimu-yinghai/);
 });
 
-test("server-renders project placeholder routes", async () => {
+test("server-renders project routes", async () => {
   const routes = [
     ["/projects/magic-mirror", "魔镜 on run"],
     ["/projects/star-travel", "星旅"],
@@ -42,6 +42,19 @@ test("server-renders project placeholder routes", async () => {
     assert.equal(response.status, 200);
     assert.match(await response.text(), new RegExp(title));
   }
+});
+
+test("server-renders the Magic Mirror case study", async () => {
+  const response = await render("/projects/magic-mirror");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /MAGIC MIRROR/);
+  assert.match(html, /PROJECT BACKGROUND/);
+  assert.match(html, /RECALL@3/);
+  assert.match(html, /73/);
+  assert.match(html, /90/);
+  assert.match(html, /magic-mirror-ui-home\.jpg/);
+  assert.match(html, /magic-mirror-ui-report\.jpg/);
 });
 
 test("server-renders the transparent interactive avatar foreground", async () => {

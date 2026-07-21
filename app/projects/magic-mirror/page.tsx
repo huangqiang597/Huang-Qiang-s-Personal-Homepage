@@ -1,6 +1,5 @@
-import ProjectPlaceholder from "../../components/ProjectPlaceholder";
+import MagicMirrorCaseStudy from "../../components/MagicMirrorCaseStudy";
 
 export default function MagicMirrorProjectPage() {
-  return <ProjectPlaceholder number="01" title="魔镜 on run" category="AGENT / INTERNSHIP" />;
+  return <MagicMirrorCaseStudy />;
 }
-
