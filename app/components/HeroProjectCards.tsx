@@ -1,8 +1,7 @@
 "use client";
 
-import { lazy, Suspense, type CSSProperties } from "react";
-
-const Lanyard = lazy(() => import("./Lanyard"));
+import { type CSSProperties } from "react";
+import ProfileCard from "./ProfileCard";
 
 const heroProjects = [
   {
@@ -39,47 +38,26 @@ export default function HeroProjectCards() {
     <section className="hero-projects-layer" id="projects" aria-label="精选项目">
       <div className="hero-projects-grid">
         {heroProjects.map((project, index) => (
-          <article
+          <div
             className={`hero-project-card hero-project-card--${index + 1}`}
             key={project.number}
             style={{ "--card-accent": project.accent } as CSSProperties}
           >
-            <Suspense
-              fallback={
-                <div className="hero-project-fallback">
-                  <img src={project.image} alt="" />
-                  <span>{project.number}</span>
-                  <strong>{project.title}</strong>
-                  <small>{project.subtitle}</small>
-                </div>
-              }
-            >
-              <Lanyard
-                position={[0, 0, 25]}
-                gravity={[0, -34, 0]}
-                fov={22}
-                frontImage={project.image}
-                backImage={project.image}
-                imageFit="cover"
-                lanyardImage="/models/lanyard/lanyard.png"
-                lanyardWidth={0.66}
-                href={project.href}
-                initialRotation={(index - 1) * 0.07}
-                ariaLabel={`打开 ${project.title} 项目`}
-                cardNumber={project.number}
-                cardCategory={project.category}
-                cardTitle={project.title}
-                cardSubtitle={project.subtitle}
-                cardAccent={project.accent}
-              />
-            </Suspense>
-            <a className="hero-project-sr-link" href={project.href}>
-              打开 {project.title} 项目 · {project.subtitle}
-            </a>
-          </article>
+            <ProfileCard
+              imageUrl={project.image}
+              href={project.href}
+              number={project.number}
+              category={project.category}
+              name={project.title}
+              title={project.subtitle}
+              accent={project.accent}
+              enableTilt
+              behindGlowEnabled
+            />
+          </div>
         ))}
       </div>
-      <p className="hero-projects-hint">DRAG · SWING · CLICK TO ENTER</p>
+      <p className="hero-projects-hint">MOVE · TILT · CLICK TO ENTER</p>
     </section>
   );
 }

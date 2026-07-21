@@ -57,5 +57,6 @@ test("server-renders the transparent interactive avatar foreground", async () =>
   assert.match(heroHtml, /卉木盈海，草色宛墙/);
   assert.match(heroHtml, /hero-light-pillar/i);
   assert.match(heroHtml, /huang-qiang-avatar-cutout\.png/i);
-  assert.equal((heroHtml.match(/<canvas/gi) ?? []).length, 3);
+  assert.equal((heroHtml.match(/class="pc-card-wrapper/gi) ?? []).length, 3);
+  assert.match(heroHtml, /MOVE · TILT · CLICK TO ENTER/i);
 });
