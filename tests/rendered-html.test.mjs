@@ -23,7 +23,15 @@ test("server-renders the interactive AI product manager portfolio", async () => 
   assert.match(html, /Hi, i/);
   assert.match(html, /Huang Qiang/);
   assert.match(html, /Interactive Digital Human/i);
-  assert.match(html, /Capabilities/i);
+  assert.match(html, /MY SIDE QUESTS/i);
+  assert.match(html, /HOBBIES/i);
+  assert.match(html, /HONORS/i);
+  assert.match(html, /OTHER SKILLS/i);
+  assert.match(html, /2.2万粉丝/);
+  assert.equal((html.match(/class="folder open"/g) ?? []).length, 3);
+  assert.doesNotMatch(html, /marquee-section/);
+  assert.doesNotMatch(html, /creator-about/);
+  assert.doesNotMatch(html, /class="capabilities"/);
   assert.match(html, /Welcome to my world/i);
   assert.match(html, /I am the future/i);
   assert.match(html, /contact-fuzzy-canvas/i);

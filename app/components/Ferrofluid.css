@@ -1,0 +1,2 @@
+.ferrofluid-viewport, .ferrofluid-container, .ferrofluid-static { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; }
+.ferrofluid-container--fallback, .ferrofluid-static { background: radial-gradient(circle at 22% 38%, rgba(70,112,211,.12), transparent 28%), radial-gradient(circle at 78% 64%, rgba(132,78,190,.11), transparent 32%); }
