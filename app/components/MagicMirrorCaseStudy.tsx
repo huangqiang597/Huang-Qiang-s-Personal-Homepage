@@ -1,6 +1,6 @@
 "use client";
 
-import { lazy, Suspense } from "react";
+import { lazy, PointerEvent as ReactPointerEvent, Suspense, useRef } from "react";
 import {
   ArrowLeft, ArrowRight, BrainCircuit, Camera,
   Database, FlaskConical, Search, SlidersHorizontal, Smartphone, Sparkles,
@@ -12,10 +12,12 @@ const MagicRings = lazy(() => import("./MagicRings"));
 const SoftAurora = lazy(() => import("./SoftAurora"));
 
 const uiScreens = [
-  { src: "/media/magic-mirror-ui-home.jpg", number: "01", title: "首页 / 检测", note: "连接设备，查看当日肌肤状态" },
-  { src: "/media/magic-mirror-ui-report.jpg", number: "02", title: "深度报告", note: "把指标翻译成可理解的洞察" },
-  { src: "/media/magic-mirror-ui-diary.jpg", number: "03", title: "肌肤日记", note: "记录每日状态和护理变化" },
-  { src: "/media/magic-mirror-ui-assistant.jpg", number: "04", title: "魔镜精灵", note: "获得个性化建议与日常陪伴" },
+  { src: "/media/magic-mirror-ui-entry.jpg", number: "01", title: "进入页面", note: "建立品牌认知并引导进入服务" },
+  { src: "/media/magic-mirror-ui-auth.jpg", number: "02", title: "授权页面", note: "完成授权并连接个人肌肤档案" },
+  { src: "/media/magic-mirror-ui-home.jpg", number: "03", title: "首页 / 检测", note: "连接设备，查看当日肌肤状态" },
+  { src: "/media/magic-mirror-ui-report.jpg", number: "04", title: "深度报告", note: "把指标翻译成可理解的洞察" },
+  { src: "/media/magic-mirror-ui-diary.jpg", number: "05", title: "肌肤日记", note: "记录每日状态和护理变化" },
+  { src: "/media/magic-mirror-ui-assistant.jpg", number: "06", title: "魔镜精灵", note: "获得个性化建议与日常陪伴" },
 ];
 
 const workItems = [
@@ -32,8 +34,16 @@ const steps = [
 ];
 
 export default function MagicMirrorCaseStudy() {
+  const pageRef = useRef<HTMLElement>(null);
+  const handlePointerMove = (event: ReactPointerEvent<HTMLElement>) => {
+    const page = pageRef.current;
+    if (!page) return;
+    page.style.setProperty("--aurora-x", `${(event.clientX / window.innerWidth) * 100}%`);
+    page.style.setProperty("--aurora-y", `${(event.clientY / window.innerHeight) * 100}%`);
+  };
+
   return (
-    <main className="mm-case">
+    <main ref={pageRef} onPointerMove={handlePointerMove} className="mm-case">
       <div className="mm-aurora-background"><Suspense fallback={null}><SoftAurora /></Suspense></div>
       <section className="mm-hero" aria-labelledby="mm-title">
         <header className="mm-topbar">
@@ -79,7 +89,9 @@ export default function MagicMirrorCaseStudy() {
         <div className="mm-phone-stage">
           {uiScreens.map((screen, index) => (
             <figure className={`mm-phone mm-phone-${index + 1}`} key={screen.src}>
-              <div className="mm-phone-frame"><img src={screen.src} alt={`魔镜小程序：${screen.title}`} loading="lazy" /></div>
+              <BorderGlow className="mm-phone-glow" edgeSensitivity={14} glowColor="218 96 78" backgroundColor="#090d14" borderRadius={32} glowRadius={26} glowIntensity={.9} fillOpacity={.16} colors={["#75a0ff", "#e08cae", "#8c82ff"]}>
+                <div className="mm-phone-frame"><img src={screen.src} alt={`魔镜小程序：${screen.title}`} loading="lazy" /></div>
+              </BorderGlow>
               <figcaption><b>{screen.number} / {screen.title}</b><span>{screen.note}</span></figcaption>
             </figure>
           ))}
