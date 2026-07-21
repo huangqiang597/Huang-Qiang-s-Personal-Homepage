@@ -1,157 +1,152 @@
 "use client";
 
-import {
-  ArrowLeft, ArrowRight, ArrowUpRight, Camera, ChartNoAxesCombined,
-  Database, FlaskConical, Layers3, ScanFace, Search,
-  SlidersHorizontal, Smartphone, Sparkles,
-} from "lucide-react";
 import { lazy, Suspense } from "react";
+import {
+  ArrowLeft, ArrowRight, ArrowUpRight, BrainCircuit, Camera,
+  Database, FlaskConical, Search, SlidersHorizontal, Smartphone, Sparkles,
+} from "lucide-react";
 import "./MagicMirrorCaseStudy.css";
 
 const MagicRings = lazy(() => import("./MagicRings"));
 
 const uiScreens = [
-  { src: "/media/magic-mirror-ui-home.jpg", label: "肌肤检测首页", note: "检测入口与当日状态" },
-  { src: "/media/magic-mirror-ui-report.jpg", label: "深度分析报告", note: "把专业指标转译为行动建议" },
-  { src: "/media/magic-mirror-ui-diary.jpg", label: "肌肤日记", note: "连续记录变化与护理反馈" },
-  { src: "/media/magic-mirror-ui-assistant.jpg", label: "魔镜精灵", note: "基于个人档案的 AI 对话" },
+  { src: "/media/magic-mirror-ui-home.jpg", number: "01", title: "首页 / 检测", note: "连接设备，查看当日肌肤状态" },
+  { src: "/media/magic-mirror-ui-report.jpg", number: "02", title: "深度报告", note: "把指标翻译成可理解的洞察" },
+  { src: "/media/magic-mirror-ui-diary.jpg", number: "03", title: "肌肤日记", note: "记录每日状态和护理变化" },
+  { src: "/media/magic-mirror-ui-assistant.jpg", number: "04", title: "魔镜精灵", note: "获得个性化建议与日常陪伴" },
 ];
 
 const workItems = [
-  { icon: Layers3, index: "01", title: "产品策略与服务蓝图", text: "梳理设备、微信小程序与 AI Agent 的角色边界，设计从联网绑定、拍摄检测到报告解读与持续护理的完整用户旅程。", tags: ["PRD", "USER JOURNEY", "SERVICE BLUEPRINT"] },
-  { icon: Database, index: "02", title: "RAG 专业知识系统", text: "搭建护肤知识的来源、版本与标签体系，围绕用户问题优化切片、召回与重排，让回答既专业又能落到个人行动。", tags: ["KNOWLEDGE BASE", "RAG", "RERANK"] },
-  { icon: FlaskConical, index: "03", title: "评估与数据闭环", text: "建立 Golden Query、分层评测集和 Bad Case 回流机制，把模型效果从主观体验转化为可追踪、可回归的产品指标。", tags: ["EVALUATION", "BAD CASE", "DATA LOOP"] },
+  { index: "01", title: "PRODUCT STRATEGY & PRD", text: "定义产品愿景、用户分层与核心价值，输出 PRD、路线图和跨团队协作方案。", outcome: "清晰的产品路线与一致执行" },
+  { index: "02", title: "RAG KNOWLEDGE SYSTEM", text: "设计护肤知识结构，搭建 RAG 链路并围绕准确率与覆盖率优化检索。", outcome: "可追溯、可更新的专业知识库" },
+  { index: "03", title: "EVALUATION & DATA", text: "建立离线评测集、核心指标和数据埋点，让每次迭代都有量化依据。", outcome: "稳定评估与持续数据迭代" },
 ];
 
-const retrievalSteps = [
-  { icon: Search, number: "01", title: "Query Rewrite", text: "识别肤质、问题部位和咨询意图，补全口语省略，并统一成知识库可检索的标准表达。" },
-  { icon: Database, number: "02", title: "Hybrid Retrieval", text: "融合语义向量与关键词召回，增加肤质、功效、风险级别等元数据过滤。" },
-  { icon: SlidersHorizontal, number: "03", title: "Rerank", text: "对候选片段二次排序，优先保留同时满足相关性、可信来源与可行动性的证据。" },
-  { icon: ChartNoAxesCombined, number: "04", title: "Golden Set", text: "按场景分层构建标准题集，每次策略调整都自动回归，把 Bad Case 持续沉淀为新样本。" },
+const steps = [
+  { index: "1", icon: Search, title: "QUERY REWRITE", text: "扩展口语表达并补全用户意图" },
+  { index: "2", icon: Database, title: "HYBRID RETRIEVAL", text: "融合向量与 BM25 扩大召回" },
+  { index: "3", icon: SlidersHorizontal, title: "RERANK", text: "按相关性与可信度二次排序" },
+  { index: "4", icon: Sparkles, title: "GOLDEN SET", text: "沉淀高质量题集持续回归" },
 ];
 
 export default function MagicMirrorCaseStudy() {
   return (
     <main className="mm-case">
-      <header className="mm-topbar">
-        <a href="/#projects" className="mm-back"><ArrowLeft size={17} /> BACK TO PROJECTS</a>
-        <span className="mm-top-mark">HQ / CASE STUDY 01</span>
-        <a href="/projects/star-travel" className="mm-next">NEXT PROJECT <ArrowRight size={17} /></a>
-      </header>
-
       <section className="mm-hero" aria-labelledby="mm-title">
-        <div className="mm-hero-grid" aria-hidden="true" />
-        <div className="mm-rings"><Suspense fallback={<div className="mm-rings-fallback" />}><MagicRings /></Suspense></div>
-        <div className="mm-hero-kicker"><span>AI PRODUCT</span><span>SMART SKINCARE</span></div>
-        <h1 id="mm-title" className="mm-hero-title"><span>MAGIC MIRROR</span><span>ON RUN</span></h1>
-        <div className="mm-device-visual">
-          <span className="mm-scan-line" aria-hidden="true" />
-          <img src="/media/magic-mirror-ai-v1.webp" alt="魔镜 on run 智能肌肤检测设备概念视觉" />
-          <span className="mm-device-tag"><ScanFace size={14} /> LIVE SKIN ANALYSIS</span>
+        <header className="mm-topbar">
+          <a href="/#projects"><ArrowLeft /> BACK TO HOME</a>
+          <a href="/projects/star-travel">NEXT PROJECT <ArrowRight /></a>
+        </header>
+        <div className="mm-rings"><Suspense fallback={null}><MagicRings opacity={0.22} speed={0.22} mouseInfluence={0.05} /></Suspense></div>
+        <div className="mm-hero-copy">
+          <p>01 / AGENT PRODUCT</p>
+          <h1 id="mm-title">MAGIC MIRROR<br />ON RUN</h1>
         </div>
-        <div className="mm-hero-meta">
-          <p>让一次肌肤检测，变成一段持续、可信、可解释的个人护理关系。</p>
-          <dl>
-            <div><dt>ROLE</dt><dd>AI 产品经理</dd></div>
-            <div><dt>COMPANY</dt><dd>厦门光辰智能</dd></div>
-            <div><dt>SCOPE</dt><dd>Agent / RAG / 数据</dd></div>
-            <div><dt>STATUS</dt><dd>设计与验证</dd></div>
-          </dl>
-        </div>
-        <a href="#background" className="mm-scroll-cue">SCROLL TO EXPLORE <span>↓</span></a>
+        <div className="mm-mirror-visual"><img src="/media/magic-mirror-ai-v1.webp" alt="魔镜 on run 智能肌肤检测镜" /></div>
+        <dl className="mm-meta">
+          <div><dt>ROLE</dt><dd>AI Product Manager</dd></div>
+          <div><dt>COMPANY</dt><dd>厦门光辰智能</dd></div>
+          <div><dt>PERIOD</dt><dd>项目实践</dd></div>
+          <div><dt>SCOPE</dt><dd>Strategy · AI · Product · Data</dd></div>
+        </dl>
       </section>
 
-      <section id="background" className="mm-section mm-background">
-        <div className="mm-section-index">01</div>
-        <div className="mm-section-head">
-          <p className="mm-eyebrow">PROJECT BACKGROUND</p>
-          <h2>不只给出一份报告，<br />而是帮助用户理解自己的皮肤。</h2>
-          <p className="mm-lead">魔镜 on run 连接智能检测硬件、微信小程序和 AI Agent。设备负责获得稳定、结构化的肌肤数据，小程序承接报告、趋势与档案，Agent 则把复杂指标转译成用户可以理解并执行的护理建议。</p>
+      <section className="mm-background">
+        <div className="mm-background-copy">
+          <div className="mm-section-title"><strong>01</strong><h2>PROJECT BACKGROUND</h2></div>
+          <p>护肤用户往往难以持续记录肌肤状态，也很难在需要时获得可靠、个性化的建议。</p>
+          <p>魔镜 on run 是一款 AI 智能护肤镜，将硬件检测、微信小程序和智能体连接起来，为用户提供完整的肌肤洞察和可执行的护理建议。</p>
         </div>
-        <div className="mm-flow" aria-label="产品服务链路">
-          <article><Camera size={28} /><span>01</span><h3>DEVICE</h3><p>拍摄与肌肤检测</p></article><ArrowRight className="mm-flow-arrow" />
-          <article><Smartphone size={28} /><span>02</span><h3>MINI PROGRAM</h3><p>报告、档案与趋势</p></article><ArrowRight className="mm-flow-arrow" />
-          <article><Sparkles size={28} /><span>03</span><h3>AI AGENT</h3><p>解读与持续陪伴</p></article>
-        </div>
-        <div className="mm-challenge-grid">
-          <article><span>CHALLENGE 01</span><h3>数据有了，用户仍然看不懂</h3><p>专业肌肤指标缺少上下文，用户难以判断“这意味着什么”以及下一步该做什么。</p></article>
-          <article><span>CHALLENGE 02</span><h3>一次检测无法形成长期价值</h3><p>单点报告缺少连续记录与反馈机制，产品很难进入用户的日常护理决策。</p></article>
-          <article><span>CHALLENGE 03</span><h3>生成式回答需要专业边界</h3><p>护肤建议既要贴合个人情况，也要可追溯、可评估，并明确风险与非医疗边界。</p></article>
+        <div className="mm-background-system">
+          <div className="mm-system-flow">
+            <article><i><Camera /></i><strong>DEVICE</strong><span>获取多模态肌肤数据</span></article><ArrowRight />
+            <article><i><Smartphone /></i><strong>MINI PROGRAM</strong><span>集中报告、趋势与日常</span></article><ArrowRight />
+            <article><i><BrainCircuit /></i><strong>AI AGENT</strong><span>理解状态并给出个性建议</span></article>
+          </div>
+          <div className="mm-problems">
+            <article><span>01</span><h3>记录分散</h3><p>数据散落在不同工具中，难以形成完整的肌肤历史。</p></article>
+            <article><span>02</span><h3>报告难懂</h3><p>专业指标缺少解释，用户无法把洞察转化为行动。</p></article>
+            <article><span>03</span><h3>建议泛化</h3><p>一次性建议无法反映个人状态与持续变化。</p></article>
+          </div>
         </div>
       </section>
 
-      <section className="mm-section mm-ui-section">
-        <div className="mm-section-index">02</div>
-        <div className="mm-section-head mm-section-head-row">
-          <div><p className="mm-eyebrow">MINI PROGRAM UI</p><h2>让复杂检测结果，<br />成为每天都能理解的反馈。</h2></div>
-          <p className="mm-lead">界面用清晰的信息层级承接设备检测结果：先回答用户最关心的结论，再逐步展开证据、趋势和建议，避免把专业指标一次性压给用户。</p>
-        </div>
-        <div className="mm-phone-gallery">
+      <section className="mm-ui-section">
+        <div className="mm-section-title mm-ui-title"><strong>02</strong><h2>/ MINI PROGRAM UI</h2></div>
+        <div className="mm-phone-stage">
           {uiScreens.map((screen, index) => (
-            <figure className={`mm-phone-card mm-phone-card-${index + 1}`} key={screen.src}>
-              <div className="mm-phone-shell"><img src={screen.src} alt={`魔镜 on run 小程序：${screen.label}`} loading="lazy" /></div>
-              <figcaption><span>0{index + 1}</span><strong>{screen.label}</strong><small>{screen.note}</small></figcaption>
+            <figure className={`mm-phone mm-phone-${index + 1}`} key={screen.src}>
+              <div className="mm-phone-frame"><img src={screen.src} alt={`魔镜小程序：${screen.title}`} loading="lazy" /></div>
+              <figcaption><b>{screen.number} / {screen.title}</b><span>{screen.note}</span></figcaption>
             </figure>
           ))}
         </div>
       </section>
 
-      <section className="mm-section mm-work-section">
-        <div className="mm-section-index">03</div>
-        <div className="mm-section-head mm-section-head-row">
-          <div><p className="mm-eyebrow">WHAT I DID</p><h2>从产品框架，<br />走到模型效果闭环。</h2></div>
-          <p className="mm-lead">我的工作横跨产品定义、知识工程与评估体系。重点不是“加一个聊天入口”，而是让 Agent 真正接入肌肤数据和业务流程，形成可靠的产品能力。</p>
-        </div>
+      <section className="mm-work-section">
+        <div className="mm-section-title mm-dark-title"><strong>03</strong><h2>/ WHAT I DID</h2></div>
         <div className="mm-work-grid">
-          {workItems.map(({ icon: Icon, ...item }) => (
+          {workItems.map((item) => (
             <article key={item.index}>
-              <div className="mm-work-top"><span>{item.index}</span><Icon size={30} /></div>
-              <h3>{item.title}</h3><p>{item.text}</p>
-              <div className="mm-tags">{item.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
+              <strong>{item.index}</strong><div><h3>{item.title}</h3><p>{item.text}</p><footer><span>Outcome</span>{item.outcome}</footer></div>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="mm-section mm-retrieval-section">
-        <div className="mm-section-index">04</div>
-        <div className="mm-retrieval-intro">
-          <div><p className="mm-eyebrow">RETRIEVAL IMPROVEMENT</p><h2>把“感觉更准”，<br />变成可以复现的提升。</h2></div>
-          <div className="mm-recall" aria-label="Recall at 3 从 73% 提升至 90%"><small>RECALL@3</small><strong>73<span>%</span></strong><ArrowRight /><strong>90<span>%</span></strong><p>+17 percentage points</p></div>
+      <section className="mm-retrieval">
+        <div className="mm-retrieval-top">
+          <div className="mm-recall-block">
+            <div className="mm-section-title"><strong>04</strong><h2>/ RETRIEVAL IMPROVEMENT</h2></div>
+            <p>Recall@3</p>
+            <div className="mm-recall-numbers"><strong>73%</strong><ArrowRight /><strong>90%</strong></div>
+            <div className="mm-recall-labels"><span>BEFORE</span><span>AFTER</span></div>
+          </div>
+          <div className="mm-process">
+            <p>IMPROVEMENT PROCESS</p>
+            <div className="mm-step-row">
+              {steps.map(({ icon: Icon, ...step }, index) => (
+                <div className="mm-step-pair" key={step.index}>
+                  <article><span>{step.index}</span><Icon /><h3>{step.title}</h3><p>{step.text}</p></article>
+                  {index < steps.length - 1 && <ArrowRight className="mm-step-arrow" />}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-        <p className="mm-method-note">以下为当前排版阶段的方案文案：通过分层 Golden Query、意图补全、混合召回、元数据过滤与候选重排，定位每一类漏召原因，并让每次调整都能稳定回归。</p>
-        <div className="mm-step-grid">
-          {retrievalSteps.map(({ icon: Icon, ...step }) => <article key={step.number}><span>{step.number}</span><Icon size={25} /><h3>{step.title}</h3><p>{step.text}</p></article>)}
-        </div>
-        <div className="mm-eval-panel">
-          <div className="mm-eval-copy"><p className="mm-eyebrow">BEFORE / AFTER</p><h3>从统一检索，转向面向场景的检索策略。</h3><p>不只观察总分，还按肌肤问题、成分咨询、护理建议和报告解读拆分评测，避免平均值掩盖关键场景的失败。</p></div>
-          <div className="mm-bars" aria-label="检索效果对比示意">
-            <div><span>BASELINE</span><i><b style={{ width: "73%" }} /></i><strong>73%</strong></div>
-            <div><span>OPTIMIZED</span><i><b style={{ width: "90%" }} /></i><strong>90%</strong></div>
+        <div className="mm-evidence">
+          <div className="mm-chart">
+            <p>RECALL@3 OVER TIME</p>
+            <div className="mm-chart-box">
+              <i className="mm-chart-line mm-chart-before" /><i className="mm-chart-line mm-chart-after" />
+              <span>DEC</span><span>JAN</span><span>FEB</span><span>MAR</span><span>APR</span><span>MAY</span>
+            </div>
+          </div>
+          <div className="mm-table-wrap">
+            <p>BEFORE / AFTER COMPARISON</p>
+            <table><thead><tr><th>Metric</th><th>Before</th><th>After</th><th>Gain</th></tr></thead><tbody>
+              <tr><td>Recall@3</td><td>73%</td><td>90%</td><td>+17pp</td></tr>
+              <tr><td>MRR@10</td><td>61%</td><td>77%</td><td>+16pp</td></tr>
+              <tr><td>NDCG@10</td><td>65%</td><td>82%</td><td>+17pp</td></tr>
+              <tr><td>Answer Hit Rate</td><td>68%</td><td>87%</td><td>+19pp</td></tr>
+            </tbody></table>
           </div>
         </div>
       </section>
 
-      <section className="mm-section mm-outcome-section">
-        <div className="mm-section-index">05</div>
-        <p className="mm-eyebrow">OUTCOME & REFLECTION</p>
-        <div className="mm-outcome-heading"><h2>产品、知识与评估，<br />最终要指向同一种信任。</h2><p>这次实践让我更确信：AI 产品的核心体验不仅来自生成质量，也来自数据来源、过程解释、交互反馈与边界设计共同形成的可信感。</p></div>
-        <div className="mm-metric-grid">
-          <article><strong>+17<small>PP</small></strong><span>Recall@3 阶段提升</span></article>
-          <article><strong>3<small>层</small></strong><span>设备 · 小程序 · Agent</span></article>
-          <article><strong>1<small>套</small></strong><span>可持续评估闭环</span></article>
+      <section className="mm-outcome">
+        <div className="mm-outcome-main">
+          <div className="mm-section-title"><strong>05</strong><h2>/ OUTCOME</h2></div>
+          <div className="mm-metrics">
+            <article><span>◎</span><strong>+17<small>pp</small></strong><p>RECALL@3 IMPROVEMENT</p></article>
+            <article><span>◉</span><strong>3<small>层</small></strong><p>DEVICE · APP · AGENT</p></article>
+            <article><span>◇</span><strong>1<small>套</small></strong><p>EVALUATION LOOP</p></article>
+          </div>
         </div>
-        <div className="mm-learnings">
-          <article><span>01</span><h3>先定义“什么是好回答”</h3><p>没有可操作的评价标准，模型优化很容易变成对个别案例的反复调参。</p></article>
-          <article><span>02</span><h3>知识工程也是产品设计</h3><p>来源、切片、标签和版本管理会直接影响用户感知到的专业度与一致性。</p></article>
-          <article><span>03</span><h3>AI 必须进入完整任务流</h3><p>Agent 的价值不在于能聊，而在于能承接数据、理解场景并推动下一步行动。</p></article>
-        </div>
+        <aside><h3>LESSONS LEARNED</h3><ul><li>高质量知识与评估体系是可靠 AI 产品的基础。</li><li>检索质量会直接影响用户信任与产品体验。</li><li>真实使用数据才能驱动可衡量的持续迭代。</li></ul></aside>
       </section>
 
-      <footer className="mm-footer">
-        <a href="/#projects" className="mm-footer-back"><ArrowLeft /> ALL PROJECTS</a>
-        <a href="/projects/star-travel" className="mm-footer-next"><span>NEXT CASE STUDY · 02</span><strong>星旅</strong><em>广州省心购科技 <ArrowUpRight /></em></a>
-      </footer>
+      <a href="/projects/star-travel" className="mm-next-project"><span>NEXT / STAR TRAVEL</span><ArrowUpRight /></a>
     </main>
   );
 }
