@@ -58,8 +58,8 @@ void main(){
 }`;
 
 export default function SoftAurora({
-  speed=.32, scale=1.35, brightness=.52, color1="#668cff", color2="#d28ba5",
-  noiseFrequency=2.2, noiseAmplitude=.9, bandHeight=.52, bandSpread=.9, octaveDecay=.12,
+  speed=.36, scale=1.25, brightness=.9, color1="#6f95ff", color2="#e293bc",
+  noiseFrequency=2.05, noiseAmplitude=1.05, bandHeight=.52, bandSpread=1.08, octaveDecay=.14,
   layerOffset=.3, colorSpeed=.7, enableMouseInteraction=true, mouseInfluence=.1,
 }: SoftAuroraProps) {
   const containerRef = useRef<HTMLDivElement>(null);
