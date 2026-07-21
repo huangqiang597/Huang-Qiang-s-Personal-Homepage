@@ -28,6 +28,8 @@ test("server-renders the interactive AI product manager portfolio", async () => 
   assert.match(html, /I am the future/i);
   assert.match(html, /contact-fuzzy-canvas/i);
   assert.match(html, /future-reveal/i);
+  assert.match(html, /17750290736/);
+  assert.match(html, /HUANGayo-/);
   assert.match(html, /魔镜 on run/);
   assert.match(html, /\/projects\/magic-mirror/);
   assert.match(html, /\/projects\/star-travel/);

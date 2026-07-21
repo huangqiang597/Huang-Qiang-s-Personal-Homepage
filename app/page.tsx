@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
-import { ArrowUpRight, Mail } from "lucide-react";
+import { ArrowUpRight, Mail, MessageCircle, Phone } from "lucide-react";
 import {
   motion,
   useScroll,
@@ -256,9 +256,17 @@ function ContactSection() {
         <strong>I am the future</strong>
       </div>
 
-      <a className="contact-mail" href="mailto:amcdihq@163.com">
-        <Mail size={22} /> amcdihq@163.com <ArrowUpRight size={22} />
-      </a>
+      <div className="contact-channels" aria-label="联系方式">
+        <a href="mailto:amcdihq@163.com">
+          <i><Mail /></i><span><small>EMAIL</small><strong>amcdihq@163.com</strong></span><ArrowUpRight className="contact-channel-arrow" />
+        </a>
+        <a href="tel:+8617750290736">
+          <i><Phone /></i><span><small>PHONE</small><strong>17750290736</strong></span><ArrowUpRight className="contact-channel-arrow" />
+        </a>
+        <div>
+          <i><MessageCircle /></i><span><small>WECHAT</small><strong>HUANGayo-</strong></span>
+        </div>
+      </div>
       <div className="contact-footer-row">
         <span>HUANG QIANG · AI PRODUCT MANAGER</span>
         <span>WECHAT · HUANGayo-</span>
