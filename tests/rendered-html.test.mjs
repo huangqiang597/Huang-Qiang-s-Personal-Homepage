@@ -55,6 +55,9 @@ test("server-renders the Magic Mirror case study", async () => {
   assert.match(html, /90/);
   assert.match(html, /magic-mirror-ui-home\.jpg/);
   assert.match(html, /magic-mirror-ui-report\.jpg/);
+  assert.match(html, /mm-aurora-background/);
+  assert.match(html, /border-glow-card/);
+  assert.doesNotMatch(html, /mm-next-project/);
 });
 
 test("server-renders the transparent interactive avatar foreground", async () => {

@@ -2,12 +2,14 @@
 
 import { lazy, Suspense } from "react";
 import {
-  ArrowLeft, ArrowRight, ArrowUpRight, BrainCircuit, Camera,
+  ArrowLeft, ArrowRight, BrainCircuit, Camera,
   Database, FlaskConical, Search, SlidersHorizontal, Smartphone, Sparkles,
 } from "lucide-react";
+import BorderGlow from "./BorderGlow";
 import "./MagicMirrorCaseStudy.css";
 
 const MagicRings = lazy(() => import("./MagicRings"));
+const SoftAurora = lazy(() => import("./SoftAurora"));
 
 const uiScreens = [
   { src: "/media/magic-mirror-ui-home.jpg", number: "01", title: "首页 / 检测", note: "连接设备，查看当日肌肤状态" },
@@ -32,6 +34,7 @@ const steps = [
 export default function MagicMirrorCaseStudy() {
   return (
     <main className="mm-case">
+      <div className="mm-aurora-background"><Suspense fallback={null}><SoftAurora /></Suspense></div>
       <section className="mm-hero" aria-labelledby="mm-title">
         <header className="mm-topbar">
           <a href="/#projects"><ArrowLeft /> 返回首页</a>
@@ -87,9 +90,9 @@ export default function MagicMirrorCaseStudy() {
         <div className="mm-section-title mm-dark-title"><strong>03</strong><h2>/ 我的工作</h2></div>
         <div className="mm-work-grid">
           {workItems.map((item) => (
-            <article key={item.index}>
-              <strong>{item.index}</strong><div><h3>{item.title}</h3><p>{item.text}</p><footer><span>工作产出</span>{item.outcome}</footer></div>
-            </article>
+            <BorderGlow key={item.index} className="mm-work-glow" backgroundColor="#0e131b" borderRadius={7} glowRadius={26} colors={["#719dff", "#d58ba9", "#8c82ff"]}>
+              <article><strong>{item.index}</strong><div><h3>{item.title}</h3><p>{item.text}</p><footer><span>工作产出</span>{item.outcome}</footer></div></article>
+            </BorderGlow>
           ))}
         </div>
       </section>
@@ -107,7 +110,9 @@ export default function MagicMirrorCaseStudy() {
             <div className="mm-step-row">
               {steps.map(({ icon: Icon, ...step }, index) => (
                 <div className="mm-step-pair" key={step.index}>
-                  <article><span>{step.index}</span><Icon /><h3>{step.title}</h3><p>{step.text}</p></article>
+                  <BorderGlow className="mm-step-glow" backgroundColor="#0d1219" borderRadius={5} glowRadius={20} glowIntensity={.55} colors={["#6e9cff", "#d58ca9", "#8b7fff"]}>
+                    <article><span>{step.index}</span><Icon /><h3>{step.title}</h3><p>{step.text}</p></article>
+                  </BorderGlow>
                   {index < steps.length - 1 && <ArrowRight className="mm-step-arrow" />}
                 </div>
               ))}
@@ -146,7 +151,6 @@ export default function MagicMirrorCaseStudy() {
         <aside><h3>项目复盘</h3><ul><li>高质量知识与评估体系是可靠 AI 产品的基础。</li><li>检索质量会直接影响用户信任与产品体验。</li><li>真实使用数据才能驱动可衡量的持续迭代。</li></ul></aside>
       </section>
 
-      <a href="/projects/star-travel" className="mm-next-project"><span>下一个项目 / 星旅</span><ArrowUpRight /></a>
     </main>
   );
 }
