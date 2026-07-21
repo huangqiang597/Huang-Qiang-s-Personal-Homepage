@@ -49,8 +49,8 @@ test("server-renders the Magic Mirror case study", async () => {
   assert.equal(response.status, 200);
   const html = await response.text();
   assert.match(html, /MAGIC MIRROR/);
-  assert.match(html, /PROJECT BACKGROUND/);
-  assert.match(html, /RECALL@3/);
+  assert.match(html, /项目背景/);
+  assert.match(html, /Recall@3/);
   assert.match(html, /73/);
   assert.match(html, /90/);
   assert.match(html, /magic-mirror-ui-home\.jpg/);
