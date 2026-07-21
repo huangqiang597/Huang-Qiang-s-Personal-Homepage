@@ -1,15 +1,13 @@
 "use client";
 
-import { lazy, PointerEvent as ReactPointerEvent, Suspense, useRef } from "react";
+import { PointerEvent as ReactPointerEvent, useRef } from "react";
 import {
-  ArrowLeft, ArrowRight, BrainCircuit, Camera,
-  Database, FlaskConical, Search, SlidersHorizontal, Smartphone, Sparkles,
+  Activity, ArrowLeft, ArrowRight, BarChart3, BrainCircuit, Camera,
+  CircleGauge, Database, FlaskConical, Layers3, Network, ShieldAlert,
+  Smartphone, Sparkles, UserRound,
 } from "lucide-react";
 import BorderGlow from "./BorderGlow";
 import "./MagicMirrorCaseStudy.css";
-
-const MagicRings = lazy(() => import("./MagicRings"));
-const SoftAurora = lazy(() => import("./SoftAurora"));
 
 const uiScreens = [
   { src: "/media/magic-mirror-ui-entry.jpg", number: "01", title: "进入页面", note: "建立品牌认知并引导进入服务" },
@@ -21,16 +19,50 @@ const uiScreens = [
 ];
 
 const workItems = [
-  { index: "01", title: "RAG 与专业知识体系", text: "搭建护肤知识库结构、知识源分级、切片与检索策略，形成可追溯、可持续更新的专业知识底座。", outcome: "Recall@3 从 73% 提升至 90%" },
-  { index: "02", title: "模型分层与评测迭代", text: "按任务复杂度设计模型分层路由，建立黄金问题集、离线评测与问题案例回归机制。", outcome: "兼顾效果、成本与稳定性" },
-  { index: "03", title: "自动化与数据闭环", text: "打通数据采集、质量评测、反馈回流与看板追踪，让真实使用数据持续推动产品和模型迭代。", outcome: "从发现问题到验证修复形成闭环" },
+  {
+    index: "01",
+    title: "RAG 与专业知识体系",
+    text: "参照临床诊断路径搭建「问题定位→生理层级→内外因归因→方案推导」护肤知识库（7大问题类×9层生理结构×7大成分功能族）；通过查询改写、Top-K 重排，使标注的60条 Golden Query 的 Recall@3 由73%提升至90%、有据回答率68%→88%，平均上下文 Token 下降37%。",
+    stats: ["7×9×7 知识体系", "Recall@3 73%→90%", "Token -37%"],
+  },
+  {
+    index: "02",
+    title: "模型分层与评测迭代",
+    text: "从效果、时延、稳定性、成本四维评估 Kimi、Seed、GPT 等模型，制定 Pro/Lite 分层路由；设计27组新手期场景评测集与6维加权评分卡（含6条P0红线），经阶段化 Prompt 与 Bad Case 迭代，意图触发准确率73%→89%、核心路径 pass@1 67%→85%、pass³ 41%→70%。",
+    stats: ["27组场景评测", "意图 73%→89%", "pass³ 41%→70%"],
+  },
+  {
+    index: "03",
+    title: "自动化与数据闭环",
+    text: "Vibe Coding 搭建场景化自动化测试工具，支持多轮回归复测；设计硬件/软件/Agent 三生命周期的12张 DWD 表、400+字段埋点与内测看板，沉淀自动化评测等5+个 Skills，支撑50名种子用户内测与数据回收。",
+    stats: ["12张 DWD 表", "400+ 字段埋点", "50名种子用户"],
+  },
 ];
 
-const steps = [
-  { index: "1", icon: Search, title: "查询改写", text: "扩展口语表达并补全用户意图" },
-  { index: "2", icon: Database, title: "混合召回", text: "融合向量与 BM25 扩大召回范围" },
-  { index: "3", icon: SlidersHorizontal, title: "候选重排", text: "按照相关性与可信度二次排序" },
-  { index: "4", icon: Sparkles, title: "黄金评测集", text: "沉淀高质量题集并持续回归" },
+const knowledgeSteps = [
+  { icon: CircleGauge, title: "问题定位", note: "症状识别 · 证据采集", meta: "7 大问题类" },
+  { icon: Layers3, title: "生理层级", note: "真皮层 · 表皮层", meta: "9 层生理结构" },
+  { icon: Network, title: "内外因归因", note: "内因 / 外因交叉分析", meta: "动态因果映射" },
+  { icon: FlaskConical, title: "方案推导", note: "成分策略 · 护理建议", meta: "7 大成分功能族" },
+];
+
+const loopSteps = [
+  { index: "1", title: "用户触发", text: "拍照、提问、查报告、记反馈", icon: UserRound },
+  { index: "2", title: "会话与证据接入", text: "识别意图并汇集历史与环境信息", icon: BrainCircuit },
+  { index: "3", title: "输入处理", text: "图像快模型与结构化证据链", icon: Camera },
+  { index: "4", title: "诊断层", text: "形成并验证工作性判断", icon: Activity },
+  { index: "5", title: "方案生成", text: "策略筛选、产品编排与结构化输出", icon: Sparkles },
+  { index: "6", title: "长期反馈闭环", text: "保存证据并进行下一轮诊断比较", icon: Database },
+];
+
+const scoreDimensions = [
+  ["效果", "30%"], ["时延", "20%"], ["安全性", "15%"],
+  ["成本", "10%"], ["稳定性", "15%"], ["可用性", "10%"],
+];
+
+const redLines = [
+  "禁止虚构成分宣称", "禁止功效绝对化表述", "禁止健康人群误导",
+  "禁止医疗诊断替代", "禁止用户隐私泄露", "禁止不合规内容输出",
 ];
 
 export default function MagicMirrorCaseStudy() {
@@ -44,13 +76,13 @@ export default function MagicMirrorCaseStudy() {
 
   return (
     <main ref={pageRef} onPointerMove={handlePointerMove} className="mm-case">
-      <div className="mm-aurora-background"><Suspense fallback={null}><SoftAurora /></Suspense></div>
+      <div className="mm-aurora-background" aria-hidden="true" />
       <section className="mm-hero" aria-labelledby="mm-title">
         <header className="mm-topbar">
           <a href="/#projects"><ArrowLeft /> 返回首页</a>
           <a href="/projects/star-travel">下一个项目 <ArrowRight /></a>
         </header>
-        <div className="mm-rings"><Suspense fallback={null}><MagicRings opacity={0.22} speed={0.22} mouseInfluence={0.05} /></Suspense></div>
+        <div className="mm-rings mm-rings-css" aria-hidden="true"><i /><i /><i /></div>
         <div className="mm-hero-copy">
           <p>01 / 智能体产品</p>
           <h1 id="mm-title">MAGIC MIRROR<br />ON RUN</h1>
@@ -103,64 +135,114 @@ export default function MagicMirrorCaseStudy() {
         <div className="mm-work-grid">
           {workItems.map((item) => (
             <BorderGlow key={item.index} className="mm-work-glow" backgroundColor="#0e131b" borderRadius={22} glowRadius={30} colors={["#719dff", "#d58ba9", "#8c82ff"]}>
-              <article><div className="mm-work-number"><span>MODULE</span><strong>{item.index}</strong></div><div className="mm-work-copy"><h3>{item.title}</h3><p>{item.text}</p><footer><span>关键结果</span>{item.outcome}</footer></div></article>
+              <article>
+                <div className="mm-work-heading">
+                  <div className="mm-work-number"><span>MODULE</span><strong>{item.index}</strong></div>
+                  <h3>{item.title}</h3>
+                </div>
+                <p>{item.text}</p>
+                <footer>{item.stats.map((stat) => <span key={stat}>{stat}</span>)}</footer>
+              </article>
             </BorderGlow>
           ))}
         </div>
       </section>
 
-      <section className="mm-retrieval">
-        <div className="mm-retrieval-top">
-          <div className="mm-recall-block">
-            <div className="mm-section-title"><strong>04</strong><h2>/ 检索效果提升</h2></div>
-            <p>前三条召回率 Recall@3</p>
-            <div className="mm-recall-numbers"><strong>73%</strong><ArrowRight /><strong>90%</strong></div>
-            <div className="mm-recall-labels"><span>优化前</span><span>优化后</span></div>
-          </div>
-          <div className="mm-process">
-            <p>优化过程</p>
-            <div className="mm-step-row">
-              {steps.map(({ icon: Icon, ...step }, index) => (
-                <div className="mm-step-pair" key={step.index}>
-                  <BorderGlow className="mm-step-glow" backgroundColor="#0d1219" borderRadius={5} glowRadius={20} glowIntensity={.55} colors={["#6e9cff", "#d58ca9", "#8b7fff"]}>
-                    <article><span>{step.index}</span><Icon /><h3>{step.title}</h3><p>{step.text}</p></article>
-                  </BorderGlow>
-                  {index < steps.length - 1 && <ArrowRight className="mm-step-arrow" />}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className="mm-evidence">
-          <div className="mm-chart">
-            <p>前三条召回率变化趋势</p>
-            <div className="mm-chart-box">
-              <i className="mm-chart-line mm-chart-before" /><i className="mm-chart-line mm-chart-after" />
-              <span>12月</span><span>1月</span><span>2月</span><span>3月</span><span>4月</span><span>5月</span>
-            </div>
-          </div>
-          <div className="mm-table-wrap">
-            <p>优化前后对比</p>
-            <table><thead><tr><th>评估指标</th><th>优化前</th><th>优化后</th><th>提升幅度</th></tr></thead><tbody>
-              <tr><td>前三条召回率</td><td>73%</td><td>90%</td><td>+17 个百分点</td></tr>
-              <tr><td>平均倒数排名</td><td>61%</td><td>77%</td><td>+16 个百分点</td></tr>
-              <tr><td>归一化排序质量</td><td>65%</td><td>82%</td><td>+17 个百分点</td></tr>
-              <tr><td>答案命中率</td><td>68%</td><td>87%</td><td>+19 个百分点</td></tr>
-            </tbody></table>
-          </div>
-        </div>
-      </section>
+      <section className="mm-results-section">
+        <header className="mm-results-heading">
+          <div className="mm-section-title mm-dark-title"><strong>04</strong><h2>/ 成果图谱</h2></div>
+          <p>从知识到智能，从评测到数据，把复杂系统变成清晰、可验证的产品能力。</p>
+        </header>
 
-      <section className="mm-outcome">
-        <div className="mm-outcome-main">
-          <div className="mm-section-title"><strong>05</strong><h2>/ 项目成果</h2></div>
-          <div className="mm-metrics">
-            <article><span>◎</span><strong>+17<small>个百分点</small></strong><p>Recall@3 阶段提升</p></article>
-            <article><span>◉</span><strong>3<small>层</small></strong><p>设备 · 小程序 · 智能体</p></article>
-            <article><span>◇</span><strong>1<small>套</small></strong><p>可持续评估闭环</p></article>
-          </div>
+        <div className="mm-results-grid">
+          <BorderGlow className="mm-result-card mm-knowledge-card" backgroundColor="#0b1018" borderRadius={24} glowRadius={36} glowIntensity={.78} colors={["#5ca8ff", "#d97fb2", "#8775ff"]}>
+            <article>
+              <header className="mm-result-card-heading">
+                <span>成果 01</span>
+                <div><h3>专业护肤知识体系</h3><p>一条从症状证据到可执行方案的临床式推导路径</p></div>
+              </header>
+              <div className="mm-knowledge-flow">
+                {knowledgeSteps.map(({ icon: Icon, ...step }, index) => (
+                  <div className="mm-knowledge-step-wrap" key={step.title}>
+                    <div className="mm-knowledge-step">
+                      <i><Icon /></i><strong>{step.title}</strong><small>{step.note}</small><b>{step.meta}</b>
+                    </div>
+                    {index < knowledgeSteps.length - 1 && <ArrowRight />}
+                  </div>
+                ))}
+              </div>
+              <div className="mm-knowledge-matrix"><strong>7</strong><span>大问题类</span><i>×</i><strong>9</strong><span>层生理结构</span><i>×</i><strong>7</strong><span>大成分功能族</span></div>
+            </article>
+          </BorderGlow>
+
+          <BorderGlow className="mm-result-card mm-loop-card" backgroundColor="#0b1018" borderRadius={24} glowRadius={36} glowIntensity={.78} colors={["#e17fb2", "#6b9eff", "#8d78ff"]}>
+            <article>
+              <header className="mm-result-card-heading">
+                <span>成果 02</span>
+                <div><h3>自研 Agent Loop 框架</h3><p>让证据、判断、行动和反馈在同一条链路里持续生长</p></div>
+              </header>
+              <div className="mm-loop-visual">
+                <div className="mm-loop-ring" />
+                <div className="mm-loop-center"><b>∞</b><span>AGENT LOOP</span></div>
+                {loopSteps.map(({ icon: Icon, ...step }) => (
+                  <div className={`mm-loop-node mm-loop-node-${step.index}`} key={step.index}>
+                    <i><Icon /></i><div><b>{step.index}</b><strong>{step.title}</strong><small>{step.text}</small></div>
+                  </div>
+                ))}
+              </div>
+            </article>
+          </BorderGlow>
+
+          <BorderGlow className="mm-result-card mm-evaluation-card" backgroundColor="#0b1018" borderRadius={24} glowRadius={36} glowIntensity={.75} colors={["#6b9eff", "#d97fb2", "#8d78ff"]}>
+            <article>
+              <header className="mm-result-card-heading">
+                <span>成果 03</span>
+                <div><h3>专业性评估指标</h3><p>把“感觉更好”变成可以复测、可以比较、可以决策的标准</p></div>
+              </header>
+              <div className="mm-evaluation-grid">
+                <div className="mm-eval-panel mm-radar-panel">
+                  <h4>四维模型评估</h4>
+                  <div className="mm-radar"><i /><i /><i /><span>效果</span><span>时延</span><span>稳定性</span><span>成本</span></div>
+                  <footer><span><i />Pro 路由</span><span><i />Lite 路由</span></footer>
+                </div>
+                <div className="mm-eval-panel mm-routing-panel">
+                  <h4>分层路由策略</h4>
+                  <div><b>Pro 路由</b><span>复杂场景 / 高风险 / 深度分析</span></div>
+                  <i><BrainCircuit /></i>
+                  <div><b>Lite 路由</b><span>常规场景 / 轻量 / 低成本</span></div>
+                </div>
+                <div className="mm-eval-panel mm-delta-panel">
+                  <h4>关键指标跃迁</h4>
+                  <p><span>意图触发准确率</span><b>73%</b><ArrowRight /><strong>89%</strong><em>+16pp</em></p>
+                  <p><span>核心路径 pass@1</span><b>67%</b><ArrowRight /><strong>85%</strong><em>+18pp</em></p>
+                  <p><span>核心路径 pass³</span><b>41%</b><ArrowRight /><strong>70%</strong><em>+29pp</em></p>
+                </div>
+                <div className="mm-eval-panel mm-score-panel">
+                  <h4>6 维加权评分卡</h4>
+                  <div>{scoreDimensions.map(([label, score]) => <span key={label}><b>{label}</b><small>{score}</small></span>)}</div>
+                </div>
+                <div className="mm-eval-panel mm-redline-panel">
+                  <h4><ShieldAlert /> 6 条 P0 红线</h4>
+                  <ul>{redLines.map((line) => <li key={line}><span>!</span>{line}</li>)}</ul>
+                </div>
+              </div>
+            </article>
+          </BorderGlow>
+
+          <BorderGlow className="mm-result-card mm-dashboard-card" backgroundColor="#0b1018" borderRadius={24} glowRadius={40} glowIntensity={.9} colors={["#61a4ff", "#e27caf", "#8878ff"]}>
+            <article>
+              <header className="mm-result-card-heading">
+                <span>成果 04</span>
+                <div><h3>魔镜数据台</h3><p>从硬件、软件到 Agent 的三生命周期数据回收与内测观测</p></div>
+              </header>
+              <div className="mm-dashboard-browser">
+                <div className="mm-browser-bar"><i /><i /><i /><span>MOJING INSIGHTS · AGENT ANALYTICS</span></div>
+                <img src="/media/magic-mirror-dashboard.png" alt="魔镜数据台 Agent 工具使用与用户洞察看板" loading="lazy" />
+              </div>
+            </article>
+          </BorderGlow>
         </div>
-        <aside><h3>项目复盘</h3><ul><li>高质量知识与评估体系是可靠 AI 产品的基础。</li><li>检索质量会直接影响用户信任与产品体验。</li><li>真实使用数据才能驱动可衡量的持续迭代。</li></ul></aside>
+        <footer className="mm-results-footer"><Sparkles /><span>知识让我们理解世界，数据让我们持续进化。</span></footer>
       </section>
 
     </main>
