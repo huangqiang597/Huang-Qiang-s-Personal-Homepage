@@ -27,17 +27,17 @@ function ContactSection() {
       <ViewportFerrofluid
         className="contact-ferrofluid"
         colors={CONTACT_FLUID_COLORS}
-        speed={.18}
-        scale={2.15}
-        turbulence={.72}
+        speed={.22}
+        scale={1.95}
+        turbulence={.84}
         fluidity={.18}
-        rimWidth={.16}
-        sharpness={3.6}
-        shimmer={.55}
-        glow={1.4}
+        rimWidth={.22}
+        sharpness={3.8}
+        shimmer={.82}
+        glow={2.05}
         flowDirection="down"
-        opacity={.22}
-        mouseStrength={.72}
+        opacity={.42}
+        mouseStrength={.82}
         mouseRadius={.28}
         dpr={.72}
         mixBlendMode="screen"

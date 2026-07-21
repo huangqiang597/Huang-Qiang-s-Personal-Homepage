@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 async function render(pathname = "/") {
@@ -27,8 +28,16 @@ test("server-renders the interactive AI product manager portfolio", async () => 
   assert.match(html, /HOBBIES/i);
   assert.match(html, /HONORS/i);
   assert.match(html, /OTHER SKILLS/i);
-  assert.match(html, /2.2万粉丝/);
-  assert.equal((html.match(/class="folder open"/g) ?? []).length, 3);
+  assert.match(html, /LIFE FRAMES/i);
+  assert.match(html, /RESEARCH/i);
+  assert.match(html, /个人照片/);
+  assert.match(html, /科研经历/);
+  assert.match(html, /2\.2\s*万粉丝/);
+  assert.equal((html.match(/class="folder open"/g) ?? []).length, 5);
+  assert.match(html, /查看全部/);
+  assert.equal((html.match(/class="side-folder-open"/g) ?? []).length, 5);
+  assert.doesNotMatch(html, /side-profile-card/);
+  assert.doesNotMatch(html, /side-filmstrip/);
   assert.doesNotMatch(html, /marquee-section/);
   assert.doesNotMatch(html, /creator-about/);
   assert.doesNotMatch(html, /class="capabilities"/);
@@ -42,6 +51,20 @@ test("server-renders the interactive AI product manager portfolio", async () => 
   assert.match(html, /\/projects\/magic-mirror/);
   assert.match(html, /\/projects\/star-travel/);
   assert.match(html, /\/projects\/huimu-yinghai/);
+});
+
+test("side quest archives include every supplied asset", async () => {
+  const source = await readFile(new URL("../app/components/SideQuests.tsx", import.meta.url), "utf8");
+  assert.match(source, /research-05\.png/);
+  assert.match(source, /photo-09\.jpg/);
+  assert.match(source, /life-06\.jpg/);
+  assert.match(source, /honor-06\.png/);
+  assert.match(source, /羽毛球/);
+  assert.match(source, /爬山/);
+  assert.equal((source.match(/\/media\/personal\/photo-/g) ?? []).length, 9);
+  assert.equal((source.match(/\/media\/personal\/life-/g) ?? []).length, 6);
+  assert.equal((source.match(/\/media\/personal\/honor-/g) ?? []).length, 6);
+  assert.equal((source.match(/\/media\/personal\/research-/g) ?? []).length, 5);
 });
 
 test("server-renders project routes", async () => {
