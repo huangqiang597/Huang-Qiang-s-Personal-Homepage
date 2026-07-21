@@ -19,6 +19,11 @@ type FolderVariables = CSSProperties & {
 type PaperVariables = CSSProperties & {
   "--magnet-x"?: string;
   "--magnet-y"?: string;
+  "--fan-x"?: string;
+  "--fan-y"?: string;
+  "--fan-rotate"?: string;
+  "--paper-width"?: string;
+  "--paper-z"?: number;
 };
 
 function darkenColor(hex: string, percent: number) {
@@ -32,8 +37,7 @@ function darkenColor(hex: string, percent: number) {
 }
 
 export default function Folder({ color = "#5227FF", items = [], className = "", defaultOpen = true, label }: FolderProps) {
-  const papers = [...items.slice(0, 3)];
-  while (papers.length < 3) papers.push(null);
+  const papers = [...items];
   const [open, setOpen] = useState(defaultOpen);
   const [paperOffsets, setPaperOffsets] = useState(() => papers.map(() => ({ x: 0, y: 0 })));
   const folderStyle: FolderVariables = {
@@ -77,10 +81,22 @@ export default function Folder({ color = "#5227FF", items = [], className = "", 
       >
         <div className="folder__back">
           {papers.map((item, index) => {
-            const paperStyle: PaperVariables = open ? {
+            const center = (papers.length - 1) / 2;
+            const distance = index - center;
+            const normalized = center === 0 ? 0 : distance / center;
+            const fanStep = papers.length <= 3 ? 44 : papers.length <= 6 ? 27 : 19;
+            const paperWidth = papers.length <= 3 ? 58 : papers.length <= 6 ? 49 : 42;
+            const paperStyle: PaperVariables = {
+              "--fan-x": `${distance * fanStep}%`,
+              "--fan-y": `${-116 + Math.abs(normalized) * 34}%`,
+              "--fan-rotate": `${normalized * 11}deg`,
+              "--paper-width": `${paperWidth}%`,
+              "--paper-z": index + 2,
+              ...(open ? {
               "--magnet-x": `${paperOffsets[index]?.x || 0}px`,
               "--magnet-y": `${paperOffsets[index]?.y || 0}px`,
-            } : {};
+              } : {}),
+            };
             return (
               <div
                 className={`folder-paper folder-paper-${index + 1}`}

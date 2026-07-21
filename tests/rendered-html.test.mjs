@@ -34,10 +34,15 @@ test("server-renders the interactive AI product manager portfolio", async () => 
   assert.match(html, /科研经历/);
   assert.match(html, /2\.2\s*万粉丝/);
   assert.equal((html.match(/class="folder open"/g) ?? []).length, 5);
+  assert.equal((html.match(/class="folder-paper /g) ?? []).length, 32);
   assert.match(html, /查看全部/);
   assert.equal((html.match(/class="side-folder-open"/g) ?? []).length, 5);
   assert.doesNotMatch(html, /side-profile-card/);
   assert.doesNotMatch(html, /side-filmstrip/);
+  assert.match(html, /photo-09\.jpg/);
+  assert.match(html, /life-06\.jpg/);
+  assert.match(html, /honor-06\.png/);
+  assert.match(html, /research-05\.png/);
   assert.doesNotMatch(html, /marquee-section/);
   assert.doesNotMatch(html, /creator-about/);
   assert.doesNotMatch(html, /class="capabilities"/);

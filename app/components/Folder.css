@@ -4,14 +4,12 @@
 .folder:focus-visible { outline: 2px solid rgba(226,235,255,.9); outline-offset: 8px; border-radius: 20px; }
 .folder__back { position: relative; width: 100%; height: 100%; border-radius: 0 24px 24px 24px; background: var(--folder-back-color); }
 .folder__back::after { position: absolute; bottom: 98%; left: 0; width: 32%; height: 30px; content: ""; border-radius: 14px 14px 0 0; background: var(--folder-back-color); }
-.folder-paper { --magnet-x: 0px; --magnet-y: 0px; position: absolute; z-index: 2; left: 50%; bottom: 15%; width: 55%; height: 245px; overflow: hidden; border: 1px solid rgba(255,255,255,.72); border-radius: 12px; background: #e9e6df; box-shadow: 0 18px 35px rgba(0,0,0,.32); transform: translate(-50%, 18%); transition: transform .45s cubic-bezier(.2,.9,.18,1), height .35s ease, box-shadow .25s ease; }
-.folder-paper-2 { width: 58%; height: 260px; background: #f4f0e8; }
-.folder-paper-3 { width: 61%; height: 250px; background: #fff; }
-.folder.open .folder-paper-1 { transform: translate(calc(-94% + var(--magnet-x)), calc(-76% + var(--magnet-y))) rotate(-10deg); }
-.folder.open .folder-paper-2 { transform: translate(calc(-50% + var(--magnet-x)), calc(-101% + var(--magnet-y))) rotate(1deg); }
-.folder.open .folder-paper-3 { transform: translate(calc(-7% + var(--magnet-x)), calc(-75% + var(--magnet-y))) rotate(10deg); }
-.folder.open .folder-paper:hover { z-index: 4; box-shadow: 0 28px 48px rgba(0,0,0,.45); }
-.folder__front { position: absolute; z-index: 3; inset: 0; border-radius: 14px 24px 24px 24px; background: linear-gradient(145deg, color-mix(in srgb, var(--folder-color), white 7%), var(--folder-color) 62%, color-mix(in srgb, var(--folder-color), black 16%)); transform-origin: bottom; transition: transform .4s cubic-bezier(.2,.8,.2,1); box-shadow: inset 0 1px rgba(255,255,255,.18), 0 0 28px color-mix(in srgb, var(--folder-color), transparent 55%); }
+.folder-paper { --magnet-x: 0px; --magnet-y: 0px; position: absolute; z-index: var(--paper-z, 2); left: 50%; bottom: 15%; width: var(--paper-width, 55%); height: 245px; overflow: hidden; border: 1px solid rgba(255,255,255,.72); border-radius: 12px; background: #e9e6df; box-shadow: 0 18px 35px rgba(0,0,0,.32); transform: translate(-50%, 18%); transition: transform .45s cubic-bezier(.2,.9,.18,1), height .35s ease, box-shadow .25s ease; }
+.folder-paper:nth-child(3n + 2) { height: 260px; background: #f4f0e8; }
+.folder-paper:nth-child(3n) { height: 250px; background: #fff; }
+.folder.open .folder-paper { transform: translate(calc(-50% + var(--fan-x) + var(--magnet-x)), calc(var(--fan-y) + var(--magnet-y))) rotate(var(--fan-rotate)); }
+.folder.open .folder-paper:hover { z-index: 50; box-shadow: 0 28px 48px rgba(0,0,0,.45); }
+.folder__front { position: absolute; z-index: 40; inset: 0; border-radius: 14px 24px 24px 24px; background: linear-gradient(145deg, color-mix(in srgb, var(--folder-color), white 7%), var(--folder-color) 62%, color-mix(in srgb, var(--folder-color), black 16%)); transform-origin: bottom; transition: transform .4s cubic-bezier(.2,.8,.2,1); box-shadow: inset 0 1px rgba(255,255,255,.18), 0 0 28px color-mix(in srgb, var(--folder-color), transparent 55%); }
 .folder__front--right { clip-path: polygon(100% 0,100% 100%,50% 100%); }
 .folder:hover .folder__front, .folder.open .folder__front { transform: skew(8deg) scaleY(.86); }
 .folder:hover .folder__front--right, .folder.open .folder__front--right { transform: skew(-8deg) scaleY(.86); }

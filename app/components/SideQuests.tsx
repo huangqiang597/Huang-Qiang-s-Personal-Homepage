@@ -117,7 +117,7 @@ const research: GalleryItem[] = [
   { src: "/media/personal/research-05.png", title: "防波堤—半潜式光伏—波浪能系统", eyebrow: "INVENTION PATENT" },
 ];
 
-const makePreview = (items: GalleryItem[], prefix: string) => items.slice(0, 3).map((item, index) => (
+const makePreview = (items: GalleryItem[], prefix: string) => items.map((item, index) => (
   item.hobby
     ? <HobbyPaper key={`${prefix}-${index}`} type={item.hobby} />
     : <ImagePaper key={`${prefix}-${index}`} src={item.src!} title={item.title} eyebrow={item.eyebrow} />
