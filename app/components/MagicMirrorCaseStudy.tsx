@@ -21,9 +21,9 @@ const uiScreens = [
 ];
 
 const workItems = [
-  { index: "01", title: "产品策略与需求设计", text: "定义产品愿景、用户分层与核心价值，输出需求文档、路线图和跨团队协作方案。", outcome: "清晰的产品路线与一致执行" },
-  { index: "02", title: "RAG 专业知识系统", text: "设计护肤知识结构，搭建检索增强生成链路，并围绕准确率与覆盖率优化检索。", outcome: "可追溯、可更新的专业知识库" },
-  { index: "03", title: "评估体系与数据闭环", text: "建立离线评测集、核心指标和数据埋点，让每次迭代都有量化依据。", outcome: "稳定评估与持续数据迭代" },
+  { index: "01", title: "RAG 与专业知识体系", text: "搭建护肤知识库结构、知识源分级、切片与检索策略，形成可追溯、可持续更新的专业知识底座。", outcome: "Recall@3 从 73% 提升至 90%" },
+  { index: "02", title: "模型分层与评测迭代", text: "按任务复杂度设计模型分层路由，建立黄金问题集、离线评测与问题案例回归机制。", outcome: "兼顾效果、成本与稳定性" },
+  { index: "03", title: "自动化与数据闭环", text: "打通数据采集、质量评测、反馈回流与看板追踪，让真实使用数据持续推动产品和模型迭代。", outcome: "从发现问题到验证修复形成闭环" },
 ];
 
 const steps = [
@@ -59,27 +59,27 @@ export default function MagicMirrorCaseStudy() {
         <dl className="mm-meta">
           <div><dt>担任角色</dt><dd>AI 产品经理</dd></div>
           <div><dt>所属公司</dt><dd>厦门光辰智能</dd></div>
-          <div><dt>项目阶段</dt><dd>设计与验证</dd></div>
-          <div><dt>负责范围</dt><dd>产品策略 · AI · 数据</dd></div>
+          <div><dt>项目阶段</dt><dd>正式上线</dd></div>
+          <div><dt>负责范围</dt><dd>0-1产品上线 · 数据分析迭代</dd></div>
         </dl>
       </section>
 
       <section className="mm-background">
         <div className="mm-background-copy">
           <div className="mm-section-title"><strong>01</strong><h2>项目背景</h2></div>
-          <p>护肤用户往往难以持续记录肌肤状态，也很难在需要时获得可靠、个性化的建议。</p>
-          <p>魔镜项目是一款 AI 智能护肤镜，将硬件检测、微信小程序和智能体连接起来，为用户提供完整的肌肤洞察和可执行的护理建议。</p>
+          <p>一款面向日常护肤场景的软硬件一体化多模态 AI 产品，以智能镜端语音与视觉交互为入口，通过 Agent 统一编排肤况检测、肌肤日记、深度报告及护肤柜等能力，为用户提供持续、个性化且可执行的护肤决策。</p>
+          <blockquote>“Beauty, in its own gentle rhythm”</blockquote>
         </div>
         <div className="mm-background-system">
           <div className="mm-system-flow">
-            <article><i><Camera /></i><strong>智能设备</strong><span>获取多模态肌肤数据</span></article><ArrowRight />
-            <article><i><Smartphone /></i><strong>微信小程序</strong><span>集中报告、趋势与日常</span></article><ArrowRight />
-            <article><i><BrainCircuit /></i><strong>AI 智能体</strong><span>理解状态并给出个性建议</span></article>
+            <article><i><Camera /></i><strong>硬件智能设备</strong><span>以语音与视觉交互感知真实肤况</span></article><ArrowRight />
+            <article><i><Smartphone /></i><strong>微信小程序 / App</strong><span>承接报告、档案、日记与护肤柜</span></article><ArrowRight />
+            <article><i><BrainCircuit /></i><strong>Agent 智能体</strong><span>统一编排能力并生成个性化决策</span></article>
           </div>
           <div className="mm-problems">
-            <article><span>01</span><h3>记录分散</h3><p>数据散落在不同工具中，难以形成完整的肌肤历史。</p></article>
-            <article><span>02</span><h3>报告难懂</h3><p>专业指标缺少解释，用户无法把洞察转化为行动。</p></article>
-            <article><span>03</span><h3>建议泛化</h3><p>一次性建议无法反映个人状态与持续变化。</p></article>
+            <article><i aria-hidden="true">LOOP</i><span>01 / 核心护城河</span><h3>自研 Agent Loop</h3><p>以感知、规划、执行与反馈为主循环，把检测、档案和建议编排为连续体验。</p></article>
+            <article><i aria-hidden="true">PRO</i><span>02 / 核心护城河</span><h3>护肤专业知识体系框架与评估标准</h3><p>从知识结构、来源分级到黄金问题集，让专业性可追溯、可度量、可回归。</p></article>
+            <article><i aria-hidden="true">DATA</i><span>03 / 核心护城河</span><h3>数据飞轮体系</h3><p>让真实使用、问题案例和效果指标持续反哺产品与模型，形成越用越准的闭环。</p></article>
           </div>
         </div>
       </section>
@@ -102,8 +102,8 @@ export default function MagicMirrorCaseStudy() {
         <div className="mm-section-title mm-dark-title"><strong>03</strong><h2>/ 我的工作</h2></div>
         <div className="mm-work-grid">
           {workItems.map((item) => (
-            <BorderGlow key={item.index} className="mm-work-glow" backgroundColor="#0e131b" borderRadius={7} glowRadius={26} colors={["#719dff", "#d58ba9", "#8c82ff"]}>
-              <article><strong>{item.index}</strong><div><h3>{item.title}</h3><p>{item.text}</p><footer><span>工作产出</span>{item.outcome}</footer></div></article>
+            <BorderGlow key={item.index} className="mm-work-glow" backgroundColor="#0e131b" borderRadius={22} glowRadius={30} colors={["#719dff", "#d58ba9", "#8c82ff"]}>
+              <article><div className="mm-work-number"><span>MODULE</span><strong>{item.index}</strong></div><div className="mm-work-copy"><h3>{item.title}</h3><p>{item.text}</p><footer><span>关键结果</span>{item.outcome}</footer></div></article>
             </BorderGlow>
           ))}
         </div>

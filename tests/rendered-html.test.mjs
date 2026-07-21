@@ -50,6 +50,13 @@ test("server-renders the Magic Mirror case study", async () => {
   const html = await response.text();
   assert.match(html, /MAGIC MIRROR/);
   assert.match(html, /项目背景/);
+  assert.match(html, /正式上线/);
+  assert.match(html, /Beauty, in its own gentle rhythm/);
+  assert.match(html, /自研 Agent Loop/);
+  assert.match(html, /数据飞轮体系/);
+  assert.match(html, /RAG 与专业知识体系/);
+  assert.match(html, /模型分层与评测迭代/);
+  assert.match(html, /自动化与数据闭环/);
   assert.match(html, /Recall@3/);
   assert.match(html, /73/);
   assert.match(html, /90/);
