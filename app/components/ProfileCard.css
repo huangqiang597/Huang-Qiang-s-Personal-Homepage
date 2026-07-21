@@ -186,30 +186,34 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font: 600 9px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
-  letter-spacing: .14em;
+  font: 650 12px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .12em;
 }
 
 .pc-project-head span {
   display: grid;
-  width: 35px;
-  height: 35px;
+  width: 44px;
+  height: 44px;
   place-items: center;
   border: 1px solid rgba(255, 255, 255, .21);
   border-radius: 50%;
   color: #fff;
   background: rgba(3, 5, 9, .3);
   backdrop-filter: blur(10px);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .04em;
 }
 
 .pc-project-head small {
   color: rgba(223, 235, 246, .72);
-  font-size: 8px;
+  font-size: 10px;
+  font-weight: 600;
 }
 
 .pc-project-copy {
   right: 22px;
-  bottom: 88px;
+  bottom: 104px;
   left: 22px;
 }
 
@@ -225,11 +229,13 @@
 }
 
 .pc-project-copy p {
-  margin-top: 11px;
+  margin-top: 13px;
   color: color-mix(in srgb, var(--project-accent) 74%, white 26%);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: .12em;
+  font-size: clamp(14px, 1.02vw, 17px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: .065em;
+  text-shadow: 0 3px 16px rgba(0, 0, 0, .72);
 }
 
 .pc-project-action {
@@ -239,21 +245,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 50px;
-  padding: 8px 8px 8px 15px;
+  min-height: 60px;
+  padding: 9px 9px 9px 17px;
   border: 1px solid rgba(255, 255, 255, .13);
   border-radius: 15px;
   color: rgba(232, 240, 248, .78);
   background: rgba(8, 10, 16, .5);
   backdrop-filter: blur(18px);
-  font: 500 8px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
-  letter-spacing: .18em;
+  font: 650 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .11em;
 }
 
 .pc-project-arrow {
   display: grid;
-  width: 34px;
-  height: 34px;
+  width: 42px;
+  height: 42px;
   place-items: center;
   border-radius: 11px;
   color: #081016;
@@ -269,9 +275,19 @@
 @media (max-width: 900px) {
   .pc-card-wrapper { --card-radius: 22px; }
   .pc-project-head { top: 15px; right: 15px; left: 15px; }
-  .pc-project-copy { right: 17px; bottom: 75px; left: 17px; }
+  .pc-project-head span { width: 40px; height: 40px; font-size: 14px; }
+  .pc-project-head small { font-size: 9px; }
+  .pc-project-copy { right: 17px; bottom: 90px; left: 17px; }
   .pc-project-copy h3 { font-size: clamp(1.15rem, 3vw, 1.7rem); }
-  .pc-project-action { right: 13px; bottom: 13px; left: 13px; min-height: 44px; }
+  .pc-project-copy p { font-size: 13px; }
+  .pc-project-action {
+    right: 13px;
+    bottom: 13px;
+    left: 13px;
+    min-height: 52px;
+    font-size: 10px;
+  }
+  .pc-project-arrow { width: 36px; height: 36px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
