@@ -1,6 +1,6 @@
 "use client";
 
-import { PointerEvent as ReactPointerEvent, useRef } from "react";
+import { PointerEvent as ReactPointerEvent, useEffect, useRef, useState } from "react";
 import {
   Activity, ArrowLeft, ArrowRight, BarChart3, BrainCircuit, Camera,
   CircleGauge, Database, FlaskConical, Layers3, Network, ShieldAlert,
@@ -67,6 +67,22 @@ const redLines = [
 
 export default function MagicMirrorCaseStudy() {
   const pageRef = useRef<HTMLElement>(null);
+  const [architectureOpen, setArchitectureOpen] = useState(false);
+
+  useEffect(() => {
+    if (!architectureOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setArchitectureOpen(false);
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [architectureOpen]);
+
   const handlePointerMove = (event: ReactPointerEvent<HTMLElement>) => {
     const page = pageRef.current;
     if (!page) return;
@@ -172,6 +188,11 @@ export default function MagicMirrorCaseStudy() {
                 ))}
               </div>
               <div className="mm-knowledge-matrix"><strong>7</strong><span>大问题类</span><i>×</i><strong>9</strong><span>层生理结构</span><i>×</i><strong>7</strong><span>大成分功能族</span></div>
+              <button className="mm-architecture-thumb" type="button" onClick={() => setArchitectureOpen(true)} aria-haspopup="dialog">
+                <span className="mm-architecture-preview"><img src="/media/agent-loop-architecture.png" alt="护肤 Agent 完整业务架构图缩略图" loading="lazy" /></span>
+                <span className="mm-architecture-copy"><small>ORIGINAL MAP</small><strong>查看完整业务架构图</strong><em>点击放大 · 支持查看诊断、方案与长期反馈闭环</em></span>
+                <span className="mm-architecture-expand" aria-hidden="true">↗</span>
+              </button>
             </article>
           </BorderGlow>
 
@@ -183,6 +204,11 @@ export default function MagicMirrorCaseStudy() {
               </header>
               <div className="mm-loop-visual">
                 <div className="mm-loop-ring" />
+                <div className="mm-loop-arcs" aria-hidden="true"><i /><i /><i /><i /></div>
+                <span className="mm-loop-marker mm-loop-marker-1" aria-hidden="true">01</span>
+                <span className="mm-loop-marker mm-loop-marker-2" aria-hidden="true">✦</span>
+                <span className="mm-loop-marker mm-loop-marker-3" aria-hidden="true">03</span>
+                <span className="mm-loop-marker mm-loop-marker-4" aria-hidden="true">↺</span>
                 <div className="mm-loop-center"><b>∞</b><span>AGENT LOOP</span></div>
                 {loopSteps.map(({ icon: Icon, ...step }) => (
                   <div className={`mm-loop-node mm-loop-node-${step.index}`} key={step.index}>
@@ -244,6 +270,16 @@ export default function MagicMirrorCaseStudy() {
         </div>
         <footer className="mm-results-footer"><Sparkles /><span>知识让我们理解世界，数据让我们持续进化。</span></footer>
       </section>
+
+      {architectureOpen && (
+        <div className="mm-lightbox" role="dialog" aria-modal="true" aria-label="完整业务架构图" onClick={() => setArchitectureOpen(false)}>
+          <div className="mm-lightbox-panel" onClick={(event) => event.stopPropagation()}>
+            <header><div><span>成果 01 / 原始架构图</span><strong>护肤 Agent 完整业务架构</strong></div><button type="button" onClick={() => setArchitectureOpen(false)} aria-label="关闭大图">×</button></header>
+            <div className="mm-lightbox-scroll"><img src="/media/agent-loop-architecture.png" alt="从用户触发、证据接入、诊断、方案生成到长期反馈闭环的完整架构图" /></div>
+            <footer>滚动查看完整流程 · 按 ESC 关闭</footer>
+          </div>
+        </div>
+      )}
 
     </main>
   );
