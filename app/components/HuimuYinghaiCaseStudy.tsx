@@ -23,7 +23,6 @@ import {
   Waves,
 } from "lucide-react";
 import BorderGlow from "./BorderGlow";
-import GlitchText from "./GlitchText";
 import "./HuimuYinghaiCaseStudy.css";
 
 const pipeline = [
@@ -130,11 +129,14 @@ export default function HuimuYinghaiCaseStudy() {
 
         <div className="hy-hero-copy">
           <p>2022—2023 · HUIMU YINGHAI</p>
-          <h1 id="hy-title">
-            <GlitchText speed={1.15} enableShadows enableOnHover={false}>HUIMU YINGHAI</GlitchText>
-          </h1>
+          <h1 id="hy-title">HUIMU YINGHAI</h1>
           <div className="hy-cn-name">卉木盈海 · 草色宛墙</div>
           <h2>让工业固废，长成一条会呼吸的岸线。</h2>
+          <div className="hy-hero-thesis">
+            <small>PRODUCT THESIS</small>
+            <p>把难处理的污泥转化为植生混凝土骨料，让墙面、海岸和城市基础设施同时拥有结构能力与自然生命力。</p>
+            <div><span>固废资源化</span><span>海岸生态修复</span><span>工程规模量产</span></div>
+          </div>
         </div>
 
         <div className="hy-hero-visual">
