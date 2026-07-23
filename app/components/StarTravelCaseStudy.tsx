@@ -3,7 +3,6 @@
 import {
   CSSProperties,
   PointerEvent as ReactPointerEvent,
-  WheelEvent as ReactWheelEvent,
   useEffect,
   useMemo,
   useRef,
@@ -31,8 +30,6 @@ import {
   ShieldCheck,
   Sparkles,
   WalletCards,
-  ZoomIn,
-  ZoomOut,
 } from "lucide-react";
 import BorderGlow from "./BorderGlow";
 import "./StarTravelCaseStudy.css";
@@ -307,7 +304,6 @@ function StarLangGraph() {
   const viewportRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0.72);
   const [position, setPosition] = useState({ x: 0, y: 14 });
-  const dragRef = useRef({ active: false, x: 0, y: 0 });
 
   const fitGraph = () => {
     const viewport = viewportRef.current;
@@ -331,38 +327,6 @@ function StarLangGraph() {
     };
   }, []);
 
-  const zoomGraph = (direction: number) => {
-    setScale((current) => Math.max(0.55, Math.min(1.2, current + direction * 0.1)));
-  };
-
-  const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
-    dragRef.current = { active: true, x: event.clientX, y: event.clientY };
-    event.currentTarget.setPointerCapture(event.pointerId);
-  };
-
-  const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (!dragRef.current.active) return;
-    const dx = event.clientX - dragRef.current.x;
-    const dy = event.clientY - dragRef.current.y;
-    dragRef.current.x = event.clientX;
-    dragRef.current.y = event.clientY;
-    setPosition((current) => ({ x: current.x + dx, y: current.y + dy }));
-  };
-
-  const handlePointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
-    dragRef.current.active = false;
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-      event.currentTarget.releasePointerCapture(event.pointerId);
-    }
-  };
-
-  const handleWheel = (event: ReactWheelEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setScale((current) =>
-      Math.max(0.55, Math.min(1.2, current * (event.deltaY > 0 ? 0.93 : 1.07))),
-    );
-  };
-
   return (
     <div className="st-graph-shell">
       <header className="st-graph-toolbar">
@@ -377,28 +341,10 @@ function StarLangGraph() {
           <span className="context">上下文准备</span>
           <span className="agent">主 Agent Loop</span>
         </div>
-        <div className="st-graph-actions">
-          <button type="button" onClick={() => zoomGraph(-1)} aria-label="缩小流程图">
-            <ZoomOut />
-          </button>
-          <button type="button" onClick={fitGraph}>
-            全景
-          </button>
-          <button type="button" onClick={() => zoomGraph(1)} aria-label="放大流程图">
-            <ZoomIn />
-          </button>
-        </div>
+        <span className="st-graph-static-label">STATIC FULL MAP / 随页面滚动</span>
       </header>
 
-      <div
-        ref={viewportRef}
-        className="st-graph-viewport"
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
-        onWheel={handleWheel}
-      >
+      <div ref={viewportRef} className="st-graph-viewport">
         <div
           className="st-graph-board"
           style={{ transform: `translate(${position.x}px, ${position.y}px) scale(${scale})` }}
@@ -498,11 +444,6 @@ function StarLangGraph() {
           </div>
         </div>
       </div>
-      <footer className="st-graph-hint">
-        <span>↔ 拖动探索</span>
-        <span>滚轮缩放</span>
-        <span>悬停节点查看层级</span>
-      </footer>
     </div>
   );
 }
