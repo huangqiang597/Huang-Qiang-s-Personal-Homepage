@@ -129,7 +129,7 @@ export default function HuimuYinghaiCaseStudy() {
 
         <div className="hy-hero-copy">
           <p>03 / ECOLOGICAL MATERIAL PRODUCT</p>
-          <h1 id="hy-title">HUIMU<br />YINGHAI</h1>
+          <h1 id="hy-title" aria-label="HUIMU YINGHAI"><span>HUIMU</span><span>YINGHAI</span></h1>
           <div className="hy-cn-name">卉木盈海 · 草色宛墙</div>
           <div className="hy-hero-background-copy">
             <small>PROJECT BACKGROUND</small>
