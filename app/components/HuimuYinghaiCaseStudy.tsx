@@ -23,14 +23,15 @@ import {
   Waves,
 } from "lucide-react";
 import BorderGlow from "./BorderGlow";
+import GlitchText from "./GlitchText";
 import "./HuimuYinghaiCaseStudy.css";
 
 const pipeline = [
-  { mark: "泥", label: "市政污泥 / 海泥" },
-  { mark: "粒", label: "轻质陶粒" },
-  { mark: "孔", label: "多孔骨架" },
-  { mark: "根", label: "植物根系" },
-  { mark: "岸", label: "生态场景" },
+  { src: "/media/huimu-material-1.webp", label: "市政污泥 / 海泥", caption: "原料回收" },
+  { src: "/media/huimu-material-2.webp", label: "轻质陶粒", caption: "资源转化" },
+  { src: "/media/huimu-material-3.webp", label: "多孔骨架", caption: "结构成型" },
+  { src: "/media/huimu-material-4.webp", label: "植物根系", caption: "根系穿透" },
+  { src: "/media/huimu-material-5.webp", label: "生态岸线", caption: "场景落地" },
 ];
 
 const capabilities = [
@@ -129,8 +130,11 @@ export default function HuimuYinghaiCaseStudy() {
 
         <div className="hy-hero-copy">
           <p>2022—2023 · HUIMU YINGHAI</p>
-          <h1 id="hy-title"><span>HUIMU YINGHAI</span>卉木盈海<br />草色宛墙</h1>
-          <h2>海岸、墙面与植生混凝土开拓者</h2>
+          <h1 id="hy-title">
+            <GlitchText speed={1.15} enableShadows enableOnHover={false}>HUIMU YINGHAI</GlitchText>
+          </h1>
+          <div className="hy-cn-name">卉木盈海 · 草色宛墙</div>
+          <h2>让工业固废，长成一条会呼吸的岸线。</h2>
         </div>
 
         <div className="hy-hero-visual">
@@ -158,8 +162,11 @@ export default function HuimuYinghaiCaseStudy() {
               <header><Leaf /><div><small>PRODUCT CAPABILITY</small><h3>从固废到生态基础设施</h3></div></header>
               <div className="hy-pipeline">
                 {pipeline.map((item, index) => (
-                  <div className="hy-pipeline-pair" key={item.mark}>
-                    <div className="hy-pipeline-node"><i>{item.mark}</i><b>{item.label}</b></div>
+                  <div className="hy-pipeline-pair" key={item.label}>
+                    <div className="hy-pipeline-node">
+                      <i><img src={item.src} alt="" /></i>
+                      <b>{item.label}</b><small>{item.caption}</small>
+                    </div>
                     {index < pipeline.length - 1 && <span aria-hidden="true">→</span>}
                   </div>
                 ))}
@@ -168,9 +175,8 @@ export default function HuimuYinghaiCaseStudy() {
             <div className="hy-capabilities">
               {capabilities.map(({ icon: Icon, ...item }) => (
                 <article key={item.index}>
-                  <div><strong>{item.index}</strong><Icon /></div>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
+                  <div className="hy-capability-index"><strong>{item.index}</strong><Icon /></div>
+                  <div className="hy-capability-copy"><h3>{item.title}</h3><p>{item.text}</p></div>
                 </article>
               ))}
             </div>
@@ -214,16 +220,17 @@ export default function HuimuYinghaiCaseStudy() {
             colors={["#5aa8ff", "#62d8cf", "#817dff"]}
           >
             <aside className="hy-delivery-panel">
-              <header><small>DELIVERY LOOP</small><h3>工程交付闭环</h3><p>不止记录数据，更把现场状态转化为可判断、可追踪的质量信号。</p></header>
+              <header><small>DELIVERY LOOP</small><h3>工程交付闭环</h3><p>从一线记录到质量验收，把每次浇筑变成可判断、可预警、可追溯的数字信号。</p></header>
               <div className="hy-delivery-steps">
                 {deliverySteps.map(({ icon: Icon, ...step }) => (
                   <article key={step.index}><i><Icon /></i><div><b>{step.index} / {step.title}</b><span>{step.note}</span></div></article>
                 ))}
               </div>
-              <div className="hy-feature-title">KEY FEATURES</div>
-              <div className="hy-feature-chips">
-                <span><Camera />GPS 水印照片</span><span><Building2 />强度等级</span><span><Droplets />坍落度</span>
-                <span><Thermometer />温湿度曲线</span><span><BellRing />温差预警</span><span><Factory />批次状态</span>
+              <div className="hy-feature-block"><div className="hy-feature-title">KEY FEATURES</div>
+                <div className="hy-feature-chips">
+                  <span><Camera />GPS 水印照片</span><span><Building2 />强度等级</span><span><Droplets />坍落度</span>
+                  <span><Thermometer />温湿度曲线</span><span><BellRing />温差预警</span><span><Factory />批次状态</span>
+                </div>
               </div>
             </aside>
           </BorderGlow>
