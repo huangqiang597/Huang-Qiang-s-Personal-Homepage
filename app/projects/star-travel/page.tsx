@@ -1,6 +1,5 @@
-import ProjectPlaceholder from "../../components/ProjectPlaceholder";
+import StarTravelCaseStudy from "../../components/StarTravelCaseStudy";
 
 export default function StarTravelProjectPage() {
-  return <ProjectPlaceholder number="02" title="星旅" category="AGENT / ENTERPRISE" />;
+  return <StarTravelCaseStudy />;
 }
-
