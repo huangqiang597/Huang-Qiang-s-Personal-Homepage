@@ -128,14 +128,12 @@ export default function HuimuYinghaiCaseStudy() {
         </header>
 
         <div className="hy-hero-copy">
-          <p>2022—2023 · HUIMU YINGHAI</p>
-          <h1 id="hy-title">HUIMU YINGHAI</h1>
+          <p>03 / ECOLOGICAL MATERIAL PRODUCT</p>
+          <h1 id="hy-title">HUIMU<br />YINGHAI</h1>
           <div className="hy-cn-name">卉木盈海 · 草色宛墙</div>
-          <h2>让工业固废，长成一条会呼吸的岸线。</h2>
-          <div className="hy-hero-thesis">
-            <small>PRODUCT THESIS</small>
-            <p>把难处理的污泥转化为植生混凝土骨料，让墙面、海岸和城市基础设施同时拥有结构能力与自然生命力。</p>
-            <div><span>固废资源化</span><span>海岸生态修复</span><span>工程规模量产</span></div>
+          <div className="hy-hero-background-copy">
+            <small>PROJECT BACKGROUND</small>
+            <p>以市政污泥与海泥制备轻质陶粒，构建兼具结构强度、植物适生性与生态修复能力的植生混凝土产品，面向墙面绿化、海岸消浪与城市基础设施场景。</p>
           </div>
         </div>
 
