@@ -1942,8 +1942,8 @@
 .st-hero-copy h1 {
   margin: 20px 0 14px;
   font-size: clamp(7rem, 10vw, 12.4rem);
-  line-height: 0.69;
-  transform: scaleY(1.04);
+  line-height: 0.77;
+  transform: none;
 }
 
 .st-hero-copy h2 {
@@ -2119,17 +2119,23 @@
 }
 
 .st-work-intro > span {
+  grid-column: 1;
+  grid-row: 1;
   align-self: end;
 }
 
 .st-work-intro h2 {
+  grid-column: 1;
+  grid-row: 2;
   align-self: start;
   margin: 20px 0 0;
   font-size: clamp(5.4rem, 7.6vw, 9.4rem);
-  line-height: 0.84;
+  line-height: 0.94;
 }
 
 .st-work-intro p {
+  grid-column: 2;
+  grid-row: 1;
   align-self: end;
   max-width: 980px;
   color: #c0ccda;
@@ -2138,6 +2144,8 @@
 }
 
 .st-work-index {
+  grid-column: 2;
+  grid-row: 2;
   align-self: start;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2276,13 +2284,14 @@
   width: 100%;
   height: auto;
   min-height: 760px;
-  aspect-ratio: 1760 / 1160;
+  aspect-ratio: 1760 / 1380;
   background:
     radial-gradient(circle at 50% 18%, rgba(67, 132, 255, 0.08), transparent 30%),
     #050b16;
 }
 
 .st-graph-board {
+  height: 1380px;
   background:
     linear-gradient(rgba(109, 155, 205, 0.045) 1px, transparent 1px),
     linear-gradient(90deg, rgba(109, 155, 205, 0.045) 1px, transparent 1px),
@@ -2367,8 +2376,13 @@
 
 .st-tool-grid > button small {
   max-width: 280px;
+  overflow: visible;
   color: #96a9be;
   font-size: 12px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  text-overflow: clip;
+  white-space: normal;
 }
 
 .st-tool-grid > button em {
@@ -2394,6 +2408,7 @@
 
 .st-event-stream article b {
   font-size: 13px;
+  overflow-wrap: anywhere;
 }
 
 .st-event-stream article small {
@@ -2511,15 +2526,26 @@
   }
 
   .st-work-intro h2 {
+    grid-column: auto;
+    grid-row: auto;
     font-size: clamp(4.8rem, 18vw, 7.5rem);
   }
 
   .st-work-intro p {
+    grid-column: auto;
+    grid-row: auto;
     margin-top: 34px;
   }
 
   .st-work-index {
+    grid-column: auto;
+    grid-row: auto;
     grid-template-columns: 1fr;
+  }
+
+  .st-work-intro > span {
+    grid-column: auto;
+    grid-row: auto;
   }
 
   .st-work-index div {

@@ -312,7 +312,7 @@ function StarLangGraph() {
   const fitGraph = () => {
     const viewport = viewportRef.current;
     if (!viewport) return;
-    const next = Math.min((viewport.clientWidth - 34) / 1760, (viewport.clientHeight - 34) / 1160);
+    const next = Math.min((viewport.clientWidth - 34) / 1760, (viewport.clientHeight - 34) / 1380);
     setScale(next);
     setPosition({ x: (viewport.clientWidth - 1760 * next) / 2, y: 16 });
   };
