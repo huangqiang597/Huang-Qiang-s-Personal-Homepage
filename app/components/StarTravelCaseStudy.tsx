@@ -4,6 +4,7 @@ import {
   CSSProperties,
   PointerEvent as ReactPointerEvent,
   WheelEvent as ReactWheelEvent,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -316,6 +317,20 @@ function StarLangGraph() {
     setPosition({ x: (viewport.clientWidth - 1760 * next) / 2, y: 16 });
   };
 
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    const frame = window.requestAnimationFrame(fitGraph);
+    const observer = new ResizeObserver(fitGraph);
+    observer.observe(viewport);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, []);
+
   const zoomGraph = (direction: number) => {
     setScale((current) => Math.max(0.55, Math.min(1.2, current + direction * 0.1)));
   };
@@ -336,7 +351,9 @@ function StarLangGraph() {
 
   const handlePointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
     dragRef.current.active = false;
-    event.currentTarget.releasePointerCapture(event.pointerId);
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
   };
 
   const handleWheel = (event: ReactWheelEvent<HTMLDivElement>) => {
@@ -642,7 +659,12 @@ export default function StarTravelCaseStudy() {
       <section className="st-work-intro">
         <span>MY WORK / PRODUCT × AGENT × GOVERNANCE</span>
         <h2>我的主要工作</h2>
-        <p>从“为什么做、先做什么”，到“系统如何思考与执行”，再到“如何证明它足够可靠”。</p>
+        <p>星旅是一套面向企业差旅场景的智能助手方案，覆盖制度问答、方案比较、预订确认、报销与审批查询。我负责从市场与需求收敛，到 Agent 编排、Tools 权限治理和评测闭环的整体产品设计。</p>
+        <div className="st-work-index" aria-label="三项主要工作">
+          <div><b>01</b><span>竞品调研与需求收敛</span></div>
+          <div><b>02</b><span>LangGraph Agent 架构</span></div>
+          <div><b>03</b><span>Tools 与评估闭环</span></div>
+        </div>
       </section>
 
       <section className="st-competitor-section" aria-labelledby="st-competitor-title">
@@ -654,7 +676,7 @@ export default function StarTravelCaseStudy() {
               <h2 id="st-competitor-title">竞品调研与需求收敛</h2>
             </div>
           </div>
-          <p>以供给、政策、审批费控、Agent、RAG 透明度、中立聚合、治理审计、部署模型八个维度判断进入位置。</p>
+          <p>项目先从企业差旅的供给、政策、审批费控与系统治理切入，通过八维能力矩阵识别现有产品的边界，再把候选需求收敛为可验证的 MVP。</p>
         </header>
 
         <BorderGlow
@@ -752,7 +774,7 @@ export default function StarTravelCaseStudy() {
               <h2 id="st-architecture-title">Agent 架构与技术取舍</h2>
             </div>
           </div>
-          <p>规则、小模型、主 Agent 和可信后端各守边界：模型负责判断下一步，真实权限、交易和审计由系统控制。</p>
+          <p>这套 LangGraph 蓝图承接制度问答、偏好记忆、上下文准备与复杂任务执行；模型负责理解和决策，真实权限、交易与审计仍由可信后端控制。</p>
         </header>
 
         <StarLangGraph />
@@ -791,7 +813,7 @@ export default function StarTravelCaseStudy() {
               <h2 id="st-tools-title">Tools 与评估闭环</h2>
             </div>
           </div>
-          <p>不是“能调用工具”就算完成，而是让每次选择、参数、确认、执行、失败恢复与业务结果都有证据。</p>
+          <p>产品通过 10 个单一职责 Tools 连接查询、预订、报销与审批系统，并用分级确认、全链路埋点和三层指标验证每次调用是否准确、可控且真正完成业务任务。</p>
         </header>
 
         <div className="st-tool-layout">
