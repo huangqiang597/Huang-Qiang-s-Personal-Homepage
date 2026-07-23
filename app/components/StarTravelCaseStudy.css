@@ -1833,6 +1833,94 @@
   }
 }
 
+/* Compact UI gallery and cleaner cover */
+.st-hero-copy {
+  padding-bottom: 52px;
+}
+
+.st-route-card {
+  bottom: 36px;
+}
+
+.st-ui-section {
+  padding-top: 68px;
+  padding-bottom: 72px;
+}
+
+.st-ui-track {
+  width: min(1040px, 100%);
+  max-width: 1040px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+  margin-inline: auto;
+}
+
+.st-phone-frame {
+  border-radius: 20px;
+}
+
+.st-phone-card figcaption {
+  grid-template-columns: 34px 1fr;
+  gap: 9px;
+  padding-top: 14px;
+}
+
+.st-phone-card figcaption > span {
+  font-size: 29px;
+}
+
+.st-phone-card figcaption b {
+  font-size: 16px;
+}
+
+.st-phone-card figcaption p {
+  margin-top: 5px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.st-graph-viewport {
+  padding: 0;
+}
+
+@media (max-width: 1380px) {
+  .st-ui-track {
+    width: min(1040px, 100%);
+    display: flex;
+    justify-content: flex-start;
+    gap: 16px;
+  }
+
+  .st-phone-card {
+    flex-basis: 190px;
+  }
+}
+
+@media (max-width: 900px) {
+  .st-hero-copy {
+    padding-bottom: 54px;
+  }
+
+  .st-route-card {
+    bottom: 28px;
+  }
+
+  .st-ui-track {
+    width: 100%;
+  }
+
+  .st-phone-card {
+    flex-basis: 210px;
+  }
+}
+
+@media (max-width: 620px) {
+  .st-phone-card {
+    flex-basis: 58vw;
+    max-width: 220px;
+  }
+}
+
 @media (max-width: 620px) {
   .st-ui-section,
   .st-competitor-section,
@@ -2868,5 +2956,89 @@
 
   .st-work-index {
     margin-top: 20px;
+  }
+}
+
+/* Final compact sizing overrides */
+.st-hero-copy {
+  padding-bottom: 52px;
+}
+
+.st-route-card {
+  bottom: 36px;
+}
+
+.st-ui-section {
+  padding-top: 68px;
+  padding-bottom: 72px;
+}
+
+.st-ui-track {
+  width: min(1040px, 100%);
+  max-width: 1040px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+  margin-inline: auto;
+}
+
+.st-phone-frame {
+  border-radius: 20px;
+}
+
+.st-phone-card figcaption {
+  grid-template-columns: 34px 1fr;
+  gap: 9px;
+  padding-top: 14px;
+}
+
+.st-phone-card figcaption > span {
+  font-size: 29px;
+}
+
+.st-phone-card figcaption b {
+  font-size: 16px;
+}
+
+.st-phone-card figcaption p {
+  margin-top: 5px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+@media (max-width: 1380px) {
+  .st-ui-track {
+    width: min(1040px, 100%);
+    display: flex;
+    justify-content: flex-start;
+    gap: 16px;
+  }
+
+  .st-phone-card {
+    flex: 0 0 190px;
+  }
+}
+
+@media (max-width: 900px) {
+  .st-hero-copy {
+    padding-bottom: 54px;
+  }
+
+  .st-route-card {
+    bottom: 28px;
+  }
+
+  .st-ui-track {
+    width: 100%;
+  }
+
+  .st-phone-card {
+    flex-basis: 210px;
+  }
+}
+
+@media (max-width: 620px) {
+  .st-phone-card {
+    flex-basis: 58vw;
+    max-width: 220px;
   }
 }

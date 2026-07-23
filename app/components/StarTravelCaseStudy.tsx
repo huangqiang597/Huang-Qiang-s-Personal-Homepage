@@ -308,9 +308,12 @@ function StarLangGraph() {
   const fitGraph = () => {
     const viewport = viewportRef.current;
     if (!viewport) return;
-    const next = Math.min((viewport.clientWidth - 34) / 1760, (viewport.clientHeight - 34) / 1380);
+    const next = Math.min((viewport.clientWidth - 120) / 1760, (viewport.clientHeight - 120) / 1380);
     setScale(next);
-    setPosition({ x: (viewport.clientWidth - 1760 * next) / 2, y: 16 });
+    setPosition({
+      x: (viewport.clientWidth - 1760 * next) / 2,
+      y: (viewport.clientHeight - 1380 * next) / 2,
+    });
   };
 
   useEffect(() => {
@@ -519,33 +522,6 @@ export default function StarTravelCaseStudy() {
           </div>
         </div>
 
-        <dl className="st-hero-meta">
-          <div>
-            <dt>项目定位</dt>
-            <dd>企业侧智能编排与治理层</dd>
-          </div>
-          <div>
-            <dt>MVP 收敛</dt>
-            <dd>
-              <strong>12 → 5</strong>
-              <small>范围 -58%</small>
-            </dd>
-          </div>
-          <div>
-            <dt>模型成本</dt>
-            <dd>
-              <strong>-32%</strong>
-              <small>三级路由</small>
-            </dd>
-          </div>
-          <div>
-            <dt>工具准确率</dt>
-            <dd>
-              <strong>96%</strong>
-              <small>10+ Tools</small>
-            </dd>
-          </div>
-        </dl>
       </section>
 
       <section className="st-ui-section" aria-labelledby="st-ui-title">
