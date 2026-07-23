@@ -23,7 +23,15 @@ import {
   Waves,
 } from "lucide-react";
 import BorderGlow from "./BorderGlow";
+import CircularGallery from "./CircularGallery";
 import "./HuimuYinghaiCaseStudy.css";
+
+const coverGalleryItems = [
+  { image: "/media/huimu-gallery/huimu-gallery-01.webp", text: "红树林幼苗实地培育" },
+  { image: "/media/huimu-gallery/huimu-gallery-02.webp", text: "生态基底生长实验" },
+  { image: "/media/huimu-gallery/huimu-gallery-03.webp", text: "卉木盈海实体绿植墙" },
+  { image: "/media/huimu-gallery/huimu-gallery-04.webp", text: "项目方案路演展示" },
+];
 
 const pipeline = [
   { src: "/media/huimu-material-1.webp", label: "市政污泥 / 海泥", caption: "原料回收" },
@@ -139,6 +147,23 @@ export default function HuimuYinghaiCaseStudy() {
 
         <div className="hy-hero-visual">
           <img src="/media/huimu-ai-v1.webp" alt="应用于海岸与墙面绿化的植生混凝土概念场景" />
+        </div>
+
+        <div className="hy-cover-gallery">
+          <div className="hy-cover-gallery-header">
+            <div>
+              <small>PROJECT ARCHIVE / 04</small>
+              <strong>从实验现场，到真实生长。</strong>
+            </div>
+            <span><i aria-hidden="true">↔</i> 拖动探索</span>
+          </div>
+          <CircularGallery
+            items={coverGalleryItems}
+            bend={1.6}
+            borderRadius={0.055}
+            scrollSpeed={1.7}
+            scrollEase={0.06}
+          />
         </div>
 
         <dl className="hy-hero-meta">
