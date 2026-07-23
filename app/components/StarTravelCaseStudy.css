@@ -3148,7 +3148,7 @@
   }
 }
 
-/* Final compact sizing overrides */
+/* Final UI gallery layout: use the whole desktop canvas and keep source pixels crisp */
 .st-hero-copy {
   padding-bottom: 52px;
 }
@@ -3158,52 +3158,80 @@
 }
 
 .st-ui-section {
-  padding-top: 68px;
-  padding-bottom: 72px;
+  padding: 72px clamp(16px, 1.35vw, 28px) 112px;
 }
 
 .st-ui-track {
-  width: min(1040px, 100%);
-  max-width: 1040px;
+  width: 100%;
+  max-width: none;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 16px;
-  margin-inline: auto;
+  gap: clamp(20px, 1.45vw, 30px);
+  margin: 0;
+  padding: 24px 0 34px;
+  overflow: visible;
+}
+
+.st-phone-card,
+.st-phone-card:nth-child(odd),
+.st-phone-card:hover,
+.st-phone-card:nth-child(odd):hover {
+  min-width: 0;
+  transform: none;
+}
+
+.st-phone-glow {
+  transform: none;
 }
 
 .st-phone-frame {
-  border-radius: 20px;
+  border-radius: 30px;
+}
+
+.st-phone-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: auto;
+  filter: none;
+  transform: none;
 }
 
 .st-phone-card figcaption {
-  grid-template-columns: 34px 1fr;
-  gap: 9px;
-  padding-top: 14px;
+  grid-template-columns: 46px 1fr;
+  gap: 13px;
+  padding: 20px 4px 0;
 }
 
 .st-phone-card figcaption > span {
-  font-size: 29px;
+  font-size: 38px;
 }
 
 .st-phone-card figcaption b {
-  font-size: 16px;
+  font-size: 19px;
 }
 
 .st-phone-card figcaption p {
-  margin-top: 5px;
-  font-size: 13px;
-  line-height: 1.55;
+  margin-top: 7px;
+  font-size: 15px;
+  line-height: 1.62;
 }
 
 @media (max-width: 1380px) {
   .st-ui-track {
-    width: min(1040px, 100%);
+    width: 100%;
+    max-width: none;
     display: flex;
     justify-content: flex-start;
-    gap: 16px;
+    gap: 26px;
+    padding-inline: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
   }
 
   .st-phone-card {
-    flex: 0 0 190px;
+    flex: 0 0 clamp(300px, 29vw, 380px);
+    scroll-snap-align: start;
   }
 }
 
@@ -3221,13 +3249,13 @@
   }
 
   .st-phone-card {
-    flex-basis: 210px;
+    flex-basis: 285px;
   }
 }
 
 @media (max-width: 620px) {
   .st-phone-card {
-    flex-basis: 58vw;
-    max-width: 220px;
+    flex-basis: 78vw;
+    max-width: 320px;
   }
 }
