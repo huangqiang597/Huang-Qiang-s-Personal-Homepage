@@ -302,18 +302,25 @@ function FlowNode({
 
 function StarLangGraph() {
   const viewportRef = useRef<HTMLDivElement>(null);
+  const boardRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0.72);
   const [position, setPosition] = useState({ x: 0, y: 14 });
+  const [viewportHeight, setViewportHeight] = useState(1120);
 
   const fitGraph = () => {
     const viewport = viewportRef.current;
-    if (!viewport) return;
-    const next = Math.min((viewport.clientWidth - 120) / 1760, (viewport.clientHeight - 120) / 1380);
+    const board = boardRef.current;
+    if (!viewport || !board) return;
+
+    const boardWidth = Math.max(1760, board.scrollWidth);
+    const boardHeight = Math.max(1380, board.scrollHeight);
+    const next = Math.max(0.1, (viewport.clientWidth - 120) / boardWidth);
     setScale(next);
     setPosition({
-      x: (viewport.clientWidth - 1760 * next) / 2,
-      y: (viewport.clientHeight - 1380 * next) / 2,
+      x: (viewport.clientWidth - boardWidth * next) / 2,
+      y: 60,
     });
+    setViewportHeight(Math.ceil(boardHeight * next + 120));
   };
 
   useEffect(() => {
@@ -323,9 +330,13 @@ function StarLangGraph() {
     const frame = window.requestAnimationFrame(fitGraph);
     const observer = new ResizeObserver(fitGraph);
     observer.observe(viewport);
+    if (boardRef.current) observer.observe(boardRef.current);
+    const delayedFit = window.setTimeout(fitGraph, 350);
+    document.fonts?.ready.then(fitGraph);
 
     return () => {
       window.cancelAnimationFrame(frame);
+      window.clearTimeout(delayedFit);
       observer.disconnect();
     };
   }, []);
@@ -347,8 +358,9 @@ function StarLangGraph() {
         <span className="st-graph-static-label">STATIC FULL MAP / 随页面滚动</span>
       </header>
 
-      <div ref={viewportRef} className="st-graph-viewport">
+      <div ref={viewportRef} className="st-graph-viewport" style={{ height: viewportHeight }}>
         <div
+          ref={boardRef}
           className="st-graph-board"
           style={{ transform: `translate(${position.x}px, ${position.y}px) scale(${scale})` }}
         >

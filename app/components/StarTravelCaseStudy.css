@@ -1921,6 +1921,108 @@
   }
 }
 
+/* Full measured graph + project-style UI stage */
+.st-carousel-actions {
+  display: none;
+}
+
+.st-ui-section {
+  padding-bottom: 104px;
+}
+
+.st-ui-track {
+  width: min(1500px, 100%);
+  max-width: 1500px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(18px, 1.45vw, 28px);
+  align-items: start;
+  padding-top: 20px;
+}
+
+.st-phone-card {
+  transform: translateY(0);
+  transition: transform 0.28s ease;
+}
+
+.st-phone-card:nth-child(odd) {
+  transform: translateY(34px);
+}
+
+.st-phone-card:hover {
+  transform: translateY(-8px);
+}
+
+.st-phone-card:nth-child(odd):hover {
+  transform: translateY(24px);
+}
+
+.st-phone-frame {
+  border-radius: 26px;
+}
+
+.st-phone-card figcaption {
+  grid-template-columns: 42px 1fr;
+  gap: 12px;
+  padding-top: 18px;
+}
+
+.st-phone-card figcaption > span {
+  font-size: 35px;
+}
+
+.st-phone-card figcaption b {
+  font-size: 18px;
+}
+
+.st-phone-card figcaption p {
+  margin-top: 7px;
+  font-size: 14px;
+  line-height: 1.62;
+}
+
+.st-graph-viewport {
+  min-height: 0;
+  aspect-ratio: auto;
+  transition: height 0.24s ease;
+}
+
+@media (max-width: 1380px) {
+  .st-ui-track {
+    width: 100%;
+    max-width: none;
+    display: flex;
+    gap: 22px;
+  }
+
+  .st-phone-card {
+    flex: 0 0 250px;
+  }
+}
+
+@media (max-width: 900px) {
+  .st-ui-section {
+    padding-bottom: 82px;
+  }
+
+  .st-phone-card,
+  .st-phone-card:nth-child(odd),
+  .st-phone-card:hover,
+  .st-phone-card:nth-child(odd):hover {
+    transform: none;
+  }
+
+  .st-phone-card {
+    flex-basis: 230px;
+  }
+}
+
+@media (max-width: 620px) {
+  .st-phone-card {
+    flex-basis: 68vw;
+    max-width: 250px;
+  }
+}
+
 @media (max-width: 620px) {
   .st-ui-section,
   .st-competitor-section,
