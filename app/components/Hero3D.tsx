@@ -141,9 +141,9 @@ export default function Hero3D() {
   return (
     <section className="interactive-hero" id="home" ref={sectionRef}>
       <nav className="interactive-nav" aria-label="主导航">
-        <a href="#about">About</a>
-        <a href="#capabilities">Experience</a>
+        <a href="#home">Home</a>
         <a href="#projects">Projects</a>
+        <a href="#about">About me</a>
         <a href="#contact">Contact</a>
       </nav>
 
