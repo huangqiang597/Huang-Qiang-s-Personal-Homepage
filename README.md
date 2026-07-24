@@ -1,98 +1,92 @@
-# vinext-starter
+# 黄强 · AI 产品经理作品集
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+一个面向求职展示的沉浸式个人作品集网站，集中呈现 AI 产品实践、项目方法论与个人经历。
 
-## Prerequisites
+<p align="center">
+  <a href="https://huangqiang-ai-pm.ogizoteni06.chatgpt.site"><strong>在线访问作品集 →</strong></a>
+</p>
 
-- Node.js `>=22.13.0`
+## 项目概览
 
-## Quick Start
+网站包含首页与三个完整的项目案例：
+
+| 项目 | 方向 | 页面 |
+| --- | --- | --- |
+| 魔镜 On Run | 多模态 AI 护肤、RAG、Agent、评测与数据闭环 | `/projects/magic-mirror` |
+| 星旅 | 企业差旅 Agent、LangGraph、多工具调用与治理 | `/projects/star-travel` |
+| 卉木盈海 | 生态材料产品、混凝土监测与商业化探索 | `/projects/huimu-yinghai` |
+
+此外，首页还包含教育背景、个人兴趣与能力档案、联系方式等内容。
+
+## 技术栈
+
+- React 19 + TypeScript
+- Next.js 16 + vinext + Vite
+- React Three Fiber / Three.js / drei
+- Framer Motion
+- Tailwind CSS
+- OGL 与自定义 WebGL / CSS 交互效果
+
+## 本地运行
+
+### 环境要求
+
+- Node.js `>= 22.13.0`
+- npm
+
+### 启动项目
 
 ```bash
-npm install
+git clone https://github.com/YOUR_USERNAME/huangqiang-ai-pm-portfolio.git
+cd huangqiang-ai-pm-portfolio
+npm ci
 npm run dev
+```
+
+根据终端显示的本地地址在浏览器中打开网站。
+
+### 构建检查
+
+```bash
 npm run build
 ```
 
-This starter does not use `wrangler.jsonc`.
+## 主要目录
 
-## Included Shape
+```text
+app/
+├─ components/                 # 首页、交互组件与三个项目案例
+├─ projects/
+│  ├─ magic-mirror/            # 魔镜 On Run
+│  ├─ star-travel/             # 星旅
+│  └─ huimu-yinghai/           # 卉木盈海
+├─ globals.css                 # 首页全局视觉样式
+├─ layout.tsx
+└─ page.tsx
 
-- edit site code under `app/`
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
-
-## Workspace Auth Headers
-
-OpenAI workspace sites can read the current user's email from
-`oai-authenticated-user-email`.
-
-SIWC-authenticated workspace sites may also receive
-`oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty
-`name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by
-`oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
+public/
+├─ images/                     # 头像与人物视觉素材
+├─ media/                      # 项目图片、UI 图与个人档案素材
+└─ models/                     # 3D 模型资源
 ```
 
-## Optional Dispatch-Owned ChatGPT Sign-In
+## GitHub 使用说明
 
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs
-optional or required ChatGPT sign-in:
+首次上传前，在 GitHub 创建一个空仓库，然后执行：
 
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send
-  anonymous visitors through Sign in with ChatGPT.
-- Use `chatGPTSignInPath(returnTo)` and `chatGPTSignOutPath(returnTo)` for
-  browser links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in
-  or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because
-  they depend on per-request identity headers.
+```bash
+git remote add origin https://github.com/YOUR_USERNAME/huangqiang-ai-pm-portfolio.git
+git push -u origin main
+```
 
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the
-OAuth cookies, and identity header injection. Do not implement app routes for
-those reserved paths. Routes that do not import and call the helper remain
-anonymous-compatible.
+后续更新只需要：
 
-SIWC establishes identity only; it does not prove workspace membership. Use the
-Sites hosting platform's access policy controls for workspace-wide restrictions,
-or enforce explicit server-side membership or allowlist checks.
+```bash
+git add .
+git commit -m "描述本次修改"
+git push
+```
 
-Use SIWC for account pages, user-specific dashboards, saved records, and write
-actions tied to the current ChatGPT user. Leave public content anonymous.
+## 内容与版权
 
-## Useful Commands
-
-- `npm run dev`: start local development
-- `npm run build`: verify the vinext build output
-- `npm test`: build the starter and verify its rendered loading skeleton
-- `npm run db:generate`: generate Drizzle migrations after schema changes
-
-## Learn More
-
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+本仓库包含个人照片、项目设计、研究成果与作品集素材，仅用于黄强的个人展示。未经许可，请勿复制、再发布或用于商业用途。
