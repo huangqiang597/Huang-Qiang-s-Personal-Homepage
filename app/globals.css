@@ -112,7 +112,7 @@ img { display: block; }
 .hero-education-layer {
   position: absolute;
   z-index: 16;
-  top: clamp(218px, 24.5vh, 286px);
+  top: clamp(300px, 31.5vh, 360px);
   right: clamp(46px, 5.4vw, 112px);
   left: clamp(46px, 5.4vw, 112px);
   display: grid;
@@ -125,7 +125,7 @@ img { display: block; }
   --education-accent: #61dcd8;
   position: relative;
   min-width: 0;
-  min-height: clamp(136px, 14.5vh, 166px);
+  min-height: clamp(128px, 13.2vh, 152px);
   display: grid;
   align-items: center;
   overflow: hidden;
