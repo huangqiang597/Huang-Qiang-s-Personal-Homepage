@@ -112,7 +112,7 @@ img { display: block; }
 .hero-education-layer {
   position: absolute;
   z-index: 16;
-  top: clamp(300px, 31.5vh, 360px);
+  top: clamp(334px, 35vh, 402px);
   right: clamp(46px, 5.4vw, 112px);
   left: clamp(46px, 5.4vw, 112px);
   display: grid;
@@ -872,7 +872,7 @@ img { display: block; }
   .interactive-hero { padding-inline: 24px; }
   .interactive-title { --hero-title-stretch: 1.72; top: 11vh; font-size: 12vw; }
   .hero-education-layer {
-    top: 27vh;
+    top: 31vh;
     right: 24px;
     left: 24px;
     grid-template-columns: minmax(0, 1fr) clamp(250px, 31vw, 300px) minmax(0, 1fr);
