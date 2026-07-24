@@ -108,6 +108,210 @@ img { display: block; }
   transform-origin: 50% 0;
 }
 .interactive-title span { white-space: nowrap; }
+
+.hero-education-layer {
+  position: absolute;
+  z-index: 16;
+  top: clamp(218px, 24.5vh, 286px);
+  right: clamp(46px, 5.4vw, 112px);
+  left: clamp(46px, 5.4vw, 112px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(350px, 23vw, 485px) minmax(0, 1fr);
+  gap: clamp(12px, 2vw, 42px);
+  pointer-events: none;
+}
+
+.hero-education-card {
+  --education-accent: #61dcd8;
+  position: relative;
+  min-width: 0;
+  min-height: clamp(136px, 14.5vh, 166px);
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(140, 181, 221, .18);
+  border-radius: 24px;
+  background:
+    linear-gradient(110deg, rgba(12, 20, 36, .86), rgba(8, 11, 20, .52) 70%, rgba(8, 11, 20, .12)),
+    radial-gradient(circle at 80% 50%, color-mix(in srgb, var(--education-accent) 18%, transparent), transparent 42%);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, .035),
+    0 24px 64px rgba(0, 0, 0, .22);
+  backdrop-filter: blur(13px);
+  pointer-events: auto;
+  transition: transform .35s cubic-bezier(.2, .8, .2, 1), border-color .35s ease, box-shadow .35s ease;
+}
+
+.hero-education-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 24px;
+  left: 24px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--education-accent), transparent);
+  opacity: .72;
+}
+
+.hero-education-card::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 34px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--education-accent), transparent);
+  opacity: .62;
+}
+
+.hero-education-card:hover {
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--education-accent) 44%, transparent);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, .05),
+    0 28px 70px rgba(0, 0, 0, .32),
+    0 0 34px color-mix(in srgb, var(--education-accent) 11%, transparent);
+}
+
+.hero-education-card--undergraduate {
+  grid-column: 1;
+  grid-template-columns: minmax(0, 1fr) clamp(112px, 8.5vw, 160px);
+  border-right-color: color-mix(in srgb, var(--education-accent) 35%, transparent);
+}
+
+.hero-education-card--undergraduate::after {
+  right: -1px;
+}
+
+.hero-education-card--postgraduate {
+  --education-accent: #9b7dff;
+  grid-column: 3;
+  grid-template-columns: clamp(112px, 8.5vw, 160px) minmax(0, 1fr);
+  border-left-color: color-mix(in srgb, var(--education-accent) 38%, transparent);
+  background:
+    linear-gradient(250deg, rgba(12, 18, 35, .88), rgba(8, 11, 20, .52) 70%, rgba(8, 11, 20, .12)),
+    radial-gradient(circle at 20% 50%, color-mix(in srgb, var(--education-accent) 19%, transparent), transparent 42%);
+}
+
+.hero-education-card--postgraduate::after {
+  left: -1px;
+  transform: scaleX(-1);
+}
+
+.hero-education-copy {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+  padding: 22px clamp(20px, 2vw, 34px);
+}
+
+.hero-education-card--undergraduate .hero-education-copy {
+  text-align: right;
+}
+
+.hero-education-kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: color-mix(in srgb, var(--education-accent) 82%, white 18%);
+  font: 650 9px/1 "Space Grotesk", ui-monospace, monospace;
+  letter-spacing: .2em;
+}
+
+.hero-education-card--undergraduate .hero-education-kicker {
+  justify-content: flex-end;
+}
+
+.hero-education-kicker i {
+  width: clamp(26px, 3.2vw, 62px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--education-accent));
+  opacity: .72;
+}
+
+.hero-education-card--postgraduate .hero-education-kicker i {
+  background: linear-gradient(90deg, var(--education-accent), transparent);
+}
+
+.hero-education-copy h2 {
+  margin-top: 13px;
+  color: #edf4fb;
+  font: 700 clamp(1.35rem, 1.75vw, 2.1rem)/1.08 "Noto Sans SC", "PingFang SC", sans-serif;
+  letter-spacing: .035em;
+  white-space: nowrap;
+}
+
+.hero-education-copy > p {
+  margin-top: 6px;
+  overflow: hidden;
+  color: rgba(179, 198, 218, .62);
+  font: 600 clamp(8px, .58vw, 11px)/1.3 "Space Grotesk", sans-serif;
+  letter-spacing: .12em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hero-education-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.hero-education-card--undergraduate .hero-education-meta {
+  justify-content: flex-end;
+}
+
+.hero-education-meta strong {
+  padding: 5px 10px;
+  border: 1px solid color-mix(in srgb, var(--education-accent) 38%, transparent);
+  border-radius: 999px;
+  color: #dce8f3;
+  background: color-mix(in srgb, var(--education-accent) 9%, transparent);
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: .12em;
+}
+
+.hero-education-meta time {
+  color: #aebdd0;
+  font: 600 clamp(12px, .82vw, 15px)/1 "Space Grotesk", sans-serif;
+  letter-spacing: .13em;
+}
+
+.hero-education-rings {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 124px;
+  opacity: .92;
+}
+
+.hero-education-rings::after {
+  content: "";
+  position: absolute;
+  inset: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--education-accent);
+  box-shadow: 0 0 16px var(--education-accent);
+  transform: translate(-50%, -50%);
+}
+
+.hero-education-rings .magic-rings-container {
+  min-height: 0;
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--education-accent) 14%, transparent), transparent 58%);
+}
+
+.hero-education-ring-fallback {
+  position: absolute;
+  inset: 24%;
+  border: 1px solid color-mix(in srgb, var(--education-accent) 55%, transparent);
+  border-radius: 50%;
+  box-shadow: 0 0 24px color-mix(in srgb, var(--education-accent) 20%, transparent);
+}
+
 .hero-light-pillar {
   position: absolute;
   inset: 0;
@@ -667,6 +871,32 @@ img { display: block; }
 @media (max-width: 900px) {
   .interactive-hero { padding-inline: 24px; }
   .interactive-title { --hero-title-stretch: 1.72; top: 11vh; font-size: 12vw; }
+  .hero-education-layer {
+    top: 27vh;
+    right: 24px;
+    left: 24px;
+    grid-template-columns: minmax(0, 1fr) clamp(250px, 31vw, 300px) minmax(0, 1fr);
+    gap: 8px;
+  }
+  .hero-education-card {
+    min-height: 124px;
+    border-radius: 20px;
+  }
+  .hero-education-card--undergraduate {
+    grid-template-columns: minmax(0, 1fr) 92px;
+  }
+  .hero-education-card--postgraduate {
+    grid-template-columns: 92px minmax(0, 1fr);
+  }
+  .hero-education-copy { padding: 17px 16px; }
+  .hero-education-copy h2 { font-size: 1.3rem; }
+  .hero-education-copy > p { display: none; }
+  .hero-education-kicker { font-size: 7px; }
+  .hero-education-kicker i { width: 22px; }
+  .hero-education-meta { gap: 8px; margin-top: 12px; }
+  .hero-education-meta strong { padding: 4px 8px; font-size: 9px; }
+  .hero-education-meta time { font-size: 11px; }
+  .hero-education-rings { min-height: 110px; }
   .hero-avatar-layer { top: 7vh; width: min(430px, 58vw); }
   .hero-projects-layer { top: 47vh; right: 3vw; bottom: 9vh; left: 3vw; }
   .hero-projects-grid { gap: clamp(10px, 2vw, 24px); }
@@ -686,7 +916,7 @@ img { display: block; }
 }
 
 @media (max-width: 640px) {
-  .interactive-hero { padding: 0 18px 24px; }
+  .interactive-hero { min-height: 1320px; padding: 0 18px 24px; }
   .interactive-hero::after { inset: 8px; border-radius: 24px; }
   .interactive-nav { padding-top: 21px; font-size: 9px; letter-spacing: .06em; }
   .hero-tech-label { top: 60px; left: 20px; font-size: 7px; }
@@ -698,7 +928,36 @@ img { display: block; }
   }
   .interactive-title span { display: inline; }
   .hero-avatar-layer { top: 10vh; width: min(330px, 70vw); }
-  .hero-projects-layer { top: 48vh; right: 0; bottom: 12vh; left: 0; overflow: visible; }
+  .hero-education-layer {
+    top: 560px;
+    right: 18px;
+    left: 18px;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .hero-education-card--undergraduate,
+  .hero-education-card--postgraduate {
+    grid-column: 1;
+    min-height: 106px;
+  }
+  .hero-education-card--undergraduate {
+    grid-row: 1;
+    grid-template-columns: minmax(0, 1fr) 92px;
+  }
+  .hero-education-card--postgraduate {
+    grid-row: 2;
+    grid-template-columns: 92px minmax(0, 1fr);
+  }
+  .hero-education-card--undergraduate .hero-education-copy {
+    text-align: left;
+  }
+  .hero-education-card--undergraduate .hero-education-kicker,
+  .hero-education-card--undergraduate .hero-education-meta {
+    justify-content: flex-start;
+  }
+  .hero-education-copy h2 { font-size: 1.35rem; }
+  .hero-education-copy > p { display: block; font-size: 7px; }
+  .hero-projects-layer { top: 830px; right: 0; bottom: 82px; left: 0; overflow: visible; }
   .hero-projects-grid {
     display: flex;
     gap: 14px;

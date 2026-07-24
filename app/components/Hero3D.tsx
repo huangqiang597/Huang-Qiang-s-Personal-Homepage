@@ -5,6 +5,7 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import HeroProjectCards from "./HeroProjectCards";
 
 const LightPillar = lazy(() => import("./LightPillar"));
+const MagicRings = lazy(() => import("./MagicRings"));
 
 function useReducedMotionPreference() {
   const [reduced, setReduced] = useState(false);
@@ -174,6 +175,92 @@ export default function Hero3D() {
       <h1 className="interactive-title hero-heading" ref={titleRef}>
         Hi, i&apos;m <span>Huang Qiang</span>
       </h1>
+
+      <div className="hero-education-layer" aria-label="教育背景">
+        <article className="hero-education-card hero-education-card--undergraduate">
+          <div className="hero-education-copy">
+            <div className="hero-education-kicker">
+              <span>EDUCATION / 01</span>
+              <i />
+            </div>
+            <h2>福州大学</h2>
+            <p>FUZHOU UNIVERSITY</p>
+            <div className="hero-education-meta">
+              <strong>本科</strong>
+              <time dateTime="2020/2024">2020 — 2024</time>
+            </div>
+          </div>
+          <div className="hero-education-rings" aria-hidden="true">
+            <Suspense fallback={<span className="hero-education-ring-fallback" />}>
+              <MagicRings
+                color="#5ea8ff"
+                colorTwo="#62f0df"
+                ringCount={5}
+                speed={0.42}
+                attenuation={15}
+                lineThickness={1.25}
+                baseRadius={0.2}
+                radiusStep={0.075}
+                scaleRate={0.055}
+                opacity={0.68}
+                blur={0.2}
+                noiseAmount={0.018}
+                rotation={-18}
+                ringGap={1.28}
+                fadeIn={0.85}
+                fadeOut={1.9}
+                followMouse
+                mouseInfluence={0.1}
+                hoverScale={1.08}
+                parallax={0.022}
+                clickBurst={false}
+              />
+            </Suspense>
+          </div>
+        </article>
+
+        <article className="hero-education-card hero-education-card--postgraduate">
+          <div className="hero-education-rings" aria-hidden="true">
+            <Suspense fallback={<span className="hero-education-ring-fallback" />}>
+              <MagicRings
+                color="#a177ff"
+                colorTwo="#58cfff"
+                ringCount={5}
+                speed={0.38}
+                attenuation={15}
+                lineThickness={1.25}
+                baseRadius={0.2}
+                radiusStep={0.075}
+                scaleRate={0.055}
+                opacity={0.68}
+                blur={0.2}
+                noiseAmount={0.018}
+                rotation={18}
+                ringGap={1.28}
+                fadeIn={0.85}
+                fadeOut={1.9}
+                followMouse
+                mouseInfluence={0.1}
+                hoverScale={1.08}
+                parallax={0.022}
+                clickBurst={false}
+              />
+            </Suspense>
+          </div>
+          <div className="hero-education-copy">
+            <div className="hero-education-kicker">
+              <i />
+              <span>EDUCATION / 02</span>
+            </div>
+            <h2>华南理工大学</h2>
+            <p>SOUTH CHINA UNIVERSITY OF TECHNOLOGY</p>
+            <div className="hero-education-meta">
+              <strong>硕士</strong>
+              <time dateTime="2024/2027">2024 — 2027</time>
+            </div>
+          </div>
+        </article>
+      </div>
 
       <div className="hero-avatar-layer" aria-label="可交互的黄强 3D 动漫数字人头部">
         <div className="hero-avatar-motion" ref={avatarRef}>
