@@ -507,6 +507,22 @@
   .hy-end { align-items: flex-start; flex-direction: column; }
 }
 
+/* Mid-size laptops need more vertical breathing room between the cover copy and archive. */
+@media (min-width: 1201px) and (max-width: 1500px) {
+  .hy-hero { min-height: 1540px; }
+  .hy-hero-copy h1 {
+    width: min(60vw, 860px);
+    font-size: clamp(6.8rem, 9.8vw, 9.8rem);
+    line-height: .7;
+  }
+  .hy-hero-background-copy { width: min(47vw, 610px); }
+  .hy-cover-gallery {
+    bottom: 615px;
+    width: min(49vw, 760px);
+    height: 360px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hy-cover-gallery-header > span i { animation: none; }
   .hy-capabilities article,
