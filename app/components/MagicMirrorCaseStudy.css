@@ -332,7 +332,12 @@
 .mm-result-card-heading h3 { font-family: var(--font-display-cn); font-size: clamp(24px, 1.65vw, 32px); line-height: 1.15; font-weight: 400; letter-spacing: .025em; color: #eef2f8; }
 .mm-result-card-heading p { margin-top: 9px; font-size: 13px; line-height: 1.55; color: #8995a6; }
 .mm-knowledge-card { grid-column: span 7; min-height: 585px; }
-.mm-loop-card { grid-column: span 5; min-height: 585px; }
+.mm-loop-card {
+  grid-column: span 5;
+  min-height: 585px;
+  container-type: inline-size;
+  container-name: agent-loop-card;
+}
 .mm-evaluation-card, .mm-dashboard-card { grid-column: 1 / -1; }
 
 .mm-knowledge-flow { margin-top: 64px; display: flex; align-items: stretch; }
@@ -959,6 +964,73 @@
 }
 
 @media (max-width: 760px) {
+  .mm-loop-visual { grid-template-columns: 1fr; }
+  .mm-loop-visual::before { grid-column: 1; }
+  .mm-loop-node,
+  .mm-loop-node-1,
+  .mm-loop-node-2,
+  .mm-loop-node-3,
+  .mm-loop-node-4,
+  .mm-loop-node-5,
+  .mm-loop-node-6 {
+    min-height: 0;
+    padding: 16px;
+  }
+}
+
+/* The card can be narrow even on a wide viewport, so respond to its own width. */
+@container agent-loop-card (max-width: 900px) {
+  .mm-loop-visual {
+    max-width: none;
+    height: auto;
+    margin: 30px 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .mm-loop-visual::before {
+    content: "AGENT LOOP / 06 STEP CONTINUOUS SYSTEM";
+    grid-column: 1 / -1;
+    padding: 13px 16px;
+    border: 1px solid rgba(127, 151, 255, .2);
+    border-radius: 12px;
+    background: linear-gradient(90deg, rgba(231, 119, 177, .1), rgba(91, 116, 255, .1));
+    color: #aebcff;
+    font: 600 10px/1 var(--font-geo);
+    letter-spacing: .15em;
+  }
+  .mm-loop-ring,
+  .mm-loop-arcs,
+  .mm-loop-marker,
+  .mm-loop-center { display: none; }
+  .mm-loop-node,
+  .mm-loop-node-1,
+  .mm-loop-node-2,
+  .mm-loop-node-3,
+  .mm-loop-node-4,
+  .mm-loop-node-5,
+  .mm-loop-node-6 {
+    position: static;
+    width: auto;
+    min-width: 0;
+    min-height: 126px;
+    padding: 18px;
+    transform: none;
+    border: 1px solid rgba(116, 159, 255, .2);
+    border-radius: 14px;
+    background:
+      radial-gradient(circle at 0 0, rgba(89, 128, 255, .11), transparent 44%),
+      rgba(12, 20, 34, .8);
+  }
+  .mm-loop-node div { min-width: 0; }
+  .mm-loop-node strong,
+  .mm-loop-node small {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+}
+
+@container agent-loop-card (max-width: 620px) {
   .mm-loop-visual { grid-template-columns: 1fr; }
   .mm-loop-visual::before { grid-column: 1; }
   .mm-loop-node,
