@@ -37,8 +37,8 @@
 ### 启动项目
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/huangqiang-ai-pm-portfolio.git
-cd huangqiang-ai-pm-portfolio
+git clone https://github.com/huangqiang597/Huang-Qiang-s-Personal-Homepage.git
+cd Huang-Qiang-s-Personal-Homepage
 npm ci
 npm run dev
 ```
@@ -75,7 +75,7 @@ public/
 首次上传前，在 GitHub 创建一个空仓库，然后执行：
 
 ```bash
-git remote add origin https://github.com/YOUR_USERNAME/huangqiang-ai-pm-portfolio.git
+git remote add origin https://github.com/huangqiang597/Huang-Qiang-s-Personal-Homepage.git
 git push -u origin main
 ```
 
