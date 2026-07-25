@@ -34,22 +34,8 @@
 - Node.js `>= 22.13.0`
 - npm
 
-### 启动项目
-
-```bash
-git clone https://github.com/huangqiang597/Huang-Qiang-s-Personal-Homepage.git
-cd Huang-Qiang-s-Personal-Homepage
-npm ci
-npm run dev
-```
-
 根据终端显示的本地地址在浏览器中打开网站。
 
-### 构建检查
-
-```bash
-npm run build
-```
 
 ## 主要目录
 
@@ -70,22 +56,6 @@ public/
 └─ models/                     # 3D 模型资源
 ```
 
-## GitHub 使用说明
-
-首次上传前，在 GitHub 创建一个空仓库，然后执行：
-
-```bash
-git remote add origin https://github.com/huangqiang597/Huang-Qiang-s-Personal-Homepage.git
-git push -u origin main
-```
-
-后续更新只需要：
-
-```bash
-git add .
-git commit -m "描述本次修改"
-git push
-```
 
 ## 内容与版权
 
