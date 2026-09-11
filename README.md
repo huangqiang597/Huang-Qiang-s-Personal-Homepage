@@ -8,7 +8,6 @@
   <a href="https://huangqiang-ai-pm.ogizoteni06.chatgpt.site/star-travel-prototype/index.html"><strong>打开星旅交互原型 →</strong></a>
 </p>
 
-> **面试展示入口：** [点击打开「星旅 · 企业智能差旅助手」高保真交互原型](https://huangqiang-ai-pm.ogizoteni06.chatgpt.site/star-travel-prototype/index.html)
 
 ## 项目概览
 
