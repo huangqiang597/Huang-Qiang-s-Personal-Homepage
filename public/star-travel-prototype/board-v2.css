@@ -1,0 +1,50 @@
+:root { --ink:#102b3b; --muted:#657985; --line:#dbe5ea; --blue:#2873e8; --teal:#12a49c; --amber:#db8b22; }
+* { box-sizing:border-box; }
+html,body { margin:0; background:#dfe6ea; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; color:var(--ink); }
+.poster {
+  width:4960px; height:3508px; overflow:hidden; padding:128px 150px 108px;
+  background:
+    radial-gradient(circle at 6% 4%,rgba(40,115,232,.09),transparent 18%),
+    radial-gradient(circle at 96% 96%,rgba(18,164,156,.08),transparent 18%),
+    #f3f6f8;
+}
+.poster-header { height:390px; display:grid; grid-template-columns:620px 1fr 670px; align-items:start; gap:80px; }
+.brand { display:flex; align-items:center; gap:28px; }
+.brand-mark { width:116px; height:116px; border-radius:34px; display:grid; place-items:center; color:#fff; background:linear-gradient(145deg,#2873e8,#12a49c); box-shadow:0 24px 50px rgba(40,115,232,.22); font-size:58px; }
+.brand b { display:block; font-size:58px; line-height:1; }
+.brand small { display:block; color:#81919a; font-size:21px; font-weight:800; letter-spacing:.2em; margin-top:13px; }
+.headline > span { color:var(--teal); font-size:24px; font-weight:900; letter-spacing:.16em; }
+.headline h1 { margin:18px 0 14px; font-size:84px; line-height:1.12; letter-spacing:-.04em; }
+.headline p { margin:0; max-width:2450px; color:var(--muted); font-size:31px; line-height:1.6; }
+.page-badge { justify-self:end; display:grid; justify-items:end; gap:16px; margin-top:22px; }
+.page-badge strong { padding:18px 30px; border:2px solid #c9e8e4; border-radius:999px; color:#177c74; background:#e7f7f5; font-size:26px; }
+.page-badge span { color:#7d8e98; font-size:24px; }
+
+.screen-grid { height:2440px; display:grid; grid-template-columns:repeat(4,1fr); gap:58px; }
+.screen-card { position:relative; padding:54px 44px 42px; border:2px solid var(--line); border-radius:54px; background:#fff; box-shadow:0 34px 90px rgba(41,70,85,.09); }
+.screen-number { position:absolute; left:40px; top:40px; z-index:2; width:70px; height:70px; display:grid; place-items:center; border-radius:22px; color:#fff; background:var(--teal); font-size:27px; font-weight:900; box-shadow:0 16px 30px rgba(18,164,156,.20); }
+.blue-number { background:var(--blue); box-shadow:0 16px 30px rgba(40,115,232,.20); }
+.phone { width:790px; height:1702px; margin:0 auto; overflow:hidden; border:18px solid #1f343f; border-radius:92px; background:#fff; box-shadow:0 40px 70px rgba(31,55,68,.20); }
+.phone img { display:block; width:100%; height:100%; object-fit:cover; }
+.screen-card h2 { margin:58px 0 18px; font-size:45px; letter-spacing:-.02em; text-align:center; }
+.screen-card p { min-height:114px; margin:0 auto; max-width:860px; color:var(--muted); font-size:28px; line-height:1.65; text-align:center; }
+.feature-tags { display:flex; justify-content:center; flex-wrap:wrap; gap:14px; margin-top:28px; }
+.feature-tags span { padding:11px 19px; border:2px solid #dce7eb; border-radius:999px; color:#58707d; background:#f7fafb; font-size:22px; font-weight:700; }
+
+.story-bar { height:390px; margin-top:72px; padding:48px 60px; border:2px solid #d9e4e8; border-radius:48px; background:#fff; box-shadow:0 26px 70px rgba(42,71,86,.06); }
+.story-bar header { display:flex; align-items:center; justify-content:space-between; }
+.story-bar header b { font-size:35px; }
+.story-bar header span { color:#7b8c95; font-size:24px; }
+.story-flow { display:flex; align-items:center; justify-content:center; gap:25px; margin-top:38px; }
+.story-flow i { min-width:250px; padding:20px 28px; border:2px solid #dce7eb; border-radius:22px; color:#4d6572; background:#f7fafb; font-size:26px; font-style:normal; font-weight:800; text-align:center; }
+.story-flow i.key { color:#fff; border-color:var(--teal); background:var(--teal); }
+.story-flow b { color:#a2b0b7; font-size:33px; }
+.principle-line { display:flex; align-items:center; justify-content:center; gap:58px; margin-top:40px; color:#526a76; font-size:25px; }
+.principle-line span { display:flex; align-items:center; gap:13px; }
+.principle-line span::before { content:""; width:13px; height:13px; border-radius:50%; background:var(--teal); }
+.principle-line span:nth-child(2)::before { background:var(--blue); }
+.principle-line span:nth-child(3)::before { background:var(--amber); }
+
+@page { size:A3 landscape; margin:0; }
+@media print { html,body { width:4960px; height:3508px; background:#fff; } }

@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="description" content="星旅·企业智能差旅助手移动端高保真交互原型" />
+  <title>星旅 · 企业智能差旅助手</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <svg class="svg-sprite" aria-hidden="true">
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 1.8l2.2 8 8 2.2-8 2.2-2.2 8-2.2-8-8-2.2 8-2.2 2.2-8z" fill="currentColor"/></symbol>
+    <symbol id="i-bot" viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="13" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v4M8.5 12h.01M15.5 12h.01M8.5 16c2 1.4 5 1.4 7 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-plane" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2.5 1.5V22l4-1 4 1v-1.5L13 19v-5.5L21 16z" fill="currentColor"/></symbol>
+    <symbol id="i-hotel" viewBox="0 0 24 24"><path d="M4 20V5a2 2 0 012-2h8a2 2 0 012 2v15M8 7h1M12 7h1M8 11h1M12 11h1M16 9h3a1 1 0 011 1v10M2 20h20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M4 5.5h14a2 2 0 012 2v11a2 2 0 01-2 2H4a2 2 0 01-2-2v-13a2 2 0 012-2h12" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15 11h6v5h-6a2.5 2.5 0 010-5z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6a2 2 0 01-2-2V4a2 2 0 012-2zM14 2v5h5M8 12h7M8 16h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.3 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3.5 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="18" cy="6" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 18h3a3 3 0 003-3v-6a3 3 0 013-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.3 9.2-8 11-4.7-1.8-8-6-8-11V5l8-3z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 12l2.2 2.2 4.8-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 21a8 8 0 0116 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 00-12 0c0 7-3 7-3 7h18s-3 0-3-7M9.5 20h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5M6.1 8a7 7 0 0111.4-2L20 9M4 15l2.5 3a7 7 0 0011.4-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2V2zM9 7h6M9 11h6M9 15h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 15.5L21 21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  </svg>
+
+  <main class="prototype-shell">
+    <aside class="brief-panel" aria-label="产品说明">
+      <div class="brand-lockup">
+        <span class="brand-mark"><svg><use href="#i-star"/></svg></span>
+        <div><strong>星旅</strong><small>XINGTRAVEL</small></div>
+      </div>
+      <div class="brief-copy">
+        <span class="eyebrow">企业智能差旅助手</span>
+        <h1>一次出差，<br/>从意图到报销。</h1>
+        <p>为已有 OA、费控和多家供应商的企业，提供中立编排、合规解释与高风险操作治理。</p>
+      </div>
+      <div class="principle-list">
+        <div><i>01</i><span><b>政策有依据</b><small>每条结论可回看原文</small></span></div>
+        <div><i>02</i><span><b>供应商中立</b><small>同屏比较，不做隐藏竞价</small></span></div>
+        <div><i>03</i><span><b>写操作必确认</b><small>预订、取消、报销均二次确认</small></span></div>
+      </div>
+      <div class="prototype-note">移动端高保真原型 · 白底轻量视觉</div>
+    </aside>
+
+    <section class="device-stage" aria-label="移动端原型">
+      <div class="device">
+        <div class="device-camera" aria-hidden="true"></div>
+        <div class="app-viewport" id="appViewport">
+          <!-- 01 首页 -->
+          <section class="app-screen active" data-screen="home" aria-label="助手首页">
+            <div class="statusbar"><span>9:41</span><span>◔ 5G ▰</span></div>
+            <header class="home-header">
+              <div class="mini-brand"><span><svg><use href="#i-star"/></svg></span><b>星旅</b></div>
+              <button class="icon-button" aria-label="消息"><svg><use href="#i-bell"/></svg><i></i></button>
+            </header>
+            <div class="screen-scroll home-scroll">
+              <div class="greeting"><p>下午好，黄强</p><h2>准备好开始下一次出差了吗？</h2></div>
+              <div class="ask-card">
+                <div class="ask-icon"><svg><use href="#i-star"/></svg></div>
+                <p>告诉我去哪里、什么时候出发</p>
+                <div class="sample-query">下周三从广州去上海拜访客户，周五回来</div>
+                <div class="ask-actions"><button aria-label="添加附件">＋</button><button class="send-button" data-go="chat" aria-label="发送需求">➤</button></div>
+              </div>
+              <div class="section-row"><h3>常用服务</h3><button data-go="policy">全部</button></div>
+              <div class="quick-grid">
+                <button data-go="policy"><span class="quick-icon blue"><svg><use href="#i-doc"/></svg></span><b>查差旅政策</b><small>有出处的制度回答</small></button>
+                <button data-go="chat"><span class="quick-icon violet"><svg><use href="#i-route"/></svg></span><b>规划合规行程</b><small>机酒一站式比较</small></button>
+                <button data-go="manager"><span class="quick-icon teal"><svg><use href="#i-check"/></svg></span><b>查询审批</b><small>查看节点与进度</small></button>
+                <button data-go="expense"><span class="quick-icon amber"><svg><use href="#i-wallet"/></svg></span><b>发起报销</b><small>费用自动归集</small></button>
+              </div>
+              <div class="section-row"><h3>接下来的行程</h3><button data-go="trip">查看全部</button></div>
+              <article class="next-trip" data-go="trip" tabindex="0">
+                <div class="trip-top"><span class="status-pill success">已出票</span><span>7月28日—30日</span></div>
+                <div class="route-line"><strong>广州</strong><span><i></i><svg><use href="#i-plane"/></svg><i></i></span><strong>上海</strong></div>
+                <div class="trip-meta"><span>MU5312 · 09:10</span><span>虹桥 T2</span></div>
+                <div class="trip-reminder"><svg><use href="#i-clock"/></svg>距离出发还有 3 天，建议提前 2 小时到机场</div>
+              </article>
+            </div>
+            <nav class="bottom-nav">
+              <button class="active" data-go="home"><svg><use href="#i-bot"/></svg><span>助手</span></button>
+              <button data-go="trip"><svg><use href="#i-route"/></svg><span>行程</span></button>
+              <button data-go="manager"><svg><use href="#i-check"/></svg><span>审批</span></button>
+              <button data-go="expense"><svg><use href="#i-wallet"/></svg><span>报销</span></button>
+              <button data-go="policy"><svg><use href="#i-user"/></svg><span>我的</span></button>
+            </nav>
+          </section>
+
+          <!-- 02 AI 对话 -->
+          <section class="app-screen" data-screen="chat" aria-label="AI 对话编排">
+            <div class="statusbar"><span>9:41</span><span>◔ 5G ▰</span></div>
+            <header class="page-header"><button data-go="home" aria-label="返回"><svg><use href="#i-back"/></svg></button><div><b>星旅助手</b><small><i></i>服务正常</small></div><button aria-label="更多">•••</button></header>
+            <div class="screen-scroll chat-scroll">
+              <div class="date-divider">今天 14:26</div>
+              <div class="bubble user">下周三从广州去上海拜访客户，周五回来。希望上午到，酒店离陆家嘴近，不要红眼航班。</div>
+              <div class="agent-row"><span class="agent-avatar"><svg><use href="#i-star"/></svg></span><div class="bubble agent">收到。我会先核验你的出差申请和公司政策，再同时查询机票与酒店。</div></div>
+              <article class="thinking-card">
+                <div class="thinking-head"><span><svg><use href="#i-bot"/></svg></span><div><b>正在为你规划</b><small>进度对你可见，关键操作由你确认</small></div></div>
+                <ol class="trace-list">
+                  <li class="done"><i><svg><use href="#i-check"/></svg></i><span><b>理解出差需求</b><small>广州 → 上海 · 7月28日—30日</small></span></li>
+                  <li class="done"><i><svg><use href="#i-check"/></svg></i><span><b>检索公司政策</b><small>《国内差旅管理办法》V3.2</small></span><em>查看依据</em></li>
+                  <li class="active"><i></i><span><b>查询机票与酒店</b><small>正在比较 3 家已授权供应商</small></span></li>
+                  <li><i></i><span><b>生成合规方案</b><small>预计还需 6 秒</small></span></li>
+                </ol>
+                <div class="agent-tech"><span>规则引擎</span><b>→</b><span>轻量模型</span><b>→</b><span>主 Agent</span></div>
+              </article>
+              <div class="agent-row"><span class="agent-avatar"><svg><use href="#i-star"/></svg></span><div class="bubble agent result"><b>已找到 3 套合规方案</b><span>首选方案预计 ¥2,356，比预算节省 ¥444，且符合你的上午抵达偏好。</span><button data-go="plan">查看方案对比</button></div></div>
+              <div class="memory-chip"><svg><use href="#i-shield"/></svg><span>是否记住“不要红眼航班”？</span><button class="remember-btn">记住</button></div>
+            </div>
+            <div class="chat-composer"><button>＋</button><span>继续补充条件…</span><button>➤</button></div>
+          </section>
+
+          <!-- 03 方案 -->
+          <section class="app-screen" data-screen="plan" aria-label="合规行程方案">
+            <div class="statusbar"><span>9:41</span><span>◔ 5G ▰</span></div>
+            <header class="page-header"><button data-go="chat"><svg><use href="#i-back"/></svg></button><div><b>合规行程方案</b><small>刚刚完成多供应商查询</small></div><button><svg><use href="#i-refresh"/></svg></button></header>
+            <div class="screen-scroll plan-scroll">
+              <div class="trip-summary"><div><small>去程</small><b>广州 → 上海</b></div><div><small>返程</small><b>7月30日 周五</b></div><button>修改</button></div>
+              <div class="policy-strip"><svg><use href="#i-shield"/></svg><span><b>差标已核验</b>机票经济舱；上海住宿 ≤ ¥600/晚</span><button data-go="policy">依据</button></div>
+              <div class="segmented"><button class="active">综合方案</button><button>仅机票</button><button>仅酒店</button></div>
+              <article class="option-card recommended">
+                <div class="recommend-ribbon">星旅推荐</div>
+                <div class="option-head"><div><span class="airline-logo">南</span><p><b>南方航空 CZ3525</b><small>供应商：携程商旅</small></p></div><span class="status-pill success">合规</span></div>
+                <div class="flight-time"><div><strong>08:15</strong><small>广州白云 T2</small></div><span><i></i><svg><use href="#i-plane"/></svg><i></i><small>2h20m</small></span><div><strong>10:35</strong><small>上海虹桥 T2</small></div></div>
+                <div class="option-reason"><b>为什么推荐</b><span>上午抵达 · 不走浦东 · 含税价最低</span></div>
+                <div class="hotel-inline"><span class="hotel-thumb"><svg><use href="#i-hotel"/></svg></span><p><b>上海陆家嘴禧玥酒店 · 2晚</b><small>距拜访地 1.2km · 含早 · 可免费取消</small></p></div>
+                <div class="price-row"><span><small>机票 + 酒店含税</small><strong>¥2,356</strong></span><button class="select-plan" data-plan="推荐方案">选择此方案</button></div>
+              </article>
+              <article class="option-card compact-option">
+                <div class="option-head"><div><span class="airline-logo blue-logo">东</span><p><b>东方航空 MU5312</b><small>供应商：同程商旅</small></p></div><span class="status-pill success">合规</span></div>
+                <div class="compact-info"><span>09:10—11:30 · 虹桥</span><b>¥2,468</b></div>
+              </article>
+              <article class="option-card compact-option warning-option">
+                <div class="option-head"><div><span class="airline-logo amber-logo">深</span><p><b>深圳航空 ZH9527</b><small>供应商：企业协议渠道</small></p></div><span class="status-pill warning">酒店超标 ¥86</span></div>
+                <div class="compact-info"><span>07:40—10:05 · 浦东</span><b>¥2,212</b></div>
+              </article>
+              <div class="neutral-note"><svg><use href="#i-shield"/></svg><span>排序只依据政策、你的条件、时间与价格，不接受供应商付费排名。</span></div>
+            </div>
+          </section>
+
+          <!-- 04 政策 -->
+          <section class="app-screen" data-screen="policy" aria-label="政策依据">
+            <div class="statusbar"><span>9:41</span><span>◔ 5G ▰</span></div>
+            <header class="page-header"><button data-go="home"><svg><use href="#i-back"/></svg></button><div><b>差旅政策</b><small>企业知识库 · 已更新</small></div><button aria-label="搜索"><svg><use href="#i-search"/></svg></button></header>
+            <div class="screen-scroll policy-scroll">
+              <div class="policy-search"><svg><use href="#i-search"/></svg><span>上海出差酒店能住多少钱？</span></div>
+              <div class="answer-label"><span class="agent-avatar small"><svg><use href="#i-star"/></svg></span><b>星旅回答</b><em>基于 3 条有效制度</em></div>
+              <article class="answer-card">
+                <p>上海属于一线城市，酒店含税标准为<strong>每晚不超过 ¥600</strong>。大型展会导致普遍涨价时，可上浮 20%，但需要在预订前说明原因并由直属经理确认。</p>
+                <div class="answer-callout"><svg><use href="#i-shield"/></svg><span>当前方案 ¥543/晚，低于标准 ¥57，属于合规预订。</span></div>
+              </article>
+              <div class="section-row"><h3>引用依据</h3><button>查看原文</button></div>
+              <article class="source-card"><span class="source-icon">PDF</span><div><b>《国内差旅管理办法》</b><small>酒店标准 · 第 3.2 条</small><p>“一线城市酒店含税标准为每晚不超过 600 元……”</p></div><em>V3.2</em></article>
+              <article class="source-card"><span class="source-icon sheet">OA</span><div><b>《差旅例外审批细则》</b><small>展会期间上浮 · 第 2.1 条</small><p>“价格普遍上涨时可上浮 20%，须事前说明并确认……”</p></div><em>2026.07</em></article>
+              <article class="source-card"><span class="source-icon doc">DOC</span><div><b>《协议酒店使用说明》</b><small>适用组织：华南事业部</small><p>优先选择协议酒店或距拜访地 5 公里内酒店。</p></div><em>有效</em></article>
+              <div class="policy-boundary"><b>没有找到答案怎么办？</b><p>证据不足或制度冲突时，星旅不会自行补全结论。</p><button>咨询差旅管理员</button></div>
+            </div>
+            <nav class="bottom-nav">
+              <button data-go="home"><svg><use href="#i-bot"/></svg><span>助手</span></button>
+              <button data-go="trip"><svg><use href="#i-route"/></svg><span>行程</span></button>
+              <button data-go="manager"><svg><use href="#i-check"/></svg><span>审批</span></button>
+              <button data-go="expense"><svg><use href="#i-wallet"/></svg><span>报销</span></button>
+              <button class="active" data-go="policy"><svg><use href="#i-user"/></svg><span>我的</span></button>
+            </nav>
+          </section>
+
+          <!-- 05 预订确认 -->
+          <section class="app-screen" data-screen="booking" aria-label="预订确认">
+            <div class="statusbar"><span>9:41</span><span>◔ 5G ▰</span></div>
+            <header class="page-header"><button data-go="plan"><svg><use href="#i-back"/></svg></button><div><b>确认预订</b><small>创建订单前请再次核对</small></div><button>•••</button></header>
+            <div class="screen-scroll booking-scroll">
+              <div class="confirm-banner"><svg><use href="#i-shield"/></svg><span><b>已关联出差申请</b>TRIP-20260728-018 · 已审批</span></div>
+              <article class="booking-card"><div class="booking-label"><svg><use href="#i-plane"/></svg><span>去程机票</span><em>可退改</em></div><div class="booking-route"><strong>广州</strong><span>08:15　→　10:35</span><strong>上海</strong></div><p>南方航空 CZ3525 · 经济舱 · 白云 T2—虹桥 T2</p><div class="booking-row"><span>携程商旅 · 含税</span><b>¥1,270</b></div></article>
+              <article class="booking-card"><div class="booking-label"><svg><use href="#i-hotel"/></svg><span>住宿</span><em>7月27日前免费取消</em></div><h3>上海陆家嘴禧玥酒店</h3><p>高级大床房 · 含双早 · 7月28日—30日，共 2 晚</p><div class="booking-row"><span>企业协议价 · ¥543/晚</span><b>¥1,086</b></div></article>
+              <article class="cost-card"><div><span>订单总额</span><strong>¥2,356</strong></div><div><span>预算</span><b>¥2,800</b></div><div><span>预计节省</span><b class="green-text">¥444</b></div></article>
+              <article class="audit-card"><div class="audit-title"><svg><use href="#i-check"/></svg><b>合规检查 4/4</b><button data-go="policy">查看依据</button></div><ul><li>经济舱符合职级标准</li><li>酒店 ¥543/晚 ≤ ¥600/晚</li><li>已关联审批通过的出差申请</li><li>未使用偏好覆盖企业政策</li></ul></article>
+              <label class="declaration"><input type="checkbox" id="bookingCheck"/><span><i><svg><use href="#i-check"/></svg></i></span><p>我已核对乘机人、日期、退改规则和订单金额</p></label>
+              <button class="primary-cta" id="confirmBooking">确认并创建订单</button>
+              <p class="security-note">点击确认后，系统将签发一次性确认凭证并创建订单；模型本身无权下单。</p>
+            </div>
+          </section>
+
+          <!-- 06 行程 -->
+          <section class="app-screen" data-screen="trip" aria-label="我的行程">
+            <div class="statusbar"><span>9:41</span><span>◔ 5G ▰</span></div>
+            <header class="simple-header"><div><small>行程中心</small><h2>我的行程</h2></div><button><svg><use href="#i-bell"/></svg></button></header>
+            <div class="screen-scroll trip-scroll">
+              <div class="trip-tabs"><button class="active">进行中</button><button>待出发</button><button>已结束</button></div>
+              <article class="active-trip-card">
+                <div class="active-trip-head"><div><span class="status-pill live">进行中</span><small>TRIP-20260728-018</small></div><button>行程单</button></div>
+                <div class="route-line light"><strong>广州</strong><span><i></i><svg><use href="#i-plane"/></svg><i></i></span><strong>上海</strong></div>
+                <div class="date-range">7月28日 周三 — 7月30日 周五 · 3天2晚</div>
+                <div class="trip-progress"><i class="done"></i><span></span><i class="done"></i><span></span><i></i></div>
+                <div class="progress-labels"><span>已出发</span><span>已入住</span><span>待返程</span></div>
+              </article>
+              <div class="today-label">今天 · 7月28日</div>
+              <article class="timeline-card"><i class="timeline-dot plane-dot"><svg><use href="#i-plane"/></svg></i><div><small>10:35 · 已到达</small><b>抵达上海虹桥 T2</b><p>行李转盘 18 · 出口步行约 6 分钟</p><button>查看航班详情</button></div></article>
+              <article class="timeline-card"><i class="timeline-dot hotel-dot"><svg><use href="#i-hotel"/></svg></i><div><small>14:00 后可办理入住</small><b>上海陆家嘴禧玥酒店</b><p>浦东新区浦东南路 889 号 · 距目的地 1.2km</p><div class="card-actions"><button>导航</button><button>联系酒店</button></div></div></article>
+              <article class="service-card"><b>行程有变化？</b><p>取消或改签前会先展示手续费、预计退款与规则。</p><div><button class="secondary-action">申请改签</button><button class="secondary-action">取消预览</button></div></article>
+              <div class="expense-teaser" data-go="expense"><span><svg><use href="#i-receipt"/></svg></span><p><b>已自动归集 2 笔费用</b><small>共 ¥1,813，行程结束后可发起报销</small></p><svg><use href="#i-chevron"/></svg></div>
+            </div>
+            <nav class="bottom-nav">
+              <button data-go="home"><svg><use href="#i-bot"/></svg><span>助手</span></button>
+              <button class="active" data-go="trip"><svg><use href="#i-route"/></svg><span>行程</span></button>
+              <button data-go="manager"><svg><use href="#i-check"/></svg><span>审批</span></button>
+              <button data-go="expense"><svg><use href="#i-wallet"/></svg><span>报销</span></button>
+              <button data-go="policy"><svg><use href="#i-user"/></svg><span>我的</span></button>
+            </nav>
+          </section>
+
+          <!-- 07 报销 -->
+          <section class="app-screen" data-screen="expense" aria-label="费用报销">
+            <div class="statusbar"><span>9:41</span><span>◔ 5G ▰</span></div>
+            <header class="simple-header"><div><small>费用中心</small><h2>发起报销</h2></div><button>报销记录</button></header>
+            <div class="screen-scroll expense-scroll">
+              <div class="expense-trip"><div><span class="status-pill success">可报销</span><b>广州 → 上海</b><small>7月28日—30日 · TRIP-018</small></div><button>切换行程</button></div>
+              <div class="expense-summary"><span><small>已归集</small><b>3 笔</b></span><span><small>待补充</small><b class="amber-text">1 项</b></span><span><small>预计报销</small><b>¥2,028</b></span></div>
+              <div class="section-row"><h3>费用明细</h3><button>＋ 添加费用</button></div>
+              <article class="expense-item"><span class="expense-icon plane"><svg><use href="#i-plane"/></svg></span><div><b>机票 · 南方航空</b><small>7月28日 · 电子行程单已关联</small><em><svg><use href="#i-check"/></svg>发票验真通过</em></div><strong>¥1,270</strong></article>
+              <article class="expense-item"><span class="expense-icon hotel"><svg><use href="#i-hotel"/></svg></span><div><b>住宿 · 禧玥酒店</b><small>2 晚 · 增值税电子普票</small><em><svg><use href="#i-check"/></svg>未超过住宿标准</em></div><strong>¥1,086</strong></article>
+              <article class="expense-item"><span class="expense-icon taxi"><svg><use href="#i-route"/></svg></span><div><b>机场用车</b><small>7月28日 · 平台订单自动同步</small><em><svg><use href="#i-check"/></svg>行程与地点匹配</em></div><strong>¥122</strong></article>
+              <article class="exception-item"><span>!</span><div><b>餐补需要确认</b><p>客户宴请与餐补不能重复报销。请确认 7月28日是否有客户宴请。</p><div><button class="choice active">无宴请</button><button class="choice">有宴请</button></div></div></article>
+              <article class="reimburse-total"><div><span>费用合计</span><b>¥2,478</b></div><div><span>扣除企业支付</span><b>− ¥450</b></div><div class="total-line"><span>个人预计报销</span><strong>¥2,028</strong></div></article>
+              <label class="declaration"><input type="checkbox" id="expenseCheck"/><span><i><svg><use href="#i-check"/></svg></i></span><p>我确认费用真实、与本次出差相关且未重复报销</p></label>
+              <button class="primary-cta" id="submitExpense">预览并提交报销</button>
+            </div>
+            <nav class="bottom-nav">
+              <button data-go="home"><svg><use href="#i-bot"/></svg><span>助手</span></button>
+              <button data-go="trip"><svg><use href="#i-route"/></svg><span>行程</span></button>
+              <button data-go="manager"><svg><use href="#i-check"/></svg><span>审批</span></button>
+              <button class="active" data-go="expense"><svg><use href="#i-wallet"/></svg><span>报销</span></button>
+              <button data-go="policy"><svg><use href="#i-user"/></svg><span>我的</span></button>
+            </nav>
+          </section>
+
+          <!-- 08 经理审批 -->
+          <section class="app-screen" data-screen="manager" aria-label="经理审批">
+            <div class="statusbar"><span>9:41</span><span>◔ 5G ▰</span></div>
+            <header class="simple-header"><div><small>经理工作台</small><h2>待我审批 <em>2</em></h2></div><button class="role-switch"><svg><use href="#i-user"/></svg>切换角色</button></header>
+            <div class="screen-scroll manager-scroll">
+              <div class="approval-tabs"><button class="active">待处理 2</button><button>已处理</button></div>
+              <article class="approval-detail">
+                <div class="applicant"><span class="avatar">林</span><div><b>林晓 · 产品中心</b><small>上海客户拜访 · 7月28日—30日</small></div><span class="status-pill warning">住宿超标</span></div>
+                <div class="approval-route"><span>广州</span><b>→</b><span>上海</span><em>3天2晚</em></div>
+                <div class="reason-box"><span>出差事由</span><p>与客户确认智慧空间联合方案，参加需求评审与现场演示。</p></div>
+                <div class="risk-box"><div><span>!</span><b>酒店每晚超标 ¥86</b></div><p>展会期间周边协议酒店满房；所选酒店距客户 800m，其他合规酒店平均距离 6.4km。</p><button data-go="policy">查看对应政策依据</button></div>
+                <div class="compare-table"><div class="table-head"><span>方案</span><span>距离</span><span>总价</span></div><div class="selected"><span>当前方案</span><span>0.8km</span><b>¥1,372</b></div><div><span>合规备选</span><span>6.4km</span><b>¥1,186</b></div></div>
+                <div class="cost-evidence"><div><span>申请预算</span><b>¥3,200</b></div><div><span>预计总成本</span><b>¥2,642</b></div><div><span>预算余量</span><b class="green-text">¥558</b></div></div>
+                <div class="audit-trail"><b>系统核验记录</b><ul><li><i></i>出差申请与行程一致</li><li><i></i>比较 3 家授权供应商</li><li><i class="warn"></i>触发展会期间例外条款</li></ul></div>
+              </article>
+            </div>
+            <div class="approval-bar"><button id="rejectApproval">驳回</button><button class="approve" id="approveApproval">批准例外</button></div>
+          </section>
+
+          <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+            <div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+              <span class="modal-icon"><svg><use href="#i-shield"/></svg></span>
+              <h3 id="modalTitle">确认执行</h3>
+              <p id="modalCopy">请再次确认信息。本操作将由后端生成一次性确认凭证。</p>
+              <div class="modal-actions"><button id="modalCancel">返回核对</button><button id="modalConfirm">确认执行</button></div>
+            </div>
+          </div>
+          <div class="toast" id="toast" role="status"></div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="flow-panel" aria-label="原型页面导航">
+      <div class="flow-head"><span>PROTOTYPE FLOW</span><b>完整用户闭环</b><small>点击节点切换页面</small></div>
+      <nav class="flow-nav">
+        <button class="active" data-go="home"><i>01</i><span><b>助手首页</b><small>自然语言入口与待办</small></span></button>
+        <button data-go="chat"><i>02</i><span><b>AI 对话编排</b><small>进度、记忆与透明度</small></span></button>
+        <button data-go="plan"><i>03</i><span><b>合规行程方案</b><small>多供应商中立比较</small></span></button>
+        <button data-go="policy"><i>04</i><span><b>政策依据</b><small>RAG 引用与边界</small></span></button>
+        <button data-go="booking"><i>05</i><span><b>预订确认</b><small>成本核验与二次确认</small></span></button>
+        <button data-go="trip"><i>06</i><span><b>我的行程</b><small>履约、变更与提醒</small></span></button>
+        <button data-go="expense"><i>07</i><span><b>费用报销</b><small>归集、验真与提交</small></span></button>
+        <button data-go="manager"><i>08</i><span><b>经理审批</b><small>例外解释与审计证据</small></span></button>
+      </nav>
+      <div class="flow-legend"><span><i class="dot teal-dot"></i>员工主链路</span><span><i class="dot amber-dot"></i>高风险确认</span><span><i class="dot blue-dot"></i>经理角色</span></div>
+    </aside>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

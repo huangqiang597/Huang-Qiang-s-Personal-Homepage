@@ -514,6 +514,16 @@ export default function StarTravelCaseStudy() {
             <small>PROJECT BACKGROUND</small>
             <p>针对企业差旅中政策查询分散、跨平台预订和审批费控割裂的问题，设计一套以国产大模型为推理核心、连接企业知识与外部差旅供应商的智能编排与治理方案。</p>
           </div>
+          <a
+            className="st-prototype-cta"
+            href="/star-travel-prototype/index.html"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Sparkles aria-hidden="true" />
+            体验完整交互原型
+            <ArrowRight aria-hidden="true" />
+          </a>
         </div>
 
         <div className="st-hero-visual">

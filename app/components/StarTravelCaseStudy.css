@@ -157,6 +157,35 @@
   line-height: 1.9;
 }
 
+.st-prototype-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  margin-top: 28px;
+  padding: 0 20px;
+  border: 1px solid rgba(99, 220, 215, 0.48);
+  border-radius: 999px;
+  color: #eefeff;
+  background: linear-gradient(110deg, rgba(23, 157, 161, 0.28), rgba(74, 112, 239, 0.24));
+  box-shadow: 0 14px 34px rgba(7, 20, 35, 0.28);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.st-prototype-cta:hover {
+  transform: translateY(-2px);
+  border-color: rgba(126, 240, 233, 0.8);
+  background: linear-gradient(110deg, rgba(23, 176, 175, 0.4), rgba(74, 112, 239, 0.34));
+}
+
+.st-prototype-cta svg {
+  width: 17px;
+  height: 17px;
+}
+
 .st-hero-visual {
   position: relative;
   overflow: hidden;
