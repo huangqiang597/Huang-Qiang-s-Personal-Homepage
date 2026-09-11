@@ -4,7 +4,11 @@
 
 <p align="center">
   <a href="https://huangqiang-ai-pm.ogizoteni06.chatgpt.site"><strong>在线访问作品集 →</strong></a>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+  <a href="https://huangqiang-ai-pm.ogizoteni06.chatgpt.site/star-travel-prototype/index.html"><strong>打开星旅交互原型 →</strong></a>
 </p>
+
+> **面试展示入口：** [点击打开「星旅 · 企业智能差旅助手」高保真交互原型](https://huangqiang-ai-pm.ogizoteni06.chatgpt.site/star-travel-prototype/index.html)
 
 ## 项目概览
 
@@ -12,9 +16,9 @@
 
 | 项目 | 方向 | 页面 |
 | --- | --- | --- |
-| 魔镜 On Run | 多模态 AI 护肤、RAG、Agent、评测与数据闭环 | `/projects/magic-mirror` |
-| 星旅 | 企业差旅 Agent、LangGraph、多工具调用与治理 | `/projects/star-travel` |
-| 卉木盈海 | 生态材料产品、混凝土监测与商业化探索 | `/projects/huimu-yinghai` |
+| 魔镜 On Run | 多模态 AI 护肤、RAG、Agent、评测与数据闭环 | [查看案例](https://huangqiang-ai-pm.ogizoteni06.chatgpt.site/projects/magic-mirror) |
+| 星旅 | 企业差旅 Agent、LangGraph、多工具调用与治理 | [查看案例](https://huangqiang-ai-pm.ogizoteni06.chatgpt.site/projects/star-travel) · [打开原型](https://huangqiang-ai-pm.ogizoteni06.chatgpt.site/star-travel-prototype/index.html) |
+| 卉木盈海 | 生态材料产品、混凝土监测与商业化探索 | [查看案例](https://huangqiang-ai-pm.ogizoteni06.chatgpt.site/projects/huimu-yinghai) |
 
 此外，首页还包含教育背景、个人兴趣与能力档案、联系方式等内容。
 
